@@ -1,0 +1,29 @@
+{
+  "name": "multiplayer-snake-client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "",
+    "dev": "./node_modules/.bin/beefy index:bundle.js --live --open",
+    "deploy": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:olivierrr/multiplayer-snake.git"
+  },
+  "keywords": [
+    "snake",
+    "multiplayer"
+  ],
+  "author": "olivierrr",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/olivierrr/multiplayer-snake/issues"
+  },
+  "homepage": "https://github.com/olivierrr/multiplayer-snake",
+  "dependencies": {},
+  "devDependencies": {
+    "beefy": "^2.1.1"
+  }
+}

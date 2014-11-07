@@ -1,0 +1,30 @@
+{
+  "name": "multiplayer-snake-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "",
+    "dev": "./node_modules/.bin/nodemon index",
+    "deploy": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:olivierrr/multiplayer-snake.git"
+  },
+  "keywords": [
+    "snake",
+    "multiplayer"
+  ],
+
+  "author": "olivierrr",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/olivierrr/multiplayer-snake/issues"
+  },
+  "homepage": "https://github.com/olivierrr/multiplayer-snake",
+  "dependencies": {
+    "hapi": "^7.5.0",
+    "socket.io": "^1.2.0"
+  }
+}
