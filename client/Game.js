@@ -17,7 +17,7 @@ function Game (sizeX, sizeY){
 	/**
 	 * @property {Number}
 	 */
-	this.sizeY = sizeXY
+	this.sizeY = sizeY
 
 	/**
 	 * @property {Array}
