@@ -6,8 +6,11 @@
 	var Game = require('./Game')
 	var Renderer = require('./Renderer')
 
-	var renderer = new Renderer(document.body)
+	var states = new StateManager()
+	states.add('mainmenu', require('./states/mainmenu')())
+	states.add('singleplayer', require('./states/singleplayer')())
+	states.add('multiplayer', require('./states/multiplayer')())
 
-	renderer.draw()
+	states.go('mainmenu')
 
 })()

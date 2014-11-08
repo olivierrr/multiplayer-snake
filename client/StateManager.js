@@ -41,7 +41,7 @@ StateManager.prototype.add = function(name, obj) {
 StateManager.prototype.go = function(name) {
 
 	if(!this.states[name]) {
-		console.alert(name + ' state doesn\'t exist, yo')
+		console.log(name + ' state doesn\'t exist, yo')
 		return
 	}
 
