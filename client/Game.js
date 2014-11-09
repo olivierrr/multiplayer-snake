@@ -79,14 +79,15 @@ Game.prototype.update = function (){
 
 		for(var i=0; i<this.snakes.length; i++) {
 			var snake = this.snakes[i]
-			snake.move()
 
-			if(snake.x < 0 || snake.x > this.size || snake.y < 0 || snake.y > this.size){
-				snake.reset()
+			if(snake.x <= 0 || snake.x >= this.size-1 || snake.y <= 0 || snake.y >= this.size-1){
+				snake.setPos(this.randSnakePos())
 			}
 
-			snake.snake.forEach(function (section) {
-				self.model[section[0]][section[1]] = 1
+			snake.move()
+
+			snake.sections.forEach(function (section) {
+				if(section)	self.model[section[0]][section[1]] = 1
 			})
 		}
 
@@ -97,20 +98,30 @@ Game.prototype.update = function (){
 
 /**
  * @method
+ * @return {array}
  *
  * @todo direction should be an integer.
  */
-Game.prototype.addSnake = function (){
-
-	var direction = ['left', 'right', 'up', 'down'][randInt(0,3)]
-	var x = randInt(0, this.size)
-	var y = randInt(0, this.size)
-
-	this.snakes.push(new Snake(x, y, direction))
+Game.prototype.randSnakePos = function (){
 
 	function randInt (min, max){
 		return Math.round(Math.random() * (max - min) + min)
 	}
+
+	return {
+		x: randInt(0, this.size),
+		y: randInt(0, this.size),
+		direction: ['left', 'right', 'up', 'down'][randInt(0,3)]
+	}
+
+}
+
+/**
+ * @method
+ */
+Game.prototype.addSnake = function (){
+
+	this.snakes.push(new Snake(this.randSnakePos()))
 
 }
 

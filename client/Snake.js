@@ -3,23 +3,26 @@
  * Snake
  *
  * @constructor
+ *
+ * @param {Hash} - initial snake position and direction
+ * @param {?}
  */
-function Snake (x, y, direction, controller){
+function Snake (pos, controller){
 
 	/**
 	 * @property {Number}
 	 */
-	this.x = x
+	this.x
 
 	/**
 	 * @property {Number}
 	 */
-	this.y = y
+	this.y
 
 	/**
 	 * @property {String}
 	 */
-	this.direction = direction
+	this.direction
 
 	/**
 	 * @property {?}
@@ -29,7 +32,7 @@ function Snake (x, y, direction, controller){
 	/**
 	 * @property {Array}
 	 */
-	this.snake = [[x, y]]
+	this.sections
 
 	/**
 	 * @property {Array}
@@ -41,24 +44,22 @@ function Snake (x, y, direction, controller){
 	 */
 	this.isAlive = true
 
+	// boot
+	this.setPos(pos)
+
 }
 
 /**
  * @method
  *
- * reset values, also
+ * @param {Hash} - x, y, position
  */
-Snake.prototype.reset = function (x, y, direction){
+Snake.prototype.setPos = function (pos){
 
-	this.direction = ['left', 'right', 'up', 'down'][randInt(0,3)]
-	this.x = randInt(0, 10)
-	this.y = randInt(0, 10)
-
-	this.snake = [[this.x, this.y]]
-
-	function randInt (min, max){
-		return Math.round(Math.random() * (max - min) + min)
-	}
+	this.x = pos.x
+	this.y = pos.y
+	this.direction = pos.direction
+	this.sections = [[pos.x, pos.y]]
 
 }
 
@@ -86,8 +87,8 @@ Snake.prototype.move = function (){
 	else if(this.direction === 'down') this.y += 1
 
 	if(this.toAdd > 0) this.toAdd-=1
-	else this.snake.shift()
-	this.snake.push([this.x, this.y])
+	else this.sections.shift()
+	this.sections.push([this.x, this.y])
 
 }
 
