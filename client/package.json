@@ -22,7 +22,9 @@
     "url": "https://github.com/olivierrr/multiplayer-snake/issues"
   },
   "homepage": "https://github.com/olivierrr/multiplayer-snake",
-  "dependencies": {},
+  "dependencies": {
+    "socket.io-client": "^1.2.0"
+  },
   "devDependencies": {
     "beefy": "^2.1.1"
   }
