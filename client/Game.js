@@ -81,26 +81,13 @@ Game.prototype.resetGrid = function (){
  */
 Game.prototype.update = function (){
 
-	var self = this
-
 	if(this.isPaused === false) {
+
+		var self = this
 
 		this.resetGrid()
 
-		for(var i=0; i<this.snakes.length; i++) {
-			var snake = this.snakes[i]
-
-			if(snake.x <= 0 || snake.x >= this.size-1 || snake.y <= 0 || snake.y >= this.size-1){
-				snake.setPos(this.randSnakePos())
-			}
-
-			snake.move()
-
-			snake.sections.forEach(function (section) {
-				if(section)	self.model[section[0]][section[1]] = 1
-			})
-		}
-
+		
 		while(this.foods.length < this.maxFoodsCount) {
 			this.addFood()
 		}
@@ -110,6 +97,30 @@ Game.prototype.update = function (){
 			self.model[food[0]][food[1]] = 2
 		}
 
+
+		for(var i=0; i<this.snakes.length; i++) {
+			var snake = this.snakes[i]
+
+			// snake collides with walls
+			if(snake.x <= 0 || snake.x >= this.size-1 || snake.y <= 0 || snake.y >= this.size-1){
+				snake.setPos(this.randSnakePos())
+			}
+
+			// snake collides with food
+			var foodColl = this.foods.filter(function (food) {
+				return (food[0] === snake.x && food[1] === snake.y)
+			})[0]
+			if(foodColl) {
+				snake.extend()
+				this.foods.splice(this.foods.indexOf(foodColl), 1)
+			}
+
+			snake.move()
+
+			snake.sections.forEach(function (section) {
+				if(section)	self.model[section[0]][section[1]] = 1
+			})
+		}
 	}
 
 	return this.state
@@ -150,6 +161,12 @@ Game.prototype.addSnake = function (){
 Game.prototype.addFood = function (){
 
 	this.foods.push([ ~~(Math.random()*this.size) ,  ~~(Math.random()*this.size) ]) 
+
+}
+
+Game.prototype.removeFood = function (){
+
+
 
 }
 
