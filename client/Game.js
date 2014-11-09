@@ -1,5 +1,6 @@
 
 var Snake = require('./Snake')
+var KeyboardController = require('./Snake.KeyboardController')
 
 /**
  * Game
@@ -139,10 +140,13 @@ Game.prototype.randSnakePos = function (){
  */
 Game.prototype.addSnake = function (){
 
-	this.snakes.push(new Snake(this.randSnakePos()))
+	this.snakes.push(new Snake(this.randSnakePos(), KeyboardController))
 
 }
 
+/**
+ * @method
+ */
 Game.prototype.addFood = function (){
 
 	this.foods.push([ ~~(Math.random()*this.size) ,  ~~(Math.random()*this.size) ]) 
