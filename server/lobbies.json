@@ -1,0 +1,10 @@
+{
+    "main": {
+        "gameStarted": false,
+        "description": "Main lobby for Snake"
+    },
+    "super hardcore": {
+        "gameStarted": false,
+        "description": "For bad dudes only"
+    }
+}
