@@ -30,14 +30,13 @@ function Game (size){
 	 */
 	this.isPaused = false
 
-	// boot
-	this.reset()
+	this.boot()
 }
 
 /**
  * @method
  */
-Game.prototype.reset = function (){
+Game.prototype.boot = function (){
 
 	for(var i=0; i<this.size; i++) {
 
@@ -54,8 +53,19 @@ Game.prototype.reset = function (){
 
 /**
  * @method
- *
- * @todo collission logic
+ */
+Game.prototype.resetGrid = function (){
+
+	for(var i=0; i<this.size; i++) {
+		for(var j=0; j<this.size; j++) {
+			this.model[i][j] = 0
+		}
+	}
+
+}
+
+/**
+ * @method
  * 
  * updates all snakes
  */
@@ -63,18 +73,19 @@ Game.prototype.update = function (){
 
 	var self = this
 
-	for(var i=0; i<this.model.length; i++) {
-		for(var j=0; j<this.model[i].length; j++) {
-			this.model[i][j] = 0
-		}
-	}
-
 	if(this.isPaused === false) {
 
-		for(var i=0; i<this.snakes.length; i++) {
-			this.snakes[i].move()
+		this.resetGrid()
 
-			this.snakes[i].snake.forEach(function (section) {
+		for(var i=0; i<this.snakes.length; i++) {
+			var snake = this.snakes[i]
+			snake.move()
+
+			if(snake.x < 0 || snake.x > this.size || snake.y < 0 || snake.y > this.size){
+				snake.reset()
+			}
+
+			snake.snake.forEach(function (section) {
 				self.model[section[0]][section[1]] = 1
 			})
 		}

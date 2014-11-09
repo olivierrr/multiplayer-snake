@@ -50,9 +50,15 @@ function Snake (x, y, direction, controller){
  */
 Snake.prototype.reset = function (x, y, direction){
 
-	this.x = x
-	this.y = y
-	this.direction = direction
+	this.direction = ['left', 'right', 'up', 'down'][randInt(0,3)]
+	this.x = randInt(0, 10)
+	this.y = randInt(0, 10)
+
+	this.snake = [[this.x, this.y]]
+
+	function randInt (min, max){
+		return Math.round(Math.random() * (max - min) + min)
+	}
 
 }
 
@@ -79,7 +85,7 @@ Snake.prototype.move = function (){
 	else if(this.direction === 'up') this.y -= 1
 	else if(this.direction === 'down') this.y += 1
 
-	if(this.toAdd < 1) this.toAdd-=1
+	if(this.toAdd > 0) this.toAdd-=1
 	else this.snake.shift()
 	this.snake.push([this.x, this.y])
 
