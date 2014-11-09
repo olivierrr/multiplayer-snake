@@ -40,6 +40,8 @@ function Renderer (container){
 
 /**
  * @method
+ *
+ * attach canvas to `container`
  */
 Renderer.prototype.init = function() {
 
@@ -61,37 +63,40 @@ Renderer.prototype.init = function() {
 
 /**
  * @method
+ * 
+ * draws a square per 'slot'
+ * color depends on model value
+ * grid size depends on model size
+ *
+ * @todo refactor...
  */
 Renderer.prototype.draw = function(model) {
 
+	if(!model) return
+
 	var ctx = this.ctx
+	var gridSize = model.length
+	var smllst = (this.width > this.height ? this.height : this.width)
+	var slotsize = ~~(smllst/gridSize)
+	smllst = slotsize*gridSize
 
-	var WIDTH = this.width
-	var HEIGHT = this.height
+	ctx.clearRect(0, 0, this.width, this.height)
 
-	ctx.clearRect(0, 0, WIDTH, HEIGHT)
-
-	var largest = (WIDTH > HEIGHT ? HEIGHT : WIDTH)
-	var slotsize = ~~(largest/40)
-
-	largest = slotsize*40 + 1
-
-	for (var x = 0.5; x < largest; x += slotsize) {
-		ctx.moveTo(x, 0)
-		ctx.lineTo(x, largest)
-	}
-	for (var y = 0.5; y < largest; y += slotsize) {
-		ctx.moveTo(0, y)
-		ctx.lineTo(largest, y)
+	var BLOCKS = {
+		0: '#2D2D2D', // 'empty'
+		1: '#0070B2'  // 'user'
 	}
 
-	ctx.strokeStyle = '#9C9C9C'
-	ctx.stroke()
+	for(var i=0; i<model.length; i++) {
+		for(var j=0; j<model[i].length; j++) {
+			var color = BLOCKS[model[i][j]]
+			fillSlot(i, j, color)
+		}
+	}
 
-	if(model) {
-
-		//todo
-
+	function fillSlot (x, y, color) {
+		ctx.fillStyle = color || '#FF0000'
+		ctx.fillRect(x*slotsize+1, y*slotsize+1, slotsize-1, slotsize-1)
 	}
 
 }

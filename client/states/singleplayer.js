@@ -11,7 +11,7 @@ module.exports = function (states) {
 		var game = new Game(10, 10)
 		var renderer = new Renderer(document.body)
 
-		renderer.draw()
+		renderer.draw(game.model)
 	}
 
 	state.destroy = function () {
