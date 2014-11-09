@@ -5,7 +5,11 @@ var Renderer = require('../Renderer')
 module.exports = function (states) {
 	var state = {}
 
+	var isLooping = false
+
 	state.create = function () {
+
+		isLooping = true
 
 		var game = new Game(50)
 		var renderer = new Renderer(document.body)
@@ -13,12 +17,27 @@ module.exports = function (states) {
 		game.addSnake()
 		game.update()
 
-		renderer.draw(game.model)
+		if(isLooping === true) {
 
+		}
+
+		function timeout () {
+			window.setTimeout(function (){
+				window.requestAnimationFrame(loop)			
+			}, 400)
+		}
+
+		function loop() {
+			game.update()
+			renderer.draw(game.model)
+			if(isLooping)timeout()
+		}
+
+		loop()
 	}
 
 	state.destroy = function () {
-
+		isLooping = false
 	}
 
 	return state
