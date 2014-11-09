@@ -14,9 +14,9 @@ function KeyboardController (snake){
 	this.snake = snake
 
 	/**
-	 * @property {Integer#keyCode}
+	 * @property {Array#keyCodes}
 	 */
-	this.lastKey
+	this.lastKey = []
 
 	this.boot()
 
@@ -32,7 +32,7 @@ KeyboardController.prototype.boot = function (pos){
 	if(window) {
 		var self = this
 		window.addEventListener('keydown', function (e) {
-			self.lastKey = e.keyCode
+			self.lastKey.unshift(e.keyCode)
 		})
 	}
 
@@ -45,26 +45,34 @@ KeyboardController.prototype.boot = function (pos){
  */
 KeyboardController.prototype.tick = function (){
 
-	var keymap = {
-		'up': [38, 87],
-		'down': [40, 83],
-		'right': [39, 68],
-		'left': [37, 65]
+
+	if(this.lastKey.length > 1) {
+
+		var dir = findDirection(this.lastKey[1])
+		if(dir) this.snake.direction = dir
+		this.lastKey = [this.lastKey[0]]
+
+	} else if (this.lastKey.length === 1) {
+
+		var dir = findDirection(this.lastKey[0])
+		if(dir) this.snake.direction = dir
+
+		this.lastKey = []
 	}
 
-	if(this.lastKey) {
+	function findDirection (keycode) {
 
-		var self = this
+		var keymap = {
+			'up': [38, 87],
+			'down': [40, 83],
+			'right': [39, 68],
+			'left': [37, 65]
+		}
 
-		var k = Object.keys(keymap).filter(function (direction) {
-			return keymap[direction].indexOf(self.lastKey) !== -1
-		})[0]
-
-		if(k) this.snake.direction = k
-
+		return k = Object.keys(keymap).filter(function (direction) {
+			return keymap[direction].indexOf(keycode) !== -1
+		})[0] || null
 	}
-
-	this.lastKey = null
 
 }
 
