@@ -45,7 +45,7 @@ StateManager.prototype.go = function(name) {
 		return
 	}
 
-	if(this.currentState && this.currentState.shutdown) this.currentState.shutdown()
+	if(this.currentState && this.currentState.destroy) this.currentState.destroy()
 
 	this.currentState = this.states[name]
 
