@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "",
-    "dev": "./node_modules/.bin/beefy index:bundle.js --live --open",
+    "test": "tape test/*.js | faucet \n exit 0",
+    "dev": "beefy index:bundle.js --live",
     "deploy": ""
   },
   "repository": {
@@ -26,6 +26,8 @@
     "socket.io-client": "^1.2.0"
   },
   "devDependencies": {
-    "beefy": "^2.1.1"
+    "beefy": "^2.1.1",
+    "faucet": "0.0.1",
+    "tape": "^3.0.2"
   }
 }

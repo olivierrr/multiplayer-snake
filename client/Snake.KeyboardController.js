@@ -45,7 +45,6 @@ KeyboardController.prototype.boot = function (pos){
  */
 KeyboardController.prototype.tick = function (){
 
-
 	if(this.lastKey.length > 1) {
 
 		var dir = findDirection(this.lastKey[1])

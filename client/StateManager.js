@@ -45,13 +45,15 @@ StateManager.prototype.go = function(name) {
 		return
 	}
 
+	var self = this
+
 	if(this.currentState && this.currentState.destroy) this.currentState.destroy()
 
 	this.currentState = this.states[name]
 
 	if(this.currentState.preload){
 		this.currentState.preload(function () {
-			this.currentState.create()
+			self.currentState.create()
 		})
 	} else {
 		this.currentState.create()
