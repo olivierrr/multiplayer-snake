@@ -84,7 +84,8 @@ Renderer.prototype.draw = function(model) {
 
 	var BLOCKS = {
 		0: '#2D2D2D', // 'empty'
-		1: '#0070B2'  // 'user'
+		1: '#0070B2', // 'user'
+		2: '#2EE046'  // 'food'
 	}
 
 	for(var i=0; i<model.length; i++) {

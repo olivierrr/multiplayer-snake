@@ -26,6 +26,16 @@ function Game (size){
 	this.snakes = []
 
 	/**
+	 * @property {Integer}
+	 */
+	this.maxFoodsCount = 5
+
+	/**
+	 * @property {Array}
+	 */
+	this.foods = []
+
+	/**
 	 * @property {isPaused}
 	 */
 	this.isPaused = false
@@ -48,7 +58,6 @@ Game.prototype.boot = function (){
 
 		this.model.push(row)
 	}
-
 }
 
 /**
@@ -91,6 +100,15 @@ Game.prototype.update = function (){
 			})
 		}
 
+		while(this.foods.length < this.maxFoodsCount) {
+			this.addFood()
+		}
+
+		for(var i=0; i<this.foods.length; i++) {
+			var food = this.foods[i]
+			self.model[food[0]][food[1]] = 2
+		}
+
 	}
 
 	return this.state
@@ -109,8 +127,8 @@ Game.prototype.randSnakePos = function (){
 	}
 
 	return {
-		x: randInt(0, this.size),
-		y: randInt(0, this.size),
+		x: randInt(this.size*.25, this.size*.75),
+		y: randInt(this.size*.25, this.size*.75),
 		direction: ['left', 'right', 'up', 'down'][randInt(0,3)]
 	}
 
@@ -122,6 +140,12 @@ Game.prototype.randSnakePos = function (){
 Game.prototype.addSnake = function (){
 
 	this.snakes.push(new Snake(this.randSnakePos()))
+
+}
+
+Game.prototype.addFood = function (){
+
+	this.foods.push([ ~~(Math.random()*this.size) ,  ~~(Math.random()*this.size) ]) 
 
 }
 
