@@ -15,11 +15,6 @@ module.exports = function (states) {
 		var renderer = new Renderer(document.body)
 
 		game.addSnake()
-		game.update()
-
-		if(isLooping === true) {
-
-		}
 
 		function timeout () {
 			window.setTimeout(function (){

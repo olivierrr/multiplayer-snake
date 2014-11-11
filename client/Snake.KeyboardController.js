@@ -1,9 +1,6 @@
 
 /**
- * KeyboardController
- *
  * @constructor
- *
  * expects a public window object to attach key handlers to
  */
 function KeyboardController (snake){
@@ -24,7 +21,6 @@ function KeyboardController (snake){
 
 /**
  * @method
- *
  * attaches dom event handlers
  */
 KeyboardController.prototype.boot = function (pos){
@@ -40,7 +36,6 @@ KeyboardController.prototype.boot = function (pos){
 
 /**
  * @method
- *
  * called every update lewp
  */
 KeyboardController.prototype.tick = function (){

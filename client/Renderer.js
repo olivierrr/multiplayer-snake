@@ -1,9 +1,6 @@
 
 /**
- * Renderer
- *
  * @constructor
- *
  * @param {Object#node}
  */
 function Renderer (container){
@@ -40,7 +37,6 @@ function Renderer (container){
 
 /**
  * @method
- *
  * attach canvas to `container`
  */
 Renderer.prototype.init = function() {
@@ -63,11 +59,9 @@ Renderer.prototype.init = function() {
 
 /**
  * @method
- * 
  * draws a square per 'slot'
  * color depends on model[x][y] value
  * grid size depends on model.length
- *
  * @todo refactor...
  */
 Renderer.prototype.draw = function(model) {

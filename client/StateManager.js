@@ -1,9 +1,6 @@
 
 /**
- * StateManager
- *
  * @constructor
- *
  * each 'state' is expected to have a 'create' method.
  * 'preload' and 'destroy' are optional
  */
@@ -23,7 +20,6 @@ function StateManager (){
 
 /**
  * @method
- *
  * @param {String}
  * @param {Object#state}
  */
@@ -35,7 +31,6 @@ StateManager.prototype.add = function(name, obj) {
 
 /**
  * @method
- *
  * @param {String}
  */
 StateManager.prototype.go = function(name) {

@@ -3,10 +3,7 @@ var Snake = require('./Snake')
 var KeyboardController = require('./Snake.KeyboardController')
 
 /**
- * Game
- *
  * @constructor
- *
  * @param {Number} grid slot count (grid is a suqare)
  */
 function Game (size){
@@ -46,6 +43,7 @@ function Game (size){
 
 /**
  * @method
+ * generates the grid `model`
  */
 Game.prototype.boot = function (){
 
@@ -63,6 +61,7 @@ Game.prototype.boot = function (){
 
 /**
  * @method
+ * @todo combine with `boot` method
  */
 Game.prototype.resetGrid = function (){
 
@@ -76,8 +75,8 @@ Game.prototype.resetGrid = function (){
 
 /**
  * @method
- * 
  * updates all snakes
+ * @todo rewrite
  */
 Game.prototype.update = function (){
 
@@ -87,22 +86,18 @@ Game.prototype.update = function (){
 
 		this.resetGrid()
 
-		
-		while(this.foods.length < this.maxFoodsCount) {
-			this.addFood()
-		}
-
+		// add food to model
 		for(var i=0; i<this.foods.length; i++) {
 			var food = this.foods[i]
 			self.model[food[0]][food[1]] = 2
 		}
 
-
 		for(var i=0; i<this.snakes.length; i++) {
 			var snake = this.snakes[i]
+			snake.move()
 
 			// snake collides with walls
-			if(snake.x <= 0 || snake.x >= this.size-1 || snake.y <= 0 || snake.y >= this.size-1){
+			if(snake.x < 0 || snake.x >= this.size || snake.y < 0 || snake.y >= this.size){
 				snake.setPos(this.randSnakePos())
 			}
 
@@ -115,21 +110,29 @@ Game.prototype.update = function (){
 				this.foods.splice(this.foods.indexOf(foodColl), 1)
 			}
 
-			snake.move()
+			// //snake collides with itself
+			// snake.sections.forEach(function (section, i) {
+			// 	if(i>0 && section[0] === snake.x && section[1] === snake.y) {
+			// 		snake.setPos(self.randSnakePos())
+			// 	}
+			// })
 
+			// add snake to grid model
 			snake.sections.forEach(function (section) {
 				if(section)	self.model[section[0]][section[1]] = 1
 			})
 		}
-	}
 
-	return this.state
+		while(this.foods.length < this.maxFoodsCount) {
+			this.addFood()
+		}
+
+	}
 }
 
 /**
  * @method
- * @return {array}
- *
+ * @return {Hash}
  * @todo direction should be an integer.
  */
 Game.prototype.randSnakePos = function (){
@@ -157,6 +160,7 @@ Game.prototype.addSnake = function (){
 
 /**
  * @method
+ * pushes a food block to a random location within the grid model
  */
 Game.prototype.addFood = function (){
 

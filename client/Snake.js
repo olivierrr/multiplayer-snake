@@ -1,9 +1,6 @@
 
 /**
- * Snake
- *
  * @constructor
- *
  * @param {Hash} - initial snake position and direction
  * @param {?}
  */
@@ -51,7 +48,6 @@ function Snake (pos, Controller){
 
 /**
  * @method
- *
  * @param {Hash} - x, y, position
  */
 Snake.prototype.setPos = function (pos){
@@ -65,7 +61,6 @@ Snake.prototype.setPos = function (pos){
 
 /**
  * @method
- *
  * extend the length of the snake, for example when it eats.
  */
 Snake.prototype.extend = function (){
@@ -76,7 +71,6 @@ Snake.prototype.extend = function (){
 
 /**
  * @method
- *
  * move snake in the `direction` its facing
  */
 Snake.prototype.move = function (){
