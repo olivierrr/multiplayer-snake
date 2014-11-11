@@ -86,14 +86,19 @@ Game.prototype.update = function (){
 
 		this.resetGrid()
 
-		// add food to model
+		while(this.foods.length < this.maxFoodsCount) {
+			this.addFood()
+		}
+
+		// add food blocks to model
 		for(var i=0; i<this.foods.length; i++) {
-			var food = this.foods[i]
+			var food = this.foods[i].split('-')
 			self.model[food[0]][food[1]] = 2
 		}
 
 		for(var i=0; i<this.snakes.length; i++) {
 			var snake = this.snakes[i]
+
 			snake.move()
 
 			// snake collides with walls
@@ -102,29 +107,15 @@ Game.prototype.update = function (){
 			}
 
 			// snake collides with food
-			var foodColl = this.foods.filter(function (food) {
-				return (food[0] === snake.x && food[1] === snake.y)
-			})[0]
-			if(foodColl) {
+			if(this.model[snake.x][snake.y] === 2) {
 				snake.extend()
-				this.foods.splice(this.foods.indexOf(foodColl), 1)
+				this.foods.splice(this.foods.indexOf(snake.x+'-'+snake.y), 1)
 			}
-
-			// //snake collides with itself
-			// snake.sections.forEach(function (section, i) {
-			// 	if(i>0 && section[0] === snake.x && section[1] === snake.y) {
-			// 		snake.setPos(self.randSnakePos())
-			// 	}
-			// })
 
 			// add snake to grid model
 			snake.sections.forEach(function (section) {
 				if(section)	self.model[section[0]][section[1]] = 1
 			})
-		}
-
-		while(this.foods.length < this.maxFoodsCount) {
-			this.addFood()
 		}
 
 	}
@@ -164,13 +155,20 @@ Game.prototype.addSnake = function (){
  */
 Game.prototype.addFood = function (){
 
-	this.foods.push([ ~~(Math.random()*this.size) ,  ~~(Math.random()*this.size) ]) 
+	var randomPos = this.getRandCoordsWithin()
+	this.foods.push(randomPos.x + '-' + randomPos.y)
 
 }
 
-Game.prototype.removeFood = function (){
+/**
+ * @method
+ */
+Game.prototype.getRandCoordsWithin = function (){
 
-
+	return {
+		x: ~~(Math.random()*this.size), 
+		y: ~~(Math.random()*this.size)
+	}
 
 }
 
