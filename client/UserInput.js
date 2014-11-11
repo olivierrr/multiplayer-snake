@@ -3,12 +3,7 @@
  * @constructor
  * expects a public window object to attach key handlers to
  */
-function KeyboardController (snake){
-
-	/**
-	 * @property {Object#Snake}
-	 */
-	this.snake = snake
+function KeyboardController (){
 
 	/**
 	 * @property {Array#keyCodes}
@@ -28,6 +23,7 @@ KeyboardController.prototype.boot = function (pos){
 	if(window) {
 		var self = this
 		window.addEventListener('keydown', function (e) {
+			if(typeof self.lastKey != 'object') self.lastKey = []
 			self.lastKey.unshift(e.keyCode)
 		})
 	}
@@ -38,20 +34,28 @@ KeyboardController.prototype.boot = function (pos){
  * @method
  * called every update lewp
  */
-KeyboardController.prototype.tick = function (){
+KeyboardController.prototype.get = function (){
 
 	if(this.lastKey.length > 1) {
 
 		var dir = findDirection(this.lastKey[1])
-		if(dir) this.snake.direction = dir
-		this.lastKey = [this.lastKey[0]]
+		if(dir) {
+			this.lastKey = [this.lastKey[0]]
+			return dir
+		}
 
 	} else if (this.lastKey.length === 1) {
 
-		var dir = findDirection(this.lastKey[0])
-		if(dir) this.snake.direction = dir
+		var dir = findDirection(this.lastKey.pop())
+		if(dir) {
+			return dir
+		}
 
-		this.lastKey = []
+		this.lastKey = null
+	}
+
+	else {
+		return null
 	}
 
 	function findDirection (keycode) {

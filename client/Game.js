@@ -1,6 +1,6 @@
 
 var Snake = require('./Snake')
-var KeyboardController = require('./Snake.KeyboardController')
+var EventEmitter = require('events').EventEmitter
 
 /**
  * @constructor
@@ -9,12 +9,17 @@ var KeyboardController = require('./Snake.KeyboardController')
 function Game (size){
 
 	/**
+	 * @thingy
+	 */
+	this.events = Object.create(EventEmitter.prototype)
+
+	/**
 	 * @property {Number}
 	 */
 	this.size = size
 
 	/**
-	 * @property {Array}
+	 * @property {Array#2d}
 	 */
 	this.model = []
 
@@ -84,6 +89,8 @@ Game.prototype.update = function (){
 
 		var self = this
 
+		this.events.emit('pre-update')
+
 		this.resetGrid()
 
 		while(this.foods.length < this.maxFoodsCount) {
@@ -145,7 +152,7 @@ Game.prototype.randSnakePos = function (){
  */
 Game.prototype.addSnake = function (){
 
-	this.snakes.push(new Snake(this.randSnakePos(), KeyboardController))
+	this.snakes.push(new Snake(this.randSnakePos()))
 
 }
 

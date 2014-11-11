@@ -2,9 +2,8 @@
 /**
  * @constructor
  * @param {Hash} - initial snake position and direction
- * @param {?}
  */
-function Snake (pos, Controller){
+function Snake (pos){
 
 	/**
 	 * @property {Number}
@@ -20,11 +19,6 @@ function Snake (pos, Controller){
 	 * @property {String}
 	 */
 	this.direction
-
-	/**
-	 * @property {Object#Controller?}
-	 */
-	this.controller = new Controller(this)
 
 	/**
 	 * @property {Array}
@@ -74,8 +68,6 @@ Snake.prototype.extend = function (){
  * move snake in the `direction` its facing
  */
 Snake.prototype.move = function (){
-
-	this.controller.tick()
 
 	if(this.direction === 'left') this.x -= 1
 	else if(this.direction === 'right') this.x += 1

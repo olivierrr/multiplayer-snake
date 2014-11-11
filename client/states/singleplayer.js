@@ -1,6 +1,7 @@
 
 var Game = require('../Game')
 var Renderer = require('../Renderer')
+var UserInput = require('../UserInput')
 
 module.exports = function (states) {
 	var state = {}
@@ -13,19 +14,35 @@ module.exports = function (states) {
 
 		var game = new Game(50)
 		var renderer = new Renderer(document.body)
+		var userInput = new UserInput()
 
 		game.addSnake()
 
-		function timeout () {
-			window.setTimeout(function (){
-				window.requestAnimationFrame(loop)			
-			}, 100)
-		}
+		game.events.on('pre-update', function (wdawd, awdawd){
+			var key = userInput.get()
+			if(key) {
+				game.snakes[0].direction = key
+			}
+		})
+
+		game.events.on('collission', function (tile1, tile2){
+			//todo
+		})
 
 		function loop() {
+
 			game.update()
 			renderer.draw(game.model)
-			if(isLooping)timeout()
+
+			if(isLooping) {
+				timeout(loop)
+			}
+		}
+
+		function timeout (cb) {
+			window.setTimeout(function (){
+				window.requestAnimationFrame(cb)			
+			}, 500)
 		}
 
 		loop()
