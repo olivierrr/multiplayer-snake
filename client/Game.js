@@ -86,7 +86,6 @@ Game.prototype.resetGrid = function (){
 Game.prototype.update = function (){
 
 	if(this.isPaused === false) {
-
 		var self = this
 
 		this.events.emit('pre-update')
@@ -124,6 +123,8 @@ Game.prototype.update = function (){
 				if(section)	self.model[section[0]][section[1]] = 1
 			})
 		}
+
+		this.events.emit('post-update')
 
 	}
 }

@@ -42,7 +42,7 @@ module.exports = function (states) {
 		function timeout (cb) {
 			window.setTimeout(function (){
 				window.requestAnimationFrame(cb)			
-			}, 500)
+			}, 100)
 		}
 
 		loop()
