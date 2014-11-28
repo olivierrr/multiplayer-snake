@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "tape test/*.js | faucet \n exit 0",
-    "dev": "beefy index:bundle.js --live",
-    "deploy": ""
+    "dev": "beefy index:bundle.js --index=./index.html --live"
   },
   "repository": {
     "type": "git",

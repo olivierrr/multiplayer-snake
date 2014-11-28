@@ -5,6 +5,7 @@ module.exports = function (states) {
 
   state.create = function () {
     cloak.run('http://localhost:9001')
+    //cloak.message('listRooms')
   }
 
   state.destroy = function () {
@@ -26,46 +27,46 @@ cloak.configure({
   },
   severEvents: {
     connecting: function () {
-    
+      console.log('connecting...')
     },
     begin: function () {
-    
+      console.log('connected.')
     },
     resume: function () {
-    
+      console.log('reconnected.')
     },
     disconnect: function () {
-    
+      console.log('disconnected.')
     },
     end: function () {
-
+      console.log('connection ended.')
     },
     error: function () {
-
+      console.log('connection error.')
     },
-    joinedRoom: function () {
-
+    joinedRoom: function (roomName) {
+      console.log('joined room', roomName)
     },
-    leftRoom: function () {
-
+    leftRoom: function (roomName) {
+      console.log('left room', roomName)
     },
-    roomMemberJoined: function () {
-
+    roomMemberJoined: function (user) {
+      console.log('user joined room', user)
     },
-    roomMemberLeft: function () {
-
+    roomMemberLeft: function (user) {
+      console.log('user left room', user)
     },
-    lobbyMemberJoined: function () {
-
+    lobbyMemberJoined: function (user) {
+      console.log('user joined lobby', user)
     },
-    lobbyMemberLeft: function () {
-
+    lobbyMemberLeft: function (id) {
+      console.log('user left lobby', user)
     },
-    roomCreated: function (){
-
+    roomCreated: function (roomCount){
+      console.log('room created', roomCount)
     },
-    roomDeleted: function () {
-
+    roomDeleted: function (roomCount) {
+      console.log('room room deleted', roomCount)
     }
   },
   timerEvents: {
