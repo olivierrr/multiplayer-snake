@@ -17,7 +17,6 @@ module.exports = function (states) {
       cloak.message('joinRoom')
       cloak._on('message-joinRoom_response', function (data) {
         if (data.success) {
-          // go to room
           states.go('multiplayer')
         } else {
           // error
@@ -29,8 +28,6 @@ module.exports = function (states) {
       cloak.message('createRoom', {roomName: roomName})
       cloak._on('message-createRoom_response', function (data) {
         if (data.success) {
-          // data.roomId
-          console.log(data)
           states.go('multiplayer')
         } else {
           // error

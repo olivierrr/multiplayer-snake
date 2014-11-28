@@ -47,13 +47,16 @@ cloak.configure({
       var room = user.getRoom()
       console.log(data)
     },
+    spawn: function (data, user) {
+      var room = user.getRoom()
+      console.log(user.data)
+    }
   },
   room: {
     init: function () {
       this.game = 123
     },
     pulse: function () {
-      console.log('DDDD')
       this.game += 1
       this.messageMembers('pulse', {someData: this.game})
     },

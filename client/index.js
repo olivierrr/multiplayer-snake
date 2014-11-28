@@ -11,6 +11,6 @@
 	states.add('multiplayer', require('./states/multiplayer')(states))
   states.add('multiplayer-lobby', require('./states/multiplayer-lobby')(states))
 
-	states.go('multiplayer-lobby')
+	states.go('singleplayer')
 
 })()
