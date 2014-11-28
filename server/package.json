@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/olivierrr/multiplayer-snake",
   "dependencies": {
+    "cloak": "^0.2.6",
     "hapi": "^7.5.0",
     "socket.io": "^1.2.0"
   },

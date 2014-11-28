@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/olivierrr/multiplayer-snake",
   "dependencies": {
-    "socket.io-client": "^1.2.0",
     "state-manager": "^1.0.1"
   },
   "devDependencies": {

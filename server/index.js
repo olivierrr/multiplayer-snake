@@ -1,62 +1,74 @@
-var Hapi = require('hapi')
-var Socket = require('socket.io')
 
-var Game = require('./lib/game')
-var lobbies = require('./lobbies.json')
+var cloak = require('cloak')
 
-var games = []
-
-module.exports = start
-
-function start(port) {
-  var server = Hapi.createServer('localhost', port || 52473)
-  var io = new Socket(server.listener)
-  var main = io.of('/')
-  var lobby = io.of('/lobby')
-  var game = io.of('/game')
-
-  server.route({
-      method: 'GET'
-    , path: '/{param*}'
-    , handler: {directory: {path: '../client', listing: true}}
-  })
-
-  main.on('connection', function(socket) {
-    socket.on('list-lobbies', function() {
-      socket.emit('lobby-list', {lobbies: lobbies})
-    })
-  })
-
-  lobby.on('connection', function(socket) {
-    socket.on('message', function(lobby, username, message) {
-      socket.emit('message', lobby, username, message)
-    })
-
-    socket.on('start-game', function(lobby) {
-      var lobbyGame
-
-      if(lobbies[lobby].gameStarted) {
-        return socket.emit('error', 'Game has already started')
-      }
-
-      lobbies[lobby].gameStarted = true
-      lobbyGame = new Game()
-
-      socket.emit('game-started', lobbyGame.id)
-
-      games.push(game)
-    })
-  })
-
-  game.on('connection', function(socket) {
-    socket.on('finished', function(gameId) {
-      games = games.filter(function(x) {
-        return x.id !== gameId
+cloak.configure({
+  port: 9001,
+  gameLoopSpeed: 100,
+  defaultRoomSize: 10,
+  autoJoinLobby: true,
+  autoCreateRooms: false,
+  minRoomMembers: 1,
+  pruneEmptyRooms: null,
+  reconnectWaitRoomless: null,
+  roomLife: null,
+  notifyRoomChanges: true,
+  messages: {
+    chat: function (msg, user) {
+      user.getRoom().messageMembers('chat', msg)
+    },
+    listRooms: function (data, user) {
+      user.message('listRooms', cloak.getRooms(true))
+    },
+    createRoom: function (data, user) {
+      if(!data || !data.roomName) return
+      var room = cloak.createRoom(data.roomName, data.roomSize)
+      var success = room.addMember(user)
+      user.message('createRoom', {
+        success: success,
+        roomId: room.id
       })
-    })
+    },
 
-    // uhhhhh do game stuff.
-  })
+    // error when getRoom gets invalid roomId
+    joinRoom: function (data, user) {
+      if(!data || !data.roomId) return
+      cloak.getRoom(data.roomId).addMember(user)
+    },
+    leaveRoom: function (data, user) {
+      user.leaveRoom()
+    }
+  },
+  room: {
+    init: function () {
+      console.log('NEW ROOM CREATED')      
+    },
+    pulse: function () {
+        
+    },
+    newMember: function () {
+    
+    },
+    memberLeaves: function () {
+    
+    },
+    close: function () {
+      
+    }
+  },
+  lobby: {
+    init: function () {
+      console.log('lobby init')
+    },
+    pulse: function () {
+    
+    },
+    newMember: function () {
+      console.log('new member lobby')
+    },
+    memberLeaves: function () {
+      console.log('member leaves lobby') 
+    }
+  }
+}) 
 
-  return server
-}
+cloak.run()
