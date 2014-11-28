@@ -10,23 +10,15 @@ function KeyboardController (){
 	 */
 	this.lastKey = []
 
-	this.boot()
-
 }
 
 /**
  * @method
- * attaches dom event handlers
  */
-KeyboardController.prototype.boot = function (pos){
+KeyboardController.prototype.feedKeyStream = function (keyCode){
 
-	if(window) {
-		var self = this
-		window.addEventListener('keydown', function (e) {
-			if(typeof self.lastKey != 'object') self.lastKey = []
-			self.lastKey.unshift(e.keyCode)
-		})
-	}
+	if(typeof this.lastKey != 'object') this.lastKey = []
+	this.lastKey.unshift(keyCode)
 
 }
 

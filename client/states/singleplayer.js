@@ -1,5 +1,5 @@
 
-var Game = require('../Game')
+var Game = require('../../shared/Game')
 var Renderer = require('../Renderer')
 var UserInput = require('../UserInput')
 
@@ -12,17 +12,19 @@ module.exports = function (states) {
 
 		isLooping = true
 
-		var game = new Game(50)
+		var game = new Game(30)
 		var renderer = new Renderer(document.body)
 		var userInput = new UserInput()
 
 		game.addSnake()
 
+		document.addEventListener('keydown', function (e) {
+			userInput.feedKeyStream(e.keyCode)
+		})
+
 		game.events.on('pre-update', function (wdawd, awdawd){
 			var key = userInput.get()
-			if(key) {
-				game.snakes[0].direction = key
-			}
+			if(key) game.snakes[0].direction = key
 		})
 
 		game.events.on('collission', function (tile1, tile2){

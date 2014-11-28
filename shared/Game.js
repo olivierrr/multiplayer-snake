@@ -105,23 +105,25 @@ Game.prototype.update = function (){
 		for(var i=0; i<this.snakes.length; i++) {
 			var snake = this.snakes[i]
 
-			snake.move()
+			if(snake.isAlive) {
+				snake.move()
 
-			// snake collides with walls
-			if(snake.x < 0 || snake.x >= this.size || snake.y < 0 || snake.y >= this.size){
-				snake.setPos(this.randSnakePos())
+				// snake collides with walls
+				if(snake.x < 0 || snake.x >= this.size || snake.y < 0 || snake.y >= this.size){
+					snake.setPos(this.randSnakePos())
+				}
+
+				// snake collides with food
+				if(this.model[snake.x][snake.y] === 2) {
+					snake.extend()
+					this.foods.splice(this.foods.indexOf(snake.x+'-'+snake.y), 1)
+				}
+
+				// add snake to grid model
+				snake.sections.forEach(function (section) {
+					if(section)	self.model[section[0]][section[1]] = 1
+				})
 			}
-
-			// snake collides with food
-			if(this.model[snake.x][snake.y] === 2) {
-				snake.extend()
-				this.foods.splice(this.foods.indexOf(snake.x+'-'+snake.y), 1)
-			}
-
-			// add snake to grid model
-			snake.sections.forEach(function (section) {
-				if(section)	self.model[section[0]][section[1]] = 1
-			})
 		}
 
 		this.events.emit('post-update')

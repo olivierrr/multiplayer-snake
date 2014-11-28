@@ -1,5 +1,7 @@
 
 var cloak = require('cloak')
+var Game = require('../shared/Game')
+var Snake = require('../shared/Snake')
 
 cloak.configure({
   port: 9001,
@@ -49,22 +51,22 @@ cloak.configure({
     },
     spawn: function (data, user) {
       var room = user.getRoom()
-      console.log(user.data)
+      if(!user.data.snake) user.data.snake = new Snake()
     }
   },
   room: {
     init: function () {
-      this.game = 123
+      this.data.game = new Game(30)
     },
     pulse: function () {
-      this.game += 1
-      this.messageMembers('pulse', {someData: this.game})
+      this.game.update()
+      this.messageMembers('pulse', {model: this.data.game.model})
     },
-    newMember: function () {
-      
+    newMember: function (user) {
+      user.message('pulse', {model: this.data.game.model})
     },
-    memberLeaves: function () {
-    
+    memberLeaves: function (user) {
+
     },
     close: function () {
       
@@ -74,7 +76,7 @@ cloak.configure({
     init: function () {
       console.log('lobby init')
     },
-    newMember: function () {
+    newMember: function (user) {
       console.log('new member lobby')
     },
     memberLeaves: function () {

@@ -1,5 +1,4 @@
 
-var Game = require('../Game')
 var Renderer = require('../Renderer')
 
 module.exports = function (states) {
@@ -7,18 +6,22 @@ module.exports = function (states) {
   var state = {}
 
   state.create = function () {
-    console.log('on mp')
-    var game = new Game(50)
+
     var renderer = new Renderer(document.body)
 
     document.body.addEventListener('click', function (e) {
       cloak.message('keyPress', {key: e.keyCode})
     })
 
-    cloak._on('message-pulse', function (data) {
-      console.log(data)
-      game.update()
-      renderer.draw(game.model)
+    cloak._on('message-pulse', render.draw)
+
+    function spawn () {
+      cloak.message('spawn')
+    }
+
+    cloak._on('message-chat', function (data) {
+      // data.user
+      // data.msg
     })
 
   }

@@ -19,7 +19,7 @@ module.exports = function (states) {
         if (data.success) {
           states.go('multiplayer')
         } else {
-          // error
+          console.log('joinRoom failed')
         }
       })
     }
@@ -30,7 +30,7 @@ module.exports = function (states) {
         if (data.success) {
           states.go('multiplayer')
         } else {
-          // error
+          console.log('createRoom failed')
         }
       })
     }

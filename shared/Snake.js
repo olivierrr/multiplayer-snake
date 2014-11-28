@@ -3,7 +3,7 @@
  * @constructor
  * @param {Hash} - initial snake position and direction
  */
-function Snake (pos){
+function Snake (){
 
 	/**
 	 * @property {Number}
@@ -26,17 +26,14 @@ function Snake (pos){
 	this.sections
 
 	/**
-	 * @property {Array}
+	 * @property {Number}
 	 */
 	this.toAdd = 0
 
 	/**
 	 * @property {Boolean}
 	 */
-	this.isAlive = true
-
-	// boot
-	this.setPos(pos)
+	this.isAlive = false
 
 }
 
@@ -77,6 +74,25 @@ Snake.prototype.move = function (){
 	if(this.toAdd > 0) this.toAdd-=1
 	else this.sections.shift()
 	this.sections.push([this.x, this.y])
+
+}
+
+/**
+ * @method
+ */
+Snake.prototype.spawn = function(pos) {
+
+	this.isAlive = true
+	this.setPos(pos)
+
+}
+
+/**
+ * @method
+ */
+Snake.prototype.kill = function() {
+
+	this.isAlive = false
 
 }
 
