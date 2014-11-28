@@ -7,6 +7,15 @@ module.exports = function () {
       },
       listRooms_response: function (data) {
         console.log(data)
+      },
+      createRoom_response: function (data) {
+        console.log(data)
+      },
+      joinRoom_response: function (data) {
+        console.log(data)
+      },
+      pulse: function (data) {
+        console.log(data)
       }
     },
     serverEvents: {

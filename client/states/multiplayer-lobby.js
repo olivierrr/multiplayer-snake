@@ -13,22 +13,25 @@ module.exports = function (states) {
       })
     })
 
-    function joinRoom (roomId) {
+    window.joinRoom = function (roomId) {
       cloak.message('joinRoom')
       cloak._on('message-joinRoom_response', function (data) {
         if (data.success) {
           // go to room
+          states.go('multiplayer')
         } else {
           // error
         }
       })
     }
 
-    function createRoom (roomName) {
-      cloak.message('createRoom')
-      cloak._on('createRoom_response', function (data) {
+    window.createRoom = function(roomName) {
+      cloak.message('createRoom', {roomName: roomName})
+      cloak._on('message-createRoom_response', function (data) {
         if (data.success) {
           // data.roomId
+          console.log(data)
+          states.go('multiplayer')
         } else {
           // error
         }

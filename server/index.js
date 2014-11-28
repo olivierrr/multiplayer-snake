@@ -45,7 +45,7 @@ cloak.configure({
     },
     keyPress: function (data, user) {
       var room = user.getRoom()
-      //game
+      console.log(data)
     },
   },
   room: {
@@ -53,7 +53,9 @@ cloak.configure({
       this.game = 123
     },
     pulse: function () {
+      console.log('DDDD')
       this.game += 1
+      this.messageMembers('pulse', {someData: this.game})
     },
     newMember: function () {
       
