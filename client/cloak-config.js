@@ -5,7 +5,7 @@ module.exports = function () {
       chat: function (msg, user) {
         console.log(msg, user)
       },
-      listRooms: function (data) {
+      listRooms_response: function (data) {
         console.log(data)
       }
     },

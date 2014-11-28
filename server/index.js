@@ -23,13 +23,13 @@ cloak.configure({
       user.message('changeUsername_response', {success: success})
     },
     listRooms: function (data, user) {
-      user.message('listRooms', cloak.getRooms(true))
+      user.message('listRooms_response', cloak.getRooms(true))
     },
     createRoom: function (data, user) {
       if(!data || !data.roomName) return
       var room = cloak.createRoom(data.roomName, data.roomSize)
       var success = room.addMember(user)
-      user.message('createRoom', {
+      user.message('createRoom_response', {
         success: success,
         roomId: room.id
       })
@@ -37,9 +37,8 @@ cloak.configure({
     joinRoom: function (data, user) {
       if(!data || !data.roomId) return
       var room = cloak.getRoom(data.roomId)
-      if(room) {
-       room.addMember(user) 
-      }
+      if(room) room.addMember(user)
+      user.message('joinRoom_response', {success: !!room})
     },
     leaveRoom: function (data, user) {
       user.leaveRoom()
