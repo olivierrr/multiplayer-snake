@@ -66,7 +66,7 @@ cloak.configure({
       user.message('pulse', {model: this.data.game.model})
     },
     memberLeaves: function (user) {
-
+      
     },
     close: function () {
       

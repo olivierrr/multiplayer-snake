@@ -1,18 +1,84 @@
-<!DOCTYPE html>
 
-<html>
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <title>testing</title>
-</head>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Website Description">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Codename Snake</title>
+    <link rel="stylesheet" href="assets/css/snake.css">
 
-<body>
+    <!-- too lazy to scss, will port later -->
+    <style>
+      .hidden {
+        display: none !important;
+      }
+    </style>
 
-  test
+  </head>
+  <body>
 
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
-  <script type="text/javascript" src="https://rawgit.com/incompl/cloak/master/src/client/cloak.js"></script>
-  <script type="text/javascript" src="bundle.js"></script>
-</body>
+    <main id="home-menu" class="">
+      <div class="snake-contain">
+        <h1 class="brand">Codename Snake</h1>
+        <nav class="menu">
+          <ul class="items">
+            <li><a href="#">Single Player</a></li>
+            <li><a href="#">Multiplayer</a></li>
+          </ul>
+        </nav>
+      </div>
+    </main>
+
+    <main id="lobby" class="full-screen hidden">
+      <div class="lobby-area">
+        <aside class="active-games">
+          <ul class="game-list">
+            <li><a href="#">Game 1</a></li>
+            <li><a href="#">Game 2</a></li>
+            <li><a href="#">Game 3</a></li>
+            <li><a href="#">Game 4</a></li>
+            <li><a href="#">Game 5</a></li>
+            <li><a href="#">Game 6</a></li>
+          </ul>
+          <div class="bottom">
+            <div class="brand">
+              <h1 class="brand-alt">Codename Snake</h1>
+            </div>
+            <ul class="game-stats">
+              <li><span class="stat">Users Online:</span> 451</li>
+              <li><span class="stat">Open Games:</span> 28</li>        
+            </ul>
+            <a href="/" class="home-btn">Home</a>
+          </div>
+        </aside>
+        <section class="chat-area">
+          <div class="chat-window">
+            <p class="msg"><span class="user">danecando:</span> you guys stink at this game</p>
+            <p class="msg"><span class="user">danecando:</span> suck my balls cause you guys are bad at this game</p>
+            <p class="msg"><span class="user">jabronie:</span> what are you gay or smth</p>
+          </div>
+          <div class="chat-input">
+            <input type="text" name="chat-msg"></input>
+            <a href="#" class="send-message">Send</a>
+          </div>    
+        </section>  
+      </div>
+    </main>
+
+    <main id="singleplayer" class="hidden">
+      <canvas></canvas>
+    </main>
+
+    <main id="multiplayer" class="hidden">
+      <canvas></canvas>
+    </main>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
+    <script type="text/javascript" src="https://rawgit.com/incompl/cloak/master/src/client/cloak.js"></script>
+    <script type="text/javascript" src="bundle.js"></script>
+
+  </body>
 </html>
