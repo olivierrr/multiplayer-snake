@@ -16,6 +16,12 @@ cloak.configure({
     chat: function (msg, user) {
       user.getRoom().messageMembers('chat', msg)
     },
+    changeUsername: function (data, user) {
+      if(!data || !data.newUsername) return
+      var success = (cloak.getUsers().indexOf(data.newUsername) < 0)
+      if(success) user.name = data.newUsername
+      user.message('changeUsername_response', {success: success})
+    },
     listRooms: function (data, user) {
       user.message('listRooms', cloak.getRooms(true))
     },
@@ -28,25 +34,30 @@ cloak.configure({
         roomId: room.id
       })
     },
-
-    // error when getRoom gets invalid roomId
     joinRoom: function (data, user) {
       if(!data || !data.roomId) return
-      cloak.getRoom(data.roomId).addMember(user)
+      var room = cloak.getRoom(data.roomId)
+      if(room) {
+       room.addMember(user) 
+      }
     },
     leaveRoom: function (data, user) {
       user.leaveRoom()
-    }
+    },
+    keyPress: function (data, user) {
+      var room = user.getRoom()
+      //game
+    },
   },
   room: {
     init: function () {
-      console.log('NEW ROOM CREATED')      
+      this.game = 123
     },
     pulse: function () {
-        
+      this.game += 1
     },
     newMember: function () {
-    
+      
     },
     memberLeaves: function () {
     
@@ -58,9 +69,6 @@ cloak.configure({
   lobby: {
     init: function () {
       console.log('lobby init')
-    },
-    pulse: function () {
-    
     },
     newMember: function () {
       console.log('new member lobby')
