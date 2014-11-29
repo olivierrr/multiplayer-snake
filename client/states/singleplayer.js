@@ -6,19 +6,23 @@ var UserInput = require('../UserInput')
 module.exports = function (states) {
 	var state = {}
 
+	var $elem = document.querySelector('#singleplayer')
+	var $canvasContainer = $elem.querySelector('.game')
+
 	var isLooping = false
 
 	state.create = function () {
+		$elem.className = ''
 
 		isLooping = true
 
 		var game = new Game(30)
-		var renderer = new Renderer(document.body)
+		var renderer = new Renderer($canvasContainer)
 		var userInput = new UserInput()
 
 		game.addSnake()
 
-		document.addEventListener('keydown', function (e) {
+		$canvasContainer.addEventListener('keydown', function (e) {
 			userInput.feedKeyStream(e.keyCode)
 		})
 
@@ -27,12 +31,7 @@ module.exports = function (states) {
 			if(key) game.snakes[0].direction = key
 		})
 
-		game.events.on('collission', function (tile1, tile2){
-			//todo
-		})
-
 		function loop() {
-
 			game.update()
 			renderer.draw(game.model)
 
@@ -52,6 +51,7 @@ module.exports = function (states) {
 
 	state.destroy = function () {
 		isLooping = false
+		$elem.className = 'hidden'
 	}
 
 	return state

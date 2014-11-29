@@ -1,106 +1,7 @@
-@charset "UTF-8";
-/* Neat 1.7.0.pre
+/* Neat 1.7.0
  * http://neat.bourbon.io
  * Copyright 2012-2014 thoughtbot, inc.
  * MIT License */
-/**
- * Returns a media context (media query / grid context) that can be stored in a variable and passed to `media()` as a single-keyword argument. Media contexts defined using `new-breakpoint` are used by the visual grid, as long as they are defined before importing Neat.
- *
- * @param {List} $query
- *   - A list of media query features and values. Each `$feature` should have a corresponding `$value`. If there is only a single `$value` in `$query`, `$default-feature` is going to be used. The number of total columns in the grid can be set by passing `$columns` at the end of the list (overrides `$total-columns`). For a list of valid values for `$feature`, click [here](http://www.w3.org/TR/css3-mediaqueries/#media1).
- *
- * @param {Number (unitless)} $total-columns ($grid-columns)
- *   - Number of columns to use in the new grid context. Can be set as a shorthand in the first parameter.
- *
- * @example scss - Usage
- *   $mobile: new-breakpoint(max-width 480px 4);
- *
- *   .element {
- *     @include media($mobile) {
- *       @include span-columns(4);
- *     }
- *   }
- *
- * @example css - CSS Output
- *   @media screen and (max-width: 480px) {
- *     .element {
- *       display: block;
- *       float: left;
- *       margin-right: 7.42297%;
- *       width: 100%;
- *     }
- *     .element:last-child {
- *       margin-right: 0;
- *     }
- *   }
- */
-/**
- * Sets the relative width of a single grid column. The unit used should be the same one used to define `$gutter`. To learn more about golden-ratio() see [Bourbon docs](http://bourbon.io/docs/#golden-ratio). Set with a `!global` flag.
- *
- * @type Number (Unit)
- */
-/**
- * Sets the relative width of a single grid gutter. The unit used should be the same one used to define `$column`. To learn more about golden-ratio() see [Bourbon docs](http://bourbon.io/docs/#golden-ratio). Set with the `!global` flag.
- *
- * @type Number (Unit)
- */
-/**
- * Sets the total number of columns in the grid. Its value can be overridden inside a media query using the `media()` mixin. Set with the `!global` flag.
- *
- * @type Number (Unitless)
- */
-/**
- * Sets the max-width property of the element that includes `outer-container()`. To learn more about `em()` see [Bourbon docs](http://bourbon.io/docs/#px-to-em). Set with the `!global` flag.
- *
- * @type Number (Unit)
- */
-/**
- * When set to true, it sets the box-sizing property of all elements to `border-box`. Set with a `!global` flag.
- *
- * @type Bool
- *
- * @example css - CSS Output
- *   * {
- *     -webkit-box-sizing: border-box;
- *     -moz-box-sizing: border-box;
- *     box-sizing: border-box;
- *   }
- */
-/**
- * Sets the default [media feature](http://www.w3.org/TR/css3-mediaqueries/#media) that `media()` and `new-breakpoint()` revert to when only a breakpoint value is passed. Set with a `!global` flag.
- *
- * @type String
- */
-/**
- * Sets the default layout direction of the grid. Can be `LTR` or `RTL`. Set with a `!global` flag.
- *
- * @type String
- */
-/**
- * Displays the visual grid when set to true. The overlaid grid may be few pixels off depending on the browser's rendering engine and pixel rounding algorithm. Set with the `!global` flag.
- *
- * @type Bool
- */
-/**
- * Sets the visual grid color. Set with `!global` flag.
- *
- * @type Color
- */
-/**
- * Sets the `z-index` property of the visual grid. Can be `back` (behind content) or `front` (in front of content). Set with `!global` flag.
- *
- * @type String
- */
-/**
- * Sets the opacity property of the visual grid. Set with `!global` flag.
- *
- * @type Number (unitless)
- */
-/**
- * Disable all deprecation warnings. Defaults to `false`. Set with a `!global` flag.
- *
- * @type Bool
- */
 html {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -111,340 +12,6 @@ html {
   -moz-box-sizing: inherit;
   box-sizing: inherit; }
 
-/**
- * Removes the element's gutter margin, regardless of its position in the grid hierarchy or display property. It can target a specific element, or every `nth-child` occurrence. Works only with `block` layouts.
- *
- * @param {List} $query (block)
- *   List of arguments. Supported arguments are `nth-child` selectors (targets a specific pseudo element) and `auto` (targets `last-child`).
- *
- *   When passed an `nth-child` argument of type `*n` with `block` display, the omega mixin automatically adds a clear to the `*n+1` th element. Note that composite arguments such as `2n+1` do not support this feature.
- *
- *   **Deprecation warning**: The omega mixin will no longer take a `$direction` argument. To change the layout direction, use `row($direction)` or set `$default-layout-direction` instead.
- *
- * @example scss - Usage
- *   .element {
- *     @include omega;
- *   }
- *
- *   .nth-element {
- *     @include omega(4n);
- *   }
- *
- * @example css - CSS Output
- *   .element {
- *     margin-right: 0;
- *   }
- *
- *   .nth-element:nth-child(4n) {
- *     margin-right: 0;
- *   }
- *
- *   .nth-element:nth-child(4n+1) {
- *     clear: left;
- *   }
- */
-/**
- * Makes an element a outer container by centring it in the viewport, clearing its floats, and setting its `max-width`.
- * Although optional, using `outer-container` is recommended. The mixin can be called on more than one element per page, as long as they are not nested.
- *
- * @param {Number (unit)} $local-max-width ($max-width)
- *   Max width to be applied to the element. Can be a percentage or a measure.
- *
- * @example scss - Usage
- *   .element {
- *     @include outer-container(100%);
- *   }
- *
- * @example css - CSS Output
- *   .element {
- *     *zoom: 1;
- *     max-width: 100%;
- *     margin-left: auto;
- *     margin-right: auto;
- *   }
- *
- *   .element:before, .element:after {
- *     content: " ";
- *     display: table;
- *   }
- *
- *   .element:after {
- *     clear: both;
- *   }
- */
-/**
- * Specifies the number of columns an element should span. If the selector is nested the number of columns of its parent element should be passed as an argument as well.
- *
- * @param {List} $span
- *   A list containing `$columns`, the unitless number of columns the element spans (required), and `$container-columns`, the number of columns the parent element spans (optional).
- *
- *   If only one value is passed, it is assumed that it's `$columns` and that that `$container-columns` is equal to `$grid-columns`, the total number of columns in the grid.
- *
- *   The values can be separated with any string such as `of`, `/`, etc.
- *
- * @param {String} $display (block)
- *   Sets the display property of the element. By default it sets the display propert of the element to `block`.
- *
- *   If passed `block-collapse`, it also removes the margin gutter by adding it to the element width.
- *
- *   If passed `table`, it sets the display property to `table-cell` and calculates the width of the element without taking gutters into consideration. The result does not align with the block-based grid.
- *
- * @example scss - Usage
- *   .element {
- *     @include span-columns(6);
-
- *    .nested-element {
- *      @include span-columns(2 of 6);
- *    }
- *  }
- *
- * @example css - CSS Output
- *   .element {
- *     display: block;
- *     float: left;
- *     margin-right: 2.35765%;
- *     width: 48.82117%;
- *   }
- *
- *   .element:last-child {
- *     margin-right: 0;
- *   }
- *
- *   .element .nested-element {
- *     display: block;
- *     float: left;
- *     margin-right: 4.82916%;
- *     width: 30.11389%;
- *   }
- *
- *   .element .nested-element:last-child {
- *     margin-right: 0;
- *   }
- */
-/**
- * Designates the element as a row of columns in the grid layout. It clears the floats on the element and sets its display property. Rows can't be nested, but there can be more than one row element—with different display properties—per layout.
- *
- * @param {String} $display (default)
- *   Sets the display property of the element and the display context that will be used by its children. Can be `block` or `table`.
- *
- * @param {String} $direction ($default-layout-direction)
- *   Sets the layout direction. Can be `LTR` (left-to-right) or `RTL` (right-to-left).
- *
- * @example scss - Usage
- *   .element {
- *     @include row();
- *   }
- *
- * @example css - CSS Output
- *   .element {
- *     *zoom: 1;
- *     display: block;
- *   }
- *
- *  .element:before, .element:after {
- *    content: " ";
- *    display: table;
- *  }
- *
- *  .element:after {
- *    clear: both;
- *  }
- */
-/**
- * Translates an element horizontally by a number of columns. Positive arguments shift the element to the active layout direction, while negative ones shift it to the opposite direction.
- *
- * @param {Number (unitless)} $n-columns (1)
- *   Number of columns by which the element shifts.
- *
- * @example scss - Usage
- *   .element {
- *     @include shift(-3);
- *   }
- *
- * @example css - CSS output
- *   .element {
- *     margin-left: -25.58941%;
- *   }
- */
-/**
- * Translates an element horizontally by a number of columns, in a specific nesting context.
- *
- * @param {List} $shift
- *   A list containing the number of columns to shift (`$columns`) and the number of columns of the parent element (`$container-columns`).
- *
- *   The two values can be separated with any string such as `of`, `/`, etc.
- *
- * @example scss - Usage
- *   .element {
- *     @include shift(-3 of 6);
- *   }
- *
- * @example css - CSS output
- *   .element {
- *     margin-left: -52.41458%;
- *   }
- */
-/**
- * Adds padding to the element.
- *
- * @param {List} $padding (flex-gutter())
- *   A list of padding value(s) to use. Passing `default` in the list will result in using the gutter width as a padding value.
- *
- * @example scss - Usage
- *   .element {
- *     @include pad(30px -20px 10px default);
- *   }
- *
- * @example css - CSS Output
- *   .element {
- *     padding: 30px -20px 10px 2.35765%;
- *   }
- */
-/**
- * Forces the element to fill its parent container.
- *
- * @example scss - Usage
- *   .element {
- *     @include fill-parent;
- *   }
- *
- * @example css - CSS Output
- *   .element {
- *     width: 100%;
- *     -webkit-box-sizing: border-box;
- *     -moz-box-sizing: border-box;
- *     box-sizing: border-box;
- *   }
- */
-/**
- * Outputs a media-query block with an optional grid context (the total number of columns used in the grid).
- *
- * @param {List} $query
- *   A list of media query features and values, where each `$feature` should have a corresponding `$value`.
- *   For a list of valid values for `$feature`, click [here](http://www.w3.org/TR/css3-mediaqueries/#media1).
- *
- *   If there is only a single `$value` in `$query`, `$default-feature` is going to be used.
- *
- *   The number of total columns in the grid can be set by passing `$columns` at the end of the list (overrides `$total-columns`).
- *
- *
- * @param {Number (unitless)} $total-columns ($grid-columns)
- *   - Number of columns to use in the new grid context. Can be set as a shorthand in the first parameter.
- *
- * @example scss - Usage
- *   .responsive-element {
- *      @include media(769px) {
- *        @include span-columns(6);
- *      }
- *   }
- *
- *  .new-context-element {
- *    @include media(min-width 320px max-width 480px, 6) {
- *      @include span-columns(6);
- *    }
- *  }
- *
- * @example css - CSS Output
- *  @media screen and (min-width: 769px) {
- *    .responsive-element {
- *      display: block;
- *      float: left;
- *      margin-right: 2.35765%;
- *      width: 48.82117%;
- *    }
- *
- *    .responsive-element:last-child {
- *      margin-right: 0;
- *    }
- *  }
- *
- *  @media screen and (min-width: 320px) and (max-width: 480px) {
- *    .new-context-element {
- *      display: block;
- *      float: left;
- *      margin-right: 4.82916%;
- *      width: 100%;
- *    }
- *
- *    .new-context-element:last-child {
- *      margin-right: 0;
- *    }
- *  }
- */
-/**
- * Resets the active display property to `block`. Particularly useful when changing the display property in a single row.
- *
- * @example scss - Usage
- *   .element {
- *     @include row(table);
- *     // Context changed to table display
- *   }
- *
- *   @include reset-display;
- *   // Context is reset to block display
- */
-/**
- * Resets the active layout direction to the default value set in `$default-layout-direction`. Particularly useful when changing the layout direction in a single row.
- *
- * @example scss - Usage
- *   .element {
- *     @include row($direction: RTL);
- *     // Context changed to right-to-left
- *   }
- *
- *   @include reset-layout-direction;
- *   // Context is reset to left-to-right
- */
-/**
- * Resets both the active layout direction and the active display property.
- *
- * @example scss - Usage
- *   .element {
- *     @include row(table, RTL);
- *     // Context changed to table table and right-to-left
- *   }
- *
- *   @include reset-all;
- *   // Context is reset to block display and left-to-right
- */
-/**
- * Changes the display property used by other mixins called in the code block argument.
- *
- * @param {String} $display (block)
- *   Display value to be used within the block. Can be `table` or `block`.
- *
- * @example scss
- *   @include display(table) {
- *    .display-table {
- *      @include span-columns(6);
- *     }
- *   }
- *
- * @example css
- *   .display-table {
- *      display: table-cell;
- *      ...
- *   }
- */
-/**
- * Changes the direction property used by other mixins called in the code block argument.
- *
- * @param {String} $direction (left-to-right)
- *   Layout direction to be used within the block. Can be `left-to-right` or `right-to-left`.
- *
- * @example scss - Usage
- *   @include direction(right-to-left) {
- *    .right-to-left-block {
- *      @include span-columns(6);
- *     }
- *   }
- *
- * @example css - CSS Output
- *   .right-to-left-block {
- *     float: right;
- *      ...
- *   }
- */
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 /**
  * 1. Set default font family to sans-serif.
@@ -1080,7 +647,7 @@ input:hover {
 .btn {
   padding: 5px 10px; }
 
-#home-menu {
+#mainmenu {
   display: -webkit-box;
   display: -moz-box;
   display: box;
@@ -1115,14 +682,14 @@ input:hover {
   -ms-flex-pack: center;
   height: 100vh;
   width: 100vw; }
-  #home-menu .snake-contain {
+  #mainmenu .snake-contain {
     padding: 25px; }
-  #home-menu .items {
+  #mainmenu .items {
     text-align: center; }
-    #home-menu .items li {
+    #mainmenu .items li {
       display: inline-block;
       width: 49%; }
-      #home-menu .items li a {
+      #mainmenu .items li a {
         padding: 3px 10px;
         border: 1px solid #f0f0f0;
         text-transform: uppercase;
@@ -1133,7 +700,7 @@ input:hover {
         -webkit-transition: border 0.25s ease-in-out;
         -moz-transition: border 0.25s ease-in-out;
         transition: border 0.25s ease-in-out; }
-        #home-menu .items li a:hover {
+        #mainmenu .items li a:hover {
           border: 1px solid #ccc; }
 
 .full-screen {
@@ -1174,8 +741,8 @@ header {
   #lobby .active-games {
     float: left;
     display: block;
-    margin-right: 2.3576515979%;
-    width: 23.2317613015%;
+    margin-right: 2.35765%;
+    width: 23.23176%;
     height: 100%;
     margin-right: 0;
     background: #71C671;
@@ -1203,8 +770,8 @@ header {
   #lobby .chat-area {
     float: left;
     display: block;
-    margin-right: 2.3576515979%;
-    width: 74.4105871005%;
+    margin-right: 2.35765%;
+    width: 74.41059%;
     height: 100%;
     width: 76.765%; }
     #lobby .chat-area:last-child {
@@ -1235,8 +802,8 @@ header {
     #lobby .chat-input input {
       float: left;
       display: block;
-      margin-right: 2.3576515979%;
-      width: 91.4701957002%;
+      margin-right: 2.35765%;
+      width: 91.4702%;
       resize: none;
       margin-right: 0;
       border-radius: 0;
@@ -1247,8 +814,8 @@ header {
     #lobby .chat-input a {
       float: left;
       display: block;
-      margin-right: 2.3576515979%;
-      width: 6.1721527019%;
+      margin-right: 2.35765%;
+      width: 6.17215%;
       background: #333;
       color: white;
       padding: 8px 0%;
@@ -1259,3 +826,5 @@ header {
         margin-right: 0; }
       #lobby .chat-input a:hover {
         background: #444; }
+
+/*# sourceMappingURL=snake.css.map */

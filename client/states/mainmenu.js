@@ -3,7 +3,7 @@ module.exports = function (states) {
 
 	var state = {}
 
-	var elem = document.getElementById('home-menu')
+	var elem = document.getElementById('mainmenu')
 	var btn1 = document.getElementById('singleplayer-btn')
 	var btn2 = document.getElementById('multiplayer-btn')
 

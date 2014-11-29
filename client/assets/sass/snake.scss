@@ -1,7 +1,7 @@
-@import 'bourbon';
-@import 'neat';
-@import 'base/base';
 
+@import 'bourbon/bourbon';
+@import 'neat/neat';
+@import 'base/base';
 
 $green: #71C671;
 
@@ -63,7 +63,7 @@ input:hover {
 }
 
 // Menu Page
-#home-menu {
+#mainmenu {
 	@include display(flex);
 	@include align-items(center);
 	@include flex-direction(row);
