@@ -647,6 +647,10 @@ input:hover {
 .btn {
   padding: 5px 10px; }
 
+.game {
+  width: 100%;
+  height: 800px; }
+
 #mainmenu {
   display: -webkit-box;
   display: -moz-box;
@@ -702,10 +706,6 @@ input:hover {
         transition: border 0.25s ease-in-out; }
         #mainmenu .items li a:hover {
           border: 1px solid #ccc; }
-
-.full-screen {
-  width: 100vw;
-  height: 100vh; }
 
 header {
   margin-top: 10vh;

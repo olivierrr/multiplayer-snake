@@ -77,7 +77,7 @@ Renderer.prototype.draw = function(model) {
 	ctx.clearRect(0, 0, this.width, this.height)
 
 	var BLOCKS = {
-		0: '#2D2D2D', // 'empty'
+		0: '#F3F3F3', // 'empty'
 		1: '#0070B2', // 'user'
 		2: '#2EE046'  // 'food'
 	}
