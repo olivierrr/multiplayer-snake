@@ -14,6 +14,9 @@ module.exports = function () {
       joinRoom_response: function (data) {
         console.log(data)
       },
+      userCount_response: function (data) {
+        console.log(data)
+      },
       pulse: function (data) {
         console.log(data)
       }

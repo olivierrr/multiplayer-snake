@@ -8,7 +8,7 @@ module.exports = function (states) {
 	var btn2 = document.getElementById('multiplayer-btn')
 
 	btn1.addEventListener('click', states.go.bind(states, 'singleplayer'))
-	btn2.addEventListener('click', states.go.bind(states, 'multiplayer'))
+	btn2.addEventListener('click', states.go.bind(states, 'multiplayer-lobby'))
 
 	state.create = function () {
 		elem.className = ''

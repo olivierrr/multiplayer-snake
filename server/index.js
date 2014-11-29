@@ -45,6 +45,9 @@ cloak.configure({
     leaveRoom: function (data, user) {
       user.leaveRoom()
     },
+    userCount: function (data, user) {
+      user.message('userCount_response', cloak.userCount())
+    },
     keyPress: function (data, user) {
       var room = user.getRoom()
       console.log(data)
@@ -59,14 +62,14 @@ cloak.configure({
       this.data.game = new Game(30)
     },
     pulse: function () {
-      this.game.update()
+      //this.game.update()
       this.messageMembers('pulse', {model: this.data.game.model})
     },
     newMember: function (user) {
       user.message('pulse', {model: this.data.game.model})
     },
     memberLeaves: function (user) {
-      
+
     },
     close: function () {
       

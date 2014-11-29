@@ -716,15 +716,15 @@ header {
     header .btn-home:hover {
       color: #43a743; }
 
-.game-stats {
+.lobby-stats {
   text-align: center; }
-  .game-stats li {
+  .lobby-stats li {
     display: inline-block;
     margin-left: 25px;
     font-size: 0.875em; }
-    .game-stats li:first-of-type {
+    .lobby-stats li:first-of-type {
       margin-left: 0; }
-    .game-stats li .stat {
+    .lobby-stats li .stat {
       font-weight: bold;
       text-transform: uppercase;
       font-size: 0.8125em;
@@ -754,15 +754,15 @@ header {
       position: absolute;
       bottom: 0;
       width: 100%; }
-    #lobby .active-games .game-list {
+    #lobby .active-games .room-list {
       margin-left: 15px;
       padding: 10px;
       height: 80%;
       overflow: auto; }
-      #lobby .active-games .game-list li {
+      #lobby .active-games .room-list li {
         padding: 5px 0;
         border-bottom: 1px solid #95d595; }
-        #lobby .active-games .game-list li a {
+        #lobby .active-games .room-list li a {
           color: white;
           text-transform: uppercase;
           font-weight: bold;
