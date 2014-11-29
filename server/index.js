@@ -21,7 +21,10 @@ cloak.configure({
     changeUsername: function (data, user) {
       if(!data || !data.newUsername) return
       var success = (cloak.getUsers().indexOf(data.newUsername) < 0)
-      if(success) user.name = data.newUsername
+      if(success) {
+        user.getRoom().messageMembers('chat', {flag: 'usernameChange', msg: user.name + ' is now ' + data.newUsername})
+        user.name = data.newUsername
+      }
       user.message('changeUsername_response', {success: success})
     },
     listRooms: function (data, user) {

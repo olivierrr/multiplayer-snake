@@ -17,49 +17,25 @@ module.exports = function (states) {
     sendChatMsg()
   })
 
-  // awfull!
   function sendChatMsg () {
     var msg = $inputMsg.value.trim()
-    if(msg === '') return
 
-    else if(msg[0] === '/') {
-
-      msg = msg.split(/\s+/)
-      if(msg[0] === '/create' && msg[1]) createRoom(msg[1])
-      else if(msg[0] === '/join' && msg[1]) joinRoom(msg[1])
-      else if(msg[0] === '/nick' && msg[1]) changeUsername(msg[1])
-
-    } else {
-      cloak.message('chat', msg)
-    }
-
+    if(msg === '' || msg.length > 255) return
+    else if(msg[0] === '/') commands(msg)
+    else cloak.message('chat', msg)
 
     $inputMsg.value = ''
   }
 
-  function assembleMessage (flag, data) {
-    var msg = '', name = ''
+  function commands (msg) {
+    msg = msg.split(/\s+/)
+    if(msg[0] === '/create' && msg[1]) createRoom(msg[1])
+    else if(msg[0] === '/join' && msg[1]) joinRoom(msg[1])
+    else if(msg[0] === '/nick' && msg[1]) changeUsername(msg[1])
+  }
 
-    if(!flag) return
-    else if (flag === 'user') msg = data.msg, name = data.name
-    else if (flag === 'joined') msg = 'has joined.', name = data.name
-    else if (flag === 'left') msg = 'has left.', name = data.name
-    else if (flag === 'connecting') msg = 'connecting...', name = 'server'
-    else if (flag === 'connected') msg = 'connected.', name = 'server'
-
+  function renderMessage (name, msg, flag) {
     $chatWindow.innerHTML += '<p class="msg"><span class="user">' + name + ': </span>' + msg + '</p>'
-  }
-
-  function renderRoomList (rooms) {
-    rooms.forEach(function (room) {
-      $roomList.innerHTML = ''
-      $roomList.innerHTML += '<li><a href="#">' + room.name + ' - ' + room.users.length + '/' + room.size +'</a></li>'
-    })
-    $openRoomsCount.innerHTML = rooms.length
-  }
-
-  function renderUsersOnline (count) {
-    $usersOnlineCount.innerHTML = count
   }
 
   function joinRoom (roomId) {
@@ -76,8 +52,16 @@ module.exports = function (states) {
 
   cloak.configure({
     messages: {
-      chat: assembleMessage.bind(null, 'user'),
-      listRooms_response: renderRoomList,
+      chat: function (data) {
+        renderMessage(data.name, data.msg, 'user')
+      },
+      listRooms_response: function (rooms) {
+        rooms.forEach(function (room) {
+          $roomList.innerHTML = ''
+          $roomList.innerHTML += '<li><a href="#">' + room.name + ' - ' + room.users.length + '/' + room.size +'</a></li>'
+        })
+        $openRoomsCount.innerHTML = rooms.length
+      },
       createRoom_response: function (data) {
         if (data.success) console.log('createRoom success')
         else console.log('createRoom failed')
@@ -86,23 +70,27 @@ module.exports = function (states) {
         if (data.success) console.log('joinRoom success')
         else console.log('joinRoom failed')
       },
-      userCount_response: renderUsersOnline,
+      userCount_response: function (count) {
+        $usersOnlineCount.innerHTML = count
+      },
       pulse: function (data) {
-        console.log(data)
+        //console.log(data)
       }
     },
     serverEvents: {
-      connecting: assembleMessage.bind(null, 'connecting'),
+      connecting: function () {
+        renderMessage('server', 'connected', 'server')
+      },
       begin: function () {
         cloak.message('listRooms')
         cloak.message('userCount')
-        assembleMessage('connected')
+        renderMessage('server', 'connected.', 'server')
       },
       resume: function () {
-        console.log('reconnected.')
+        renderMessage('server', 'reconnected.', 'server')
       },
       disconnect: function () {
-        console.log('disconnected.')
+        renderMessage('server', 'disconnected.', 'server')
       },
       end: function () {
         console.log('connection ended.')
@@ -111,19 +99,23 @@ module.exports = function (states) {
         console.log('connection error.')
       },
       joinedRoom: function (roomName) {
-        console.log('joined room', roomName)
+        renderMessage('server', 'You have joined ' + roomName.name, 'server')
       },
       leftRoom: function (roomName) {
-        console.log('left room', roomName)
+        renderMessage('server', 'You have left ' + roomName.name, 'server')
       },
       roomMemberJoined: function (user) {
-        console.log('user joined room', user)
+        renderMessage('server', user.name + ' has joined.', 'server')
       },
       roomMemberLeft: function (user) {
-        console.log('user left room', user)
+        renderMessage('server', user.name + ' has left.', 'server')
       },
-      lobbyMemberJoined: assembleMessage.bind(null, 'joined'),
-      lobbyMemberLeft: assembleMessage.bind(null, 'left'),
+      lobbyMemberJoined: function (user) {
+        renderMessage('server', user.name + ' has joined.', 'server')
+      },
+      lobbyMemberLeft: function (user) {
+        renderMessage('server', user.name + ' has left.', 'server')
+      },
       roomCreated: cloak.message.bind(cloak, 'listRooms'),
       roomDeleted: cloak.message.bind(cloak, 'listRooms')
     }
