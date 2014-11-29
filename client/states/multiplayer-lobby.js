@@ -7,6 +7,20 @@ module.exports = function (states) {
   var $roomList = $elem.querySelector('.room-list')
   var $usersOnlineCount = $elem.querySelector('.users-online-count')
   var $openRoomsCount = $elem.querySelector('.open-rooms-count')
+  var $chatWindow = $elem.querySelector('.chat-window')
+  var $sendMsg = $elem.querySelector('.send-msg')
+  var $inputMsg = $elem.querySelector('.input-msg')
+
+  $inputMsg.addEventListener('keydown', function (e) { 
+    if(e.keyCode === 13) sendChatMsg()
+  })
+  $sendMsg.addEventListener('click', function (e) {
+    sendChatMsg()
+  })
+  function sendChatMsg () {
+    cloak.message('chat', $inputMsg.value)
+    $inputMsg.value = ''
+  }
 
   state.create = function () {
     $elem.className = ''
@@ -17,14 +31,15 @@ module.exports = function (states) {
 
       cloak._on('message-userCount_response', renderUsersOnline)
       cloak._on('message-listRooms_response', renderRoomList)
+      cloak._on('message-chat', appendChatMsg)
       cloak._on('cloak-roomCreated', cloak.message.bind(cloak, 'listRooms'))
 
       cloak.message('listRooms')
       cloak.message('userCount')
     })
 
-    function fetchRoomList () {
-
+    function appendChatMsg (data) {
+      $chatWindow.innerHTML += '<p class="msg"><span class="user">' + data.username + ': </span>' + data.msg + '</p>'
     }
 
     function renderRoomList (rooms) {

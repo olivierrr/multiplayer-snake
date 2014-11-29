@@ -16,7 +16,7 @@ cloak.configure({
   notifyRoomChanges: true,
   messages: {
     chat: function (msg, user) {
-      user.getRoom().messageMembers('chat', msg)
+      user.getRoom().messageMembers('chat', {username: user.name, msg: msg})
     },
     changeUsername: function (data, user) {
       if(!data || !data.newUsername) return
