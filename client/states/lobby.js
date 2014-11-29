@@ -28,7 +28,6 @@ module.exports = function (states) {
     cloak.run('http://localhost:9001')
 
     cloak._on('cloak-begin', function () {
-
       cloak._on('message-userCount_response', renderUsersOnline)
       cloak._on('message-listRooms_response', renderRoomList)
       cloak._on('message-chat', assembleMessage.bind(null,null))
@@ -36,21 +35,21 @@ module.exports = function (states) {
       cloak._on('cloak-roomDeleted', cloak.message.bind(cloak, 'listRooms'))
       cloak._on('cloak-lobbyMemberJoined', assembleMessage.bind(null, 'joined'))
       cloak._on('cloak-lobbyMemberLeft', assembleMessage.bind(null, 'left'))
-
       cloak.message('listRooms')
       cloak.message('userCount')
     })
 
     function assembleMessage (flag, data) {
-      var obj
+      var msg = ''
 
-      console.log(data)
+      if(!flag) msg = data.msg
+      else if (flag === 'joined') msg = 'has joined.'
+      else if (flag === 'left') msg = 'has left.'
 
-      if(!flag) obj = { name: data.name, msg: data.msg }
-      else if (flag === 'joined') obj = { name: data.name, msg: 'has joined.'}
-      else if (flag === 'left') obj = { name: data.name, msg: 'has left.'}
-
-      appendChatMsg(obj)
+      appendChatMsg({
+        name: data.name,
+        msg: msg
+      })
     }
 
     function appendChatMsg (data) {

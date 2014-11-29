@@ -80,7 +80,11 @@ cloak.configure({
       console.log('lobby init')
     },
     pulse: function () {
-      console.log('what')
+      this.pulseCounter ? this.pulseCounter+=1 : this.pulseCounter=1
+      if(this.pulseCounter%10===0) this.messageMembers('userCount_response', cloak.userCount())
+    },
+    newMember: function (user) {
+      if(user.name === 'Nameless User') user.name = 'snake#' + user.id.slice(0,6)
     }
   }
 }) 
