@@ -31,15 +31,30 @@ module.exports = function (states) {
 
       cloak._on('message-userCount_response', renderUsersOnline)
       cloak._on('message-listRooms_response', renderRoomList)
-      cloak._on('message-chat', appendChatMsg)
+      cloak._on('message-chat', assembleMessage.bind(null,null))
       cloak._on('cloak-roomCreated', cloak.message.bind(cloak, 'listRooms'))
+      cloak._on('cloak-roomDeleted', cloak.message.bind(cloak, 'listRooms'))
+      cloak._on('cloak-lobbyMemberJoined', assembleMessage.bind(null, 'joined'))
+      cloak._on('cloak-lobbyMemberLeft', assembleMessage.bind(null, 'left'))
 
       cloak.message('listRooms')
       cloak.message('userCount')
     })
 
+    function assembleMessage (flag, data) {
+      var obj
+
+      console.log(data)
+
+      if(!flag) obj = { name: data.name, msg: data.msg }
+      else if (flag === 'joined') obj = { name: data.name, msg: 'has joined.'}
+      else if (flag === 'left') obj = { name: data.name, msg: 'has left.'}
+
+      appendChatMsg(obj)
+    }
+
     function appendChatMsg (data) {
-      $chatWindow.innerHTML += '<p class="msg"><span class="user">' + data.username + ': </span>' + data.msg + '</p>'
+      $chatWindow.innerHTML += '<p class="msg"><span class="user">' + data.name + ': </span>' + data.msg + '</p>'
     }
 
     function renderRoomList (rooms) {

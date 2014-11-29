@@ -16,7 +16,7 @@ cloak.configure({
   notifyRoomChanges: true,
   messages: {
     chat: function (msg, user) {
-      user.getRoom().messageMembers('chat', {username: user.name, msg: msg})
+      user.getRoom().messageMembers('chat', {name: user.name, msg: msg})
     },
     changeUsername: function (data, user) {
       if(!data || !data.newUsername) return
@@ -79,11 +79,8 @@ cloak.configure({
     init: function () {
       console.log('lobby init')
     },
-    newMember: function (user) {
-      console.log('new member lobby')
-    },
-    memberLeaves: function () {
-      console.log('member leaves lobby') 
+    pulse: function () {
+      console.log('what')
     }
   }
 }) 
