@@ -41,10 +41,14 @@ Grid2d.prototype.clearGrid = function (){
 /**
  * @method
  */
-Grid2d.prototype.update = function (){
+Grid2d.prototype.update = function (entities){
   this.events.emit('pre-update')
-  this.events.emit('update')
-  this.events.emit('post-update')
+
+  var temp = grid
+
+  entities.forEach(function (entity) {
+    if(entity) ''
+  })
 }
 
 module.exports = Grid2d

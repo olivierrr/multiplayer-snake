@@ -50,7 +50,6 @@ cloak.configure({
     },
     keyPress: function (data, user) {
       var room = user.getRoom()
-      console.log(data)
     },
     spawn: function (data, user) {
       var room = user.getRoom()

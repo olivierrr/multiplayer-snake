@@ -1,8 +1,6 @@
 
 module.exports = function (states) {
 
-  var state = {}
-
   var $elem = document.querySelector('#lobby')
   var $roomList = $elem.querySelector('.room-list')
   var $usersOnlineCount = $elem.querySelector('.users-online-count')
@@ -22,80 +20,100 @@ module.exports = function (states) {
     $inputMsg.value = ''
   }
 
-  state.create = function () {
-    $elem.className = ''
+  function assembleMessage (flag, data) {
+    var msg = ''
 
-    cloak.run('http://localhost:9001')
+    if(!flag) msg = data.msg
+    else if (flag === 'joined') msg = 'has joined.'
+    else if (flag === 'left') msg = 'has left.'
 
-    cloak._on('cloak-begin', function () {
-      cloak._on('message-userCount_response', renderUsersOnline)
-      cloak._on('message-listRooms_response', renderRoomList)
-      cloak._on('message-chat', assembleMessage.bind(null,null))
-      cloak._on('cloak-roomCreated', cloak.message.bind(cloak, 'listRooms'))
-      cloak._on('cloak-roomDeleted', cloak.message.bind(cloak, 'listRooms'))
-      cloak._on('cloak-lobbyMemberJoined', assembleMessage.bind(null, 'joined'))
-      cloak._on('cloak-lobbyMemberLeft', assembleMessage.bind(null, 'left'))
-      cloak.message('listRooms')
-      cloak.message('userCount')
-    })
-
-    function assembleMessage (flag, data) {
-      var msg = ''
-
-      if(!flag) msg = data.msg
-      else if (flag === 'joined') msg = 'has joined.'
-      else if (flag === 'left') msg = 'has left.'
-
-      appendChatMsg({
-        name: data.name,
-        msg: msg
-      })
-    }
-
-    function appendChatMsg (data) {
-      $chatWindow.innerHTML += '<p class="msg"><span class="user">' + data.name + ': </span>' + data.msg + '</p>'
-    }
-
-    function renderRoomList (rooms) {
-      rooms.forEach(function (room) {
-        $roomList.innerHTML = ''
-        $roomList.innerHTML += '<li><a href="#">' + room.name + ' - ' + room.users.length + '/' + room.size +'</a></li>'
-      })
-      $openRoomsCount.innerHTML = rooms.length
-    }
-
-    function renderUsersOnline (count) {
-      $usersOnlineCount.innerHTML = count
-    }
-
-    function joinRoom (roomId) {
-      cloak.message('joinRoom')
-      cloak._on('message-joinRoom_response', function (data) {
-        if (data.success) {
-          states.go('multiplayer')
-        } else {
-          console.log('joinRoom failed')
-        }
-      })
-    }
-
-    function createRoom (roomName) {
-      cloak.message('createRoom', {roomName: roomName})
-      cloak._on('message-createRoom_response', function (data) {
-        if (data.success) {
-          states.go('multiplayer')
-        } else {
-          console.log('createRoom failed')
-        }
-      })
-    }
-
+    $chatWindow.innerHTML += '<p class="msg"><span class="user">' + data.name + ': </span>' + msg + '</p>'
   }
 
+  function renderRoomList (rooms) {
+    rooms.forEach(function (room) {
+      $roomList.innerHTML = ''
+      $roomList.innerHTML += '<li><a href="#">' + room.name + ' - ' + room.users.length + '/' + room.size +'</a></li>'
+    })
+    $openRoomsCount.innerHTML = rooms.length
+  }
+
+  function renderUsersOnline (count) {
+    $usersOnlineCount.innerHTML = count
+  }
+
+  function joinRoom (roomId) {
+    cloak.message('joinRoom', {roomId: roomId})
+  }
+
+  function createRoom (roomName) {
+    cloak.message('createRoom', {roomName: roomName})
+  }
+
+  cloak.configure({
+    messages: {
+      chat: assembleMessage.bind(null,null),
+      listRooms_response: renderRoomList,
+      createRoom_response: function (data) {
+        if (data.success) console.log('createRoom success')
+        else console.log('createRoom failed')
+      },
+      joinRoom_response: function (data) {
+        if (data.success) console.log('joinRoom success')
+        else console.log('joinRoom failed')
+      },
+      userCount_response: renderUsersOnline,
+      pulse: function (data) {
+        console.log(data)
+      }
+    },
+    serverEvents: {
+      connecting: function () {
+        console.log('connecting...')
+      },
+      begin: function () {
+        cloak.message('listRooms')
+        cloak.message('userCount')
+      },
+      resume: function () {
+        console.log('reconnected.')
+      },
+      disconnect: function () {
+        console.log('disconnected.')
+      },
+      end: function () {
+        console.log('connection ended.')
+      },
+      error: function () {
+        console.log('connection error.')
+      },
+      joinedRoom: function (roomName) {
+        console.log('joined room', roomName)
+      },
+      leftRoom: function (roomName) {
+        console.log('left room', roomName)
+      },
+      roomMemberJoined: function (user) {
+        console.log('user joined room', user)
+      },
+      roomMemberLeft: function (user) {
+        console.log('user left room', user)
+      },
+      lobbyMemberJoined: assembleMessage.bind(null, 'joined'),
+      lobbyMemberLeft: assembleMessage.bind(null, 'left'),
+      roomCreated: cloak.message.bind(cloak, 'listRooms'),
+      roomDeleted: cloak.message.bind(cloak, 'listRooms')
+    }
+  })
+
+  var state = {}
+  state.create = function () {
+    $elem.className = ''
+    cloak.run('http://localhost:9001')
+  }
   state.destroy = function () {
     $elem.className = 'hidden'
   }
-
   return state
 
 }

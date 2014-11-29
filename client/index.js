@@ -1,14 +1,9 @@
 
-;(function(){
+var states = require('state-manager').create()
 
-  require('./cloak-config')()
+states.add('mainmenu', require('./states/mainmenu')(states))
+states.add('singleplayer', require('./states/singleplayer')(states))
+states.add('multiplayer', require('./states/multiplayer')(states))
+states.add('multiplayer-lobby', require('./states/lobby')(states))
 
-	var states = require('state-manager').create()
-	states.add('mainmenu', require('./states/mainmenu')(states))
-	states.add('singleplayer', require('./states/singleplayer')(states))
-	states.add('multiplayer', require('./states/multiplayer')(states))
-  states.add('multiplayer-lobby', require('./states/lobby')(states))
-
-	states.go('mainmenu')
-
-})()
+states.go('mainmenu')
