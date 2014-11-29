@@ -126,7 +126,6 @@ header {
 .lobby-stats {
 	text-align: center;
 
-	
 	li {
 		display: inline-block;
 		margin-left: 25px;
@@ -156,7 +155,7 @@ header {
 	}
 
 	.active-games {
-		@include span-columns(3);
+		@include span-columns(9);
 		height: 100%;
 		margin-right: 0;
 		background: $green;
@@ -191,9 +190,8 @@ header {
 	}
 
 	.chat-area {
-		@include span-columns(9);
+		@include span-columns(3);
 		height: 100%;
-		width: 76.765%;
 
 		.chat-window {
 			height: 95%;
@@ -223,8 +221,7 @@ header {
 
 	.chat-input {
 		@include row();
-		margin-top: 2px;
-		height: 4%;
+		height: 5%;
 
 		input {
 			@include span-columns(11);	

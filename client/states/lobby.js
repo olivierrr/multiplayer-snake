@@ -12,22 +12,42 @@ module.exports = function (states) {
   $inputMsg.addEventListener('keydown', function (e) { 
     if(e.keyCode === 13) sendChatMsg()
   })
+
   $sendMsg.addEventListener('click', function (e) {
     sendChatMsg()
   })
+
+  // awfull!
   function sendChatMsg () {
-    cloak.message('chat', $inputMsg.value)
+    var msg = $inputMsg.value.trim()
+    if(msg === '') return
+
+    else if(msg[0] === '/') {
+
+      msg = msg.split(/\s+/)
+      if(msg[0] === '/create' && msg[1]) createRoom(msg[1])
+      else if(msg[0] === '/join' && msg[1]) joinRoom(msg[1])
+      else if(msg[0] === '/nick' && msg[1]) changeUsername(msg[1])
+
+    } else {
+      cloak.message('chat', msg)
+    }
+
+
     $inputMsg.value = ''
   }
 
   function assembleMessage (flag, data) {
-    var msg = ''
+    var msg = '', name = ''
 
-    if(!flag) msg = data.msg
-    else if (flag === 'joined') msg = 'has joined.'
-    else if (flag === 'left') msg = 'has left.'
+    if(!flag) return
+    else if (flag === 'user') msg = data.msg, name = data.name
+    else if (flag === 'joined') msg = 'has joined.', name = data.name
+    else if (flag === 'left') msg = 'has left.', name = data.name
+    else if (flag === 'connecting') msg = 'connecting...', name = 'server'
+    else if (flag === 'connected') msg = 'connected.', name = 'server'
 
-    $chatWindow.innerHTML += '<p class="msg"><span class="user">' + data.name + ': </span>' + msg + '</p>'
+    $chatWindow.innerHTML += '<p class="msg"><span class="user">' + name + ': </span>' + msg + '</p>'
   }
 
   function renderRoomList (rooms) {
@@ -50,9 +70,13 @@ module.exports = function (states) {
     cloak.message('createRoom', {roomName: roomName})
   }
 
+  function changeUsername (newUsername) {
+    cloak.message('changeUsername', {newUsername: newUsername})
+  }
+
   cloak.configure({
     messages: {
-      chat: assembleMessage.bind(null,null),
+      chat: assembleMessage.bind(null, 'user'),
       listRooms_response: renderRoomList,
       createRoom_response: function (data) {
         if (data.success) console.log('createRoom success')
@@ -68,12 +92,11 @@ module.exports = function (states) {
       }
     },
     serverEvents: {
-      connecting: function () {
-        console.log('connecting...')
-      },
+      connecting: assembleMessage.bind(null, 'connecting'),
       begin: function () {
         cloak.message('listRooms')
         cloak.message('userCount')
+        assembleMessage('connected')
       },
       resume: function () {
         console.log('reconnected.')
@@ -106,14 +129,15 @@ module.exports = function (states) {
     }
   })
 
-  var state = {}
-  state.create = function () {
-    $elem.className = ''
-    cloak.run('http://localhost:9001')
+  return {
+    create: function () {
+      $elem.className = ''
+      cloak.run('http://localhost:9001')
+    },
+    destroy: function () {
+      $elem.className = 'hidden'
+      cloak.stop()
+    }
   }
-  state.destroy = function () {
-    $elem.className = 'hidden'
-  }
-  return state
 
 }

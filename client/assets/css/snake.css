@@ -742,7 +742,7 @@ header {
     float: left;
     display: block;
     margin-right: 2.35765%;
-    width: 23.23176%;
+    width: 74.41059%;
     height: 100%;
     margin-right: 0;
     background: #71C671;
@@ -771,9 +771,8 @@ header {
     float: left;
     display: block;
     margin-right: 2.35765%;
-    width: 74.41059%;
-    height: 100%;
-    width: 76.765%; }
+    width: 23.23176%;
+    height: 100%; }
     #lobby .chat-area:last-child {
       margin-right: 0; }
     #lobby .chat-area .chat-window {
@@ -793,8 +792,7 @@ header {
           font-weight: bold; }
   #lobby .chat-input {
     display: block;
-    margin-top: 2px;
-    height: 4%; }
+    height: 5%; }
     #lobby .chat-input:after {
       content: "";
       display: table;
