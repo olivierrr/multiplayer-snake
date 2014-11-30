@@ -3,8 +3,9 @@ module.exports = function (states) {
 
   window.addEventListener('hashchange', resolveLocation)
   function resolveLocation () {
-    var roomId = document.location.hash.split('/')[1]
-    if(roomId) cloak.message('joinRoom', {roomId: roomId})
+    var location = document.location.hash.split('/')
+    if(location[1]) cloak.message('joinRoom', {roomId: location[1]})
+    else if(location[0] === '#multiplayer') cloak.message('joinLobby')
   }
 
   var $elem = document.querySelector('#multiplayer')
@@ -96,6 +97,7 @@ module.exports = function (states) {
         cloak.message('listRooms')
         cloak.message('userCount')
         renderMessage('server', 'connected.', 'server')
+        cloak.message('joinLobby')
       },
       resume: function () {
         renderMessage('server', 'reconnected.', 'server')

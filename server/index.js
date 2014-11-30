@@ -7,7 +7,7 @@ cloak.configure({
   port: 9001,
   gameLoopSpeed: 100,
   defaultRoomSize: 10,
-  autoJoinLobby: true,
+  autoJoinLobby: false,
   autoCreateRooms: false,
   minRoomMembers: null,
   pruneEmptyRooms: null,
@@ -46,6 +46,9 @@ cloak.configure({
     },
     leaveRoom: function (data, user) {
       user.leaveRoom()
+    },
+    joinLobby: function (data, user) {
+      cloak.getLobby().addMember(user)
     },
     userCount: function (data, user) {
       user.message('userCount_response', cloak.userCount())
