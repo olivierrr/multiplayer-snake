@@ -9,7 +9,7 @@ cloak.configure({
   defaultRoomSize: 10,
   autoJoinLobby: true,
   autoCreateRooms: false,
-  minRoomMembers: 1,
+  minRoomMembers: null,
   pruneEmptyRooms: null,
   reconnectWaitRoomless: null,
   roomLife: null,
@@ -22,10 +22,12 @@ cloak.configure({
       if(!data || !data.newUsername) return
       var success = (cloak.getUsers().indexOf(data.newUsername) < 0)
       if(success) {
-        user.getRoom().messageMembers('chat', {flag: 'usernameChange', msg: user.name + ' is now ' + data.newUsername})
+        user.getRoom().messageMembers('chat', {flag: 'usernameChange', msg: user.name + ' is now ' + data.newUsername}) // < fix.
         user.name = data.newUsername
+        user.message('changeUsername_response', {newUsername: user.name})
+      } else {
+        user.message('changeUsername_failed')
       }
-      user.message('changeUsername_response', {success: success})
     },
     listRooms: function (data, user) {
       user.message('listRooms_response', cloak.getRooms(true))
@@ -33,17 +35,14 @@ cloak.configure({
     createRoom: function (data, user) {
       if(!data || !data.roomName) return
       var room = cloak.createRoom(data.roomName, data.roomSize)
-      var success = room.addMember(user)
-      user.message('createRoom_response', {
-        success: success,
-        roomId: room.id
-      })
+      if(room && room.id) user.message('createRoom_response', {roomId: room.id})
+      else user.message('createRoom_failed')
     },
     joinRoom: function (data, user) {
       if(!data || !data.roomId) return
       var room = cloak.getRoom(data.roomId)
       if(room) room.addMember(user)
-      user.message('joinRoom_response', {success: !!room})
+      else user.message('joinRoom_failed')
     },
     leaveRoom: function (data, user) {
       user.leaveRoom()
@@ -92,3 +91,9 @@ cloak.configure({
 }) 
 
 cloak.run()
+
+// temp
+cloak.createRoom('main room')
+cloak.createRoom('no gurls allowed!11')
+cloak.createRoom('another room')
+cloak.createRoom('bad dudes only')

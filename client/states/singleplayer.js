@@ -10,8 +10,6 @@ module.exports = function (states) {
   var $elem = document.querySelector('#singleplayer')
   var $canvasContainer = $elem.querySelector('.game')
 
-  console.log($canvasContainer.getBoundingClientRect())
-
   var game = new Game(30)
   var userInput = new UserInput()
   var renderer
@@ -36,17 +34,16 @@ module.exports = function (states) {
   return {
     create: function () {
       $elem.className = ''
-
       renderer = new Renderer($canvasContainer)
       isLooping = true
-      window.s = game.snakes[0]
-      s.spawn({x: 2, y: 2, direction: 'right'})
+      game.snakes[0].spawn({x: 2, y: 2, direction: 'right'})
       loop()
     },
     destroy: function () {
       isLooping = false
-      $elem.className = 'hidden'
+      renderer = null
       $canvasContainer.innerHTML = ''
+      $elem.className = 'hidden'
     }
   }
 }

@@ -1,6 +1,12 @@
 
 module.exports = function (states) {
 
+  window.addEventListener('hashchange', resolveLocation)
+  function resolveLocation () {
+    var roomId = document.location.hash.split('/')[1]
+    if(roomId) cloak.message('joinRoom', {roomId: roomId})
+  }
+
   var $elem = document.querySelector('#lobby')
   var $roomList = $elem.querySelector('.room-list')
   var $usersOnlineCount = $elem.querySelector('.users-online-count')
@@ -30,16 +36,11 @@ module.exports = function (states) {
   function commands (msg) {
     msg = msg.split(/\s+/)
     if(msg[0] === '/create' && msg[1]) createRoom(msg[1])
-    else if(msg[0] === '/join' && msg[1]) joinRoom(msg[1])
     else if(msg[0] === '/nick' && msg[1]) changeUsername(msg[1])
   }
 
   function renderMessage (name, msg, flag) {
     $chatWindow.innerHTML += '<p class="msg"><span class="user">' + name + ': </span>' + msg + '</p>'
-  }
-
-  function joinRoom (roomId) {
-    cloak.message('joinRoom', {roomId: roomId})
   }
 
   function createRoom (roomName) {
@@ -56,22 +57,30 @@ module.exports = function (states) {
         renderMessage(data.name, data.msg, 'user')
       },
       listRooms_response: function (rooms) {
+        $roomList.innerHTML = ''
         rooms.forEach(function (room) {
-          $roomList.innerHTML = ''
-          $roomList.innerHTML += '<li><a href="#">' + room.name + ' - ' + room.users.length + '/' + room.size +'</a></li>'
+          $roomList.innerHTML += '<li><a href="#multiplayer/' + room.id + '">' + room.name + ' - ' + room.users.length + '/' + room.size +'</a></li>'
         })
         $openRoomsCount.innerHTML = rooms.length
       },
       createRoom_response: function (data) {
-        if (data.success) console.log('createRoom success')
-        else console.log('createRoom failed')
+        document.location.hash = '#multiplayer/' + data.roomId
       },
-      joinRoom_response: function (data) {
-        if (data.success) console.log('joinRoom success')
-        else console.log('joinRoom failed')
+      createRoom_failed: function (data) {
+        renderMessage('server', 'room creation failed', 'server')
+      },
+      joinRoom_failed: function (data) {
+        document.location.hash = '#multiplayer'
+        renderMessage('server', 'failed to join room', 'server')
       },
       userCount_response: function (count) {
         $usersOnlineCount.innerHTML = count
+      },
+      changeUsername_response: function (data) {
+        renderMessage('server', 'you are now: ' + data.newUsername, 'server')
+      },
+      changeUsername_failed: function () {
+        renderMessage('server', 'username change failed.', 'server')
       },
       pulse: function (data) {
         //console.log(data)
