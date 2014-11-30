@@ -4,8 +4,10 @@ module.exports = function (states) {
   window.addEventListener('hashchange', resolveLocation)
   function resolveLocation () {
     var location = document.location.hash.split('/')
-    if(location[1]) cloak.message('joinRoom', {roomId: location[1]})
-    else if(location[0] === '#multiplayer') cloak.message('joinLobby')
+    if(location[0] === '#multiplayer') {
+      if(location[1]) cloak.message('joinRoom', {roomId: location[1]})
+      else cloak.message('joinLobby')
+    }
   }
 
   var $elem = document.querySelector('#multiplayer')
@@ -15,6 +17,8 @@ module.exports = function (states) {
   var $chatWindow = $elem.querySelector('.chat-window')
   var $sendMsg = $elem.querySelector('.send-msg')
   var $inputMsg = $elem.querySelector('.input-msg')
+  var $lobby = $elem.querySelector('#lobby-area') 
+  var $game = $elem.querySelector('#game-area')
 
   $inputMsg.addEventListener('keydown', function (e) { 
     if(e.keyCode === 13) sendChatMsg()
@@ -54,6 +58,10 @@ module.exports = function (states) {
     cloak.message('changeUsername', {newUsername: newUsername})
   }
 
+  function quoteize (str) {
+    return '"' + str + '"'
+  }
+
   cloak.configure({
     messages: {
       chat: function (data) {
@@ -80,7 +88,7 @@ module.exports = function (states) {
         $usersOnlineCount.innerHTML = count
       },
       changeUsername_response: function (data) {
-        renderMessage('server', 'you are now: ' + data.newUsername, 'server')
+        renderMessage('server', 'you are now: ' + quoteize(data.newUsername), 'server')
       },
       changeUsername_failed: function () {
         renderMessage('server', 'username change failed.', 'server')
@@ -111,23 +119,30 @@ module.exports = function (states) {
       error: function () {
         console.log('connection error.')
       },
-      joinedRoom: function (roomName) {
-        renderMessage('server', 'You have joined ' + roomName.name, 'server')
+      joinedRoom: function (room) {
+        renderMessage('server', 'You have joined ' + quoteize(room.name), 'server')
+        if(room.name === 'Lobby') {
+          $lobby.className = ''
+          $game.className = 'hidden'
+        } else {
+          $game.className = ''
+          $lobby.className = 'hidden'
+        }
       },
-      leftRoom: function (roomName) {
-        renderMessage('server', 'You have left ' + roomName.name, 'server')
+      leftRoom: function (room) {
+        renderMessage('server', 'You have left ' + quoteize(room.name), 'server')
       },
       roomMemberJoined: function (user) {
-        renderMessage('server', user.name + ' has joined.', 'server')
+        renderMessage('server', quoteize(user.name) + ' has joined.', 'server')
       },
       roomMemberLeft: function (user) {
-        renderMessage('server', user.name + ' has left.', 'server')
+        renderMessage('server', quoteize(user.name) + ' has left.', 'server')
       },
       lobbyMemberJoined: function (user) {
-        renderMessage('server', user.name + ' has joined.', 'server')
+        renderMessage('server', quoteize(user.name) + ' has joined.', 'server')
       },
       lobbyMemberLeft: function (user) {
-        renderMessage('server', user.name + ' has left.', 'server')
+        renderMessage('server', quoteize(user.name) + ' has left.', 'server')
       },
       roomCreated: cloak.message.bind(cloak, 'listRooms'),
       roomDeleted: cloak.message.bind(cloak, 'listRooms')

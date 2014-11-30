@@ -730,24 +730,24 @@ header {
     float: left;
     width: 75%;
     height: 100%; }
-    #multiplayer .swap-area .active-games {
+    #multiplayer .swap-area #lobby-area {
       width: 100%;
       height: 100%;
       background: #71C671;
       border-right: 2px dashed #fff;
       position: relative; }
-      #multiplayer .swap-area .active-games .bottom {
+      #multiplayer .swap-area #lobby-area .bottom {
         position: absolute;
         bottom: 0;
         width: 100%; }
-      #multiplayer .swap-area .active-games .room-list {
+      #multiplayer .swap-area #lobby-area .room-list {
         padding: 10px;
         height: 80%;
         overflow: auto; }
-        #multiplayer .swap-area .active-games .room-list li {
+        #multiplayer .swap-area #lobby-area .room-list li {
           padding: 5px 0;
           border-bottom: 1px solid #95d595; }
-          #multiplayer .swap-area .active-games .room-list li a {
+          #multiplayer .swap-area #lobby-area .room-list li a {
             color: white;
             text-transform: uppercase;
             font-weight: bold;
