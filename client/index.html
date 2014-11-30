@@ -31,10 +31,11 @@
       </div>
     </main>
 
-    <main id="lobby" class="hidden">
-      <div class="lobby-area">
-        <aside class="active-games">
+    <main id="multiplayer" class="hidden">
+      <aside class="swap-area">
+        <main class="active-games">
           <ul class="room-list">
+            <!-- rooms are inserted here -->
           </ul>
           <div class="bottom">
             <div class="brand">
@@ -42,27 +43,26 @@
             </div>
             <ul class="lobby-stats">
               <li><span class="stat">Users Online:</span> <span class="users-online-count">0</span></li>
-              <li><span class="stat">Open Rooms:</span> <span class="open-rooms-count">0</span></li>
+              <li><span class="stat">Rooms Online:</span> <span class="open-rooms-count">0</span></li>
             </ul>
-            <a href="/" class="home-btn">Home</a>
           </div>
-        </aside>
-        <section class="chat-area">
-          <div class="chat-window">
-          </div>
-          <div class="chat-input">
-            <input type="text" class="input-msg" name="input-msg"></input>
-            <a href="#" class="send-msg">Send</a>
-          </div>
-        </section>
-      </div>
+        </main>
+        <main class="game hidden">
+          <!-- canvas is inserted here -->
+        </main>
+      </aside>
+      <aside class="chat-area">
+        <div class="chat-window">
+          <!-- messages are inserted here -->
+        </div>
+        <div class="chat-input">
+          <input type="text" class="input-msg" name="input-msg"></input>
+          <a href="#" class="send-msg">Send</a>
+        </div>
+      </aside>
     </main>
 
     <main id="singleplayer" class="hidden">
-      <div class="game"></div>
-    </main>
-
-    <main id="multiplayer" class="hidden">
       <div class="game"></div>
     </main>
 

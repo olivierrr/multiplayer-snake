@@ -7,7 +7,7 @@ module.exports = function (states) {
     if(roomId) cloak.message('joinRoom', {roomId: roomId})
   }
 
-  var $elem = document.querySelector('#lobby')
+  var $elem = document.querySelector('#multiplayer')
   var $roomList = $elem.querySelector('.room-list')
   var $usersOnlineCount = $elem.querySelector('.users-online-count')
   var $openRoomsCount = $elem.querySelector('.open-rooms-count')
@@ -20,6 +20,7 @@ module.exports = function (states) {
   })
 
   $sendMsg.addEventListener('click', function (e) {
+    e.preventDefault()
     sendChatMsg()
   })
 
@@ -41,6 +42,7 @@ module.exports = function (states) {
 
   function renderMessage (name, msg, flag) {
     $chatWindow.innerHTML += '<p class="msg"><span class="user">' + name + ': </span>' + msg + '</p>'
+    $chatWindow.scrollTop = $chatWindow.scrollHeight;
   }
 
   function createRoom (roomName) {
