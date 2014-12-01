@@ -18,11 +18,21 @@ cloak.configure({
     chat: function (msg, user) {
       user.getRoom().messageMembers('chat', {name: user.name, msg: msg})
     },
+    newUser: function (data, user) {
+      var username
+
+      do {
+        username = 'snake' + ~~(Math.random()*1000000) 
+      } while (!isUserNameUnique(username))
+
+      user.name = username
+      user.message('changeUsername_response', {newUsername: user.name})
+    },
     changeUsername: function (data, user) {
       if(!data || !data.newUsername) return
-      var success = (cloak.getUsers().indexOf(data.newUsername) < 0)
-      if(success) {
-        user.getRoom().messageMembers('chat', {flag: 'usernameChange', msg: user.name + ' is now ' + data.newUsername}) // < fix.
+      if(isUserNameUnique(data.newUsername)) {
+        var room = user.getRoom()
+        if(room) room.messageMembers('chat', {flag: 'usernameChange', msg: user.name + ' is now ' + data.newUsername})
         user.name = data.newUsername
         user.message('changeUsername_response', {newUsername: user.name})
       } else {
@@ -67,7 +77,7 @@ cloak.configure({
     },
     pulse: function () {
       //this.game.update()
-      this.messageMembers('pulse', {model: this.data.game.model})
+      this.messageMembers('pulse', this.data.game.model)
     },
     newMember: function (user) {
       user.message('pulse', {model: this.data.game.model})
@@ -76,7 +86,7 @@ cloak.configure({
 
     },
     close: function () {
-      
+
     }
   },
   lobby: {
@@ -88,10 +98,10 @@ cloak.configure({
       if(this.pulseCounter%10===0) this.messageMembers('userCount_response', cloak.userCount())
     },
     newMember: function (user) {
-      if(user.name === 'Nameless User') user.name = 'snake#' + user.id.slice(0,6)
+    
     }
   }
-}) 
+})
 
 cloak.run()
 
@@ -100,3 +110,7 @@ cloak.createRoom('main room')
 cloak.createRoom('no gurls allowed!11')
 cloak.createRoom('another room')
 cloak.createRoom('bad dudes only')
+
+function isUserNameUnique (username) {
+  return (cloak.getUsers().indexOf(username) < 0)
+}

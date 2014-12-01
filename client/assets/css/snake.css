@@ -752,6 +752,9 @@ header {
             text-transform: uppercase;
             font-weight: bold;
             font-size: 0.8125em; }
+    #multiplayer .swap-area #game-area {
+      width: 100%;
+      height: 100%; }
   #multiplayer .chat-area {
     float: right;
     width: 25%;
