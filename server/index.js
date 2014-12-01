@@ -2,6 +2,7 @@
 var cloak = require('cloak')
 var Game = require('../shared/Game')
 var Snake = require('../shared/Snake')
+var Controller = require('../shared/Controller')
 
 cloak.configure({
   port: 9001,
@@ -58,14 +59,12 @@ cloak.configure({
       user.message('userCount_response', cloak.userCount())
     },
     keyPress: function (direction, user) {
-      var room = user.getRoom()
-      console.log(direction)
-      if([1, 2, 3, 4].indexOf(direction) !== -1) user.data.snake.direction = direction
+      user.data.controller = user.data.controller || new Controller()
+      user.data.controller.put(direction)
     },
     spawn: function (data, user) {
       var room = user.getRoom()
-      if(!user.data.snake) user.data.snake = new Snake()
-      user.data.snake.spawn(2, 2)
+      if(user.data.snake) user.data.snake.spawn(2, 2)
     }
   },
   room: {
@@ -74,7 +73,9 @@ cloak.configure({
     },
     pulse: function () {
       var snakes = this.getMembers().map(function (user) {
-        user.data.snake = user.data.snake || new Snake() 
+        user.data.snake = user.data.snake || new Snake()
+        var newDirection = user.data.controller.get()
+        if(newDirection) user.data.snake.direction = newDirection
         return user.data.snake
       })
       this.data.game.update(snakes)
@@ -84,6 +85,9 @@ cloak.configure({
       user.message('pulse', this.data.game.model)
       cloak.messageAll('listRooms_response', cloak.getRooms(true))
       cloak.messageAll('userCount_response', cloak.userCount())
+
+      user.data.snake = new Snake()
+      user.data.controller = new Controller()
     },
     memberLeaves: function (user) {
       cloak.messageAll('listRooms_response', cloak.getRooms(true))

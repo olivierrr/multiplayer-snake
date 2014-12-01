@@ -1,7 +1,7 @@
 
 var Game = require('../../shared/Game')
 var Renderer = require('../Renderer')
-var Controller = require('../Controller')
+var Controller = require('../../shared/Controller')
 var Snake = require('../../shared/Snake')
 
 module.exports = function (states) {
