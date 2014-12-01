@@ -19,13 +19,7 @@ cloak.configure({
       user.getRoom().messageMembers('chat', {name: user.name, msg: msg})
     },
     newUser: function (data, user) {
-      var username
-
-      do {
-        username = 'snake' + ~~(Math.random()*1000000) 
-      } while (!isUserNameUnique(username))
-
-      user.name = username
+      user.name = getUniqueUsername()
       user.message('changeUsername_response', {newUsername: user.name})
     },
     changeUsername: function (data, user) {
@@ -65,11 +59,12 @@ cloak.configure({
     },
     keyPress: function (direction, user) {
       var room = user.getRoom()
-      console.log(direction)
+      user.data.snake.direction = direction
     },
     spawn: function (data, user) {
       var room = user.getRoom()
       if(!user.data.snake) user.data.snake = new Snake()
+      user.data.snake.spawn({x: 2, y: 2, direction: 'right'})
     }
   },
   room: {
@@ -77,11 +72,15 @@ cloak.configure({
       this.data.game = new Game(30)
     },
     pulse: function () {
-      //this.game.update()
+      var snakes = this.getMembers().map(function (user) {
+        user.data.snake = user.data.snake || new Snake() 
+        return user.data.snake
+      })
+      this.data.game.update(snakes)
       this.messageMembers('pulse', this.data.game.model)
     },
     newMember: function (user) {
-      user.message('pulse', {model: this.data.game.model})
+      user.message('pulse', this.data.game.model)
     },
     memberLeaves: function (user) {
 
@@ -114,4 +113,14 @@ cloak.createRoom('bad dudes only')
 
 function isUserNameUnique (username) {
   return (cloak.getUsers().indexOf(username) < 0)
+}
+
+function getUniqueUsername () {
+  var username
+
+  do {
+    username = 'snake' + ~~(Math.random()*1000000) 
+  } while (!isUserNameUnique(username))
+
+  return username
 }

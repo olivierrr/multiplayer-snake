@@ -2,47 +2,47 @@
 var Game = require('../../shared/Game')
 var Renderer = require('../Renderer')
 var UserInput = require('../UserInput')
+var Snake = require('../../shared/Snake')
 
 module.exports = function (states) {
 
-  var isLooping = false
+  var interval
 
   var $elem = document.querySelector('#singleplayer')
   var $canvasContainer = $elem.querySelector('.game')
 
   var game = new Game(30)
   var userInput = new UserInput()
+  var snake = new Snake()
   var renderer
 
-  game.events.on('pre-update', function (wdawd, awdawd){
+  function updateSnakeDirection(){
     var key = userInput.get()
-    if(key) game.snakes[0].direction = key
-  })
-
-  document.addEventListener('keydown', function (e){
-    if(isLooping) userInput.feedKeyStream(e.keyCode)
-  })
-
-  function loop() {
-    if(isLooping) window.setTimeout(window.requestAnimationFrame.bind(null, loop), 100)
-    game.update()
-    renderer.draw(game.model)
+    if(key) snake.direction = key
   }
 
-  game.addSnake()
+  function onkeydown (e) {
+    userInput.feedKeyStream(e.keyCode)
+  }
+
+  function loop() {
+    updateSnakeDirection()
+    game.update([snake])
+    renderer.draw(game.model)
+  }
 
   return {
     create: function () {
       $elem.className = ''
-      renderer = new Renderer($canvasContainer)
-      isLooping = true
-      game.snakes[0].spawn({x: 2, y: 2, direction: 'right'})
+      renderer = renderer || new Renderer($canvasContainer)
+      interval = window.setInterval(window.requestAnimationFrame.bind(null, loop), 100)
+      document.addEventListener('keydown', onkeydown)
+      snake.spawn({x: 2, y: 2, direction: 'right'})
       loop()
     },
     destroy: function () {
-      isLooping = false
-      renderer = null
-      $canvasContainer.innerHTML = ''
+      document.removeEventListener('keydown', onkeydown)
+      window.clearInterval(interval)
       $elem.className = 'hidden'
     }
   }

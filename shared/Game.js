@@ -1,17 +1,9 @@
 
-var Snake = require('./Snake')
-var EventEmitter = require('events').EventEmitter
-
 /**
  * @constructor
  * @param {Number} grid slot count (grid is a suqare)
  */
 function Game (size){
-
-	/**
-	 * @thingy
-	 */
-	this.events = Object.create(EventEmitter.prototype)
 
 	/**
 	 * @property {Number}
@@ -22,11 +14,6 @@ function Game (size){
 	 * @property {Array#2d}
 	 */
 	this.model = []
-
-	/**
-	 * @property {Array}
-	 */
-	this.snakes = []
 
 	/**
 	 * @property {Integer}
@@ -53,20 +40,16 @@ function Game (size){
 Game.prototype.boot = function (){
 
 	for(var i=0; i<this.size; i++) {
-
 		var row = []
-
 		for(var j=0; j<this.size; j++) {
 			row.push(0)
 		}
-
 		this.model.push(row)
 	}
 }
 
 /**
  * @method
- * @todo combine with `boot` method
  */
 Game.prototype.resetGrid = function (){
 
@@ -83,12 +66,10 @@ Game.prototype.resetGrid = function (){
  * updates all snakes
  * @todo rewrite
  */
-Game.prototype.update = function (){
+Game.prototype.update = function (snakes){
 
 	if(this.isPaused === false) {
 		var self = this
-
-		this.events.emit('pre-update')
 
 		this.resetGrid()
 
@@ -102,8 +83,8 @@ Game.prototype.update = function (){
 			self.model[food[0]][food[1]] = 2
 		}
 
-		for(var i=0; i<this.snakes.length; i++) {
-			var snake = this.snakes[i]
+		for(var i=0; i<snakes.length; i++) {
+			var snake = snakes[i]
 
 			if(snake.isAlive) {
 				snake.move()
@@ -126,8 +107,6 @@ Game.prototype.update = function (){
 			}
 		}
 
-		this.events.emit('post-update')
-
 	}
 }
 
@@ -147,15 +126,6 @@ Game.prototype.randSnakePos = function (){
 		y: randInt(this.size*.25, this.size*.75),
 		direction: ['left', 'right', 'up', 'down'][randInt(0,3)]
 	}
-
-}
-
-/**
- * @method
- */
-Game.prototype.addSnake = function (){
-
-	this.snakes.push(new Snake(this.randSnakePos()))
 
 }
 
