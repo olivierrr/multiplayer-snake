@@ -35,9 +35,9 @@ module.exports = function (states) {
     create: function () {
       $elem.className = ''
       renderer = renderer || new Renderer($canvasContainer)
+      snake.spawn(2, 2)
       interval = window.setInterval(window.requestAnimationFrame.bind(null, loop), 100)
       document.addEventListener('keydown', onkeydown)
-      snake.spawn({x: 2, y: 2, direction: 'right'})
       loop()
     },
     destroy: function () {

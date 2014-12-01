@@ -45,9 +45,9 @@ module.exports = function (states) {
       userCount_response: function (count) {
         $usersOnlineCount.innerHTML = count
       },
-      changeUsername_response: function (data) {
-        chat.push('server', 'you are now: ' + quoteize(data.newUsername), 'server')
-        myUsername = data.newUsername
+      changeUsername_response: function (newUsername) {
+        chat.push('server', 'you are now: ' + quoteize(newUsername), 'server')
+        myUsername = newUsername
       },
       changeUsername_failed: function () {
         chat.push('server', 'username change failed.', 'server')

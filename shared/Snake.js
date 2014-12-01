@@ -39,14 +39,15 @@ function Snake (){
 
 /**
  * @method
- * @param {Hash} - x, y, position
+ * @param {Number}
+ * @param {Number}
  */
-Snake.prototype.setPos = function (pos){
+Snake.prototype.setPos = function (x, y){
 
-	this.x = pos.x
-	this.y = pos.y
-	this.direction = pos.direction
-	this.sections = [[pos.x, pos.y]]
+	this.x = x
+	this.y = y
+	this.direction = ['left', 'right', 'up', 'down'][~~(Math.random()*4)]
+	this.sections = [[x, y]]
 
 }
 
@@ -80,10 +81,10 @@ Snake.prototype.move = function (){
 /**
  * @method
  */
-Snake.prototype.spawn = function(pos) {
+Snake.prototype.spawn = function(x, y) {
 
 	this.isAlive = true
-	this.setPos(pos)
+	this.setPos(x, y)
 
 }
 

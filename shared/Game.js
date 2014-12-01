@@ -91,7 +91,8 @@ Game.prototype.update = function (snakes){
 
 				// snake collides with walls
 				if(snake.x < 0 || snake.x >= this.size || snake.y < 0 || snake.y >= this.size){
-					snake.setPos(this.randSnakePos())
+					snake.kill()
+					continue;
 				}
 
 				// snake collides with food
@@ -108,25 +109,6 @@ Game.prototype.update = function (snakes){
 		}
 
 	}
-}
-
-/**
- * @method
- * @return {Hash}
- * @todo direction should be an integer.
- */
-Game.prototype.randSnakePos = function (){
-
-	function randInt (min, max){
-		return Math.round(Math.random() * (max - min) + min)
-	}
-
-	return {
-		x: randInt(this.size*.25, this.size*.75),
-		y: randInt(this.size*.25, this.size*.75),
-		direction: ['left', 'right', 'up', 'down'][randInt(0,3)]
-	}
-
 }
 
 /**

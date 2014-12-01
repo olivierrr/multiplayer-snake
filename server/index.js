@@ -20,7 +20,7 @@ cloak.configure({
     },
     newUser: function (data, user) {
       user.name = getUniqueUsername()
-      user.message('changeUsername_response', {newUsername: user.name})
+      user.message('changeUsername_response', user.name)
     },
     changeUsername: function (data, user) {
       if(!data || !data.newUsername) return
@@ -28,7 +28,7 @@ cloak.configure({
         var room = user.getRoom()
         if(room) room.messageMembers('chat', {flag: 'usernameChange', msg: user.name + ' is now ' + data.newUsername})
         user.name = data.newUsername
-        user.message('changeUsername_response', {newUsername: user.name})
+        user.message('changeUsername_response', user.name)
       } else {
         user.message('changeUsername_failed')
       }
@@ -64,7 +64,7 @@ cloak.configure({
     spawn: function (data, user) {
       var room = user.getRoom()
       if(!user.data.snake) user.data.snake = new Snake()
-      user.data.snake.spawn({x: 2, y: 2, direction: 'right'})
+      user.data.snake.spawn(2, 2)
     }
   },
   room: {
