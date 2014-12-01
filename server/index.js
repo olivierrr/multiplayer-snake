@@ -81,12 +81,15 @@ cloak.configure({
     },
     newMember: function (user) {
       user.message('pulse', this.data.game.model)
+      cloak.messageAll('listRooms_response', cloak.getRooms(true))
+      cloak.messageAll('userCount_response', cloak.userCount())
     },
     memberLeaves: function (user) {
-
+      cloak.messageAll('listRooms_response', cloak.getRooms(true))
+      cloak.messageAll('userCount_response', cloak.userCount())
     },
     close: function () {
-
+      
     }
   },
   lobby: {
@@ -94,8 +97,7 @@ cloak.configure({
       console.log('lobby init')
     },
     pulse: function () {
-      this.pulseCounter ? this.pulseCounter+=1 : this.pulseCounter=1
-      if(this.pulseCounter%10===0) this.messageMembers('userCount_response', cloak.userCount())
+
     },
     newMember: function (user) {
     

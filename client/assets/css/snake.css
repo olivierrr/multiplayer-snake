@@ -632,10 +632,6 @@ input:hover {
 .btn {
   padding: 5px 10px; }
 
-.game {
-  width: 100%;
-  height: 800px; }
-
 #mainmenu {
   display: -webkit-box;
   display: -moz-box;
@@ -700,6 +696,12 @@ header {
     font-size: 0.875em; }
     header .btn-home:hover {
       color: #43a743; }
+
+#singleplayer {
+  height: 100%;
+  width: 100%; }
+  #singleplayer .game {
+    height: 100%; }
 
 #multiplayer {
   width: 100%;

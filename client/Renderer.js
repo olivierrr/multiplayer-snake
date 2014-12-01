@@ -8,7 +8,7 @@ function Renderer (container){
 	/**
 	 * @property {Object#node}
 	 */
-	this.container = container
+	this.container = container || document.body
 
 	/**
 	 * @property {Number}
@@ -43,17 +43,16 @@ Renderer.prototype.init = function() {
 
 	this.canvas = document.createElement('canvas')
 	this.ctx = this.canvas.getContext('2d')
-
 	this.container.appendChild(this.canvas)
 
-	// should be in css. duh
-	document.body.style.height = window.innerHeight + 'px'
-	document.body.style.overflowX = 'hidden'
-	document.body.style.overflowY = 'hidden'
-	document.body.style.margin = 0
+	var self = this
+	function onresize() {
+		self.width = self.canvas.width = self.container.offsetWidth
+		self.height = self.canvas.height = self.container.offsetHeight
+	}
 
-	this.width = this.canvas.width = this.container.offsetWidth
-	this.height = this.canvas.height = this.container.offsetHeight
+	onresize()
+	window.addEventListener('resize', onresize)
 
 }
 
@@ -72,12 +71,16 @@ Renderer.prototype.draw = function(model) {
 	var gridSize = model.length
 	var smllst = (this.width > this.height ? this.height : this.width)
 	var slotsize = ~~(smllst/gridSize)
-	smllst = slotsize*gridSize
+	var size = slotsize * gridSize
 
-	ctx.clearRect(0, 0, this.width, this.height)
+	var verticalPadding = ~~(this.height/2 - size/2)
+	var horizontalPadding = ~~(this.width/2 - size/2)
+
+	ctx.fillStyle = '#9DAEB5'
+	ctx.fillRect(0, 0, this.width, this.height)
 
 	var BLOCKS = {
-		0: '#F3F3F3', // 'empty'
+		0: 'white', // 'empty'
 		1: '#0070B2', // 'user'
 		2: '#2EE046'  // 'food'
 	}
@@ -91,7 +94,7 @@ Renderer.prototype.draw = function(model) {
 
 	function fillSlot (x, y, color) {
 		ctx.fillStyle = color || '#FF0000'
-		ctx.fillRect(x*slotsize+1, y*slotsize+1, slotsize-1, slotsize-1)
+		ctx.fillRect(x*slotsize+1 + horizontalPadding, y*slotsize+1 + verticalPadding, slotsize-1, slotsize-1)
 	}
 
 }

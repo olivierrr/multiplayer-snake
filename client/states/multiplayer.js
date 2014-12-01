@@ -3,6 +3,7 @@ var game = require('../game')
 var Renderer = require('../Renderer')
 var chat = require('../chat')
 var lobby = require('../lobby')
+var info = require('../info')
 
 module.exports = function (states) {
 
@@ -20,7 +21,6 @@ module.exports = function (states) {
   }
 
   var $elem = document.querySelector('#multiplayer')
-  var $usersOnlineCount = $elem.querySelector('.users-online-count')
 
   function quoteize (str) {
     return '"' + str + '"'
@@ -31,7 +31,10 @@ module.exports = function (states) {
       chat: function (data) {
         chat.push(data.name, data.msg, 'user')
       },
-      listRooms_response: lobby.render,
+      listRooms_response: function (rooms) {
+        lobby.render(rooms)
+        info.roomCount(rooms.length)
+      },
       createRoom_response: function (data) {
         document.location.hash = '#multiplayer/' + data.roomId
       },
@@ -43,7 +46,7 @@ module.exports = function (states) {
         chat.push('server', 'failed to join room', 'server')
       },
       userCount_response: function (count) {
-        $usersOnlineCount.innerHTML = count
+        info.userCount(count)
       },
       changeUsername_response: function (newUsername) {
         chat.push('server', 'you are now: ' + quoteize(newUsername), 'server')

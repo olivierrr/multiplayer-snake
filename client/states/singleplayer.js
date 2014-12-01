@@ -17,6 +17,7 @@ module.exports = function (states) {
   var renderer
 
   function updateSnakeDirection(){
+    if(!snake.isAlive) return
     var key = userInput.get()
     if(key) snake.direction = key
   }
