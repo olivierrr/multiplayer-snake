@@ -59,7 +59,8 @@ cloak.configure({
     },
     keyPress: function (direction, user) {
       var room = user.getRoom()
-      user.data.snake.direction = direction
+      console.log(direction)
+      if([1, 2, 3, 4].indexOf(direction) !== -1) user.data.snake.direction = direction
     },
     spawn: function (data, user) {
       var room = user.getRoom()
@@ -89,7 +90,7 @@ cloak.configure({
       cloak.messageAll('userCount_response', cloak.userCount())
     },
     close: function () {
-      
+
     }
   },
   lobby: {

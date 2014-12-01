@@ -12,20 +12,18 @@ var renderer
 
 function onkeydown (e) {
   var direction = findDirection(e.keyCode)
-  if(direction) cloak.message('keyPress', direction)
+  if(direction !== null) cloak.message('keyPress', direction)
 }
 
 function findDirection (keycode) {
-  var keymap = {
-    'up': [38, 87],
-    'down': [40, 83],
-    'right': [39, 68],
-    'left': [37, 65]
+
+  var keymap = [[38, 87], [39, 68], [40, 83], [37, 65]]
+
+  for(var i=0; i<keymap.length; i++) {
+    if(keymap[i].indexOf(keycode) !== -1) return i + 1
   }
 
-  return k = Object.keys(keymap).filter(function (direction) {
-    return keymap[direction].indexOf(keycode) !== -1
-  })[0] || null
+  return null
 }
 
 function hide () {
