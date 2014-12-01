@@ -69,7 +69,17 @@ cloak.configure({
   },
   room: {
     init: function () {
-      this.data.game = new Game(30)
+      var game = this.data.game = new Game(30)
+      var room = this
+
+      game.on('die', function (snake) {
+        snake.user.message('snake_die', {x: snake.x, y: snake.y})
+      })
+
+      game.on('eat', function (snake) {
+        snake.user.message('snake_eat', {x: snake.x, y: snake.y})
+      })
+
     },
     pulse: function () {
       var snakes = this.getMembers().map(function (user) {
@@ -87,6 +97,7 @@ cloak.configure({
       cloak.messageAll('userCount_response', cloak.userCount())
 
       user.data.snake = new Snake()
+      user.data.snake.user = user
       user.data.controller = new Controller()
     },
     memberLeaves: function (user) {

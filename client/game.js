@@ -9,10 +9,11 @@ module.exports = {
 
 var $game = document.querySelector('#game-area')
 var renderer
+var lastDirection = null
 
 function onkeydown (e) {
   var direction = findDirection(e.keyCode)
-  if(direction !== null) cloak.message('keyPress', direction)
+  if(direction !== null && direction !== lastDirection) cloak.message('keyPress', direction)
 }
 
 function findDirection (keycode) {
@@ -33,6 +34,7 @@ function hide () {
 
 function show () {
   $game.className = ''
+  lastDirection = null
   document.addEventListener('keydown', onkeydown)
   renderer = renderer || new Renderer($game)
   cloak.message('spawn')

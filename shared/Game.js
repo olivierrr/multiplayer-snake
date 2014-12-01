@@ -6,6 +6,11 @@
 function Game (size){
 
 	/**
+	 * @property {Object#Hash}
+	 */
+	this.events = {}
+
+	/**
 	 * @property {Number}
 	 */
 	this.size = size
@@ -26,7 +31,7 @@ function Game (size){
 	this.foods = []
 
 	/**
-	 * @property {isPaused}
+	 * @property {Boolean}
 	 */
 	this.isPaused = false
 
@@ -50,6 +55,7 @@ Game.prototype.boot = function (){
 
 /**
  * @method
+ * set all tiles on grid model to 0
  */
 Game.prototype.resetGrid = function (){
 
@@ -63,10 +69,13 @@ Game.prototype.resetGrid = function (){
 
 /**
  * @method
- * updates all snakes
+ * update model
+ * @param {Array}
  * @todo rewrite
  */
 Game.prototype.update = function (snakes){
+
+	if(!snakes) return
 
 	if(this.isPaused === false) {
 		var self = this
@@ -92,12 +101,14 @@ Game.prototype.update = function (snakes){
 				// snake collides with walls
 				if(snake.x < 0 || snake.x >= this.size || snake.y < 0 || snake.y >= this.size){
 					snake.kill()
+					this.emit('die', snake)
 					continue;
 				}
 
 				// snake collides with food
 				if(this.model[snake.x][snake.y] === 2) {
 					snake.extend()
+					this.emit('eat', snake)
 					this.foods.splice(this.foods.indexOf(snake.x+'-'+snake.y), 1)
 				}
 
@@ -132,6 +143,17 @@ Game.prototype.getRandCoordsWithin = function (){
 		y: ~~(Math.random()*this.size)
 	}
 
+}
+
+Game.prototype.on = function (eventName, handler) {
+	if(!eventName || !handler) return
+	(this.events[eventName] || (this.events[eventName] = [])).push(handler)
+}
+
+Game.prototype.emit = function (eventName) {
+	if(!eventName || !this.events[eventName]) return
+	var args = [].slice.call(arguments, 1)
+	this.events[eventName].forEach(function(handler){handler.apply(null, args)})
 }
 
 module.exports = Game

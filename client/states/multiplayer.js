@@ -57,7 +57,14 @@ module.exports = function (states) {
       },
       pulse: function (model) {
         game.draw(model)
+      },
+      snake_die: function (data) {
+        chat.push('game', 'you have died!!1', 'game')
+      },
+      snake_eat: function (data) {
+        chat.push('game', 'you have eaten', 'game')
       }
+
     },
     serverEvents: {
       connecting: chat.push.bind(null, 'server', 'connecting...', 'server'),
