@@ -21,12 +21,6 @@ module.exports = function (states) {
 
   var $elem = document.querySelector('#multiplayer')
   var $usersOnlineCount = $elem.querySelector('.users-online-count')
-  var $lobby = $elem.querySelector('#lobby-area') 
-  var $game = $elem.querySelector('#game-area')
-
-  function changeUsername (newUsername) {
-    cloak.message('changeUsername', {newUsername: newUsername})
-  }
 
   function quoteize (str) {
     return '"' + str + '"'
@@ -59,16 +53,16 @@ module.exports = function (states) {
         chat.push('server', 'username change failed.', 'server')
       },
       pulse: function (model) {
-        if(renderer) renderer.draw(model)
+        game.draw(model)
       }
     },
     serverEvents: {
       connecting: chat.push.bind(null, 'server', 'connecting...', 'server'),
       begin: function () {
+        chat.push('server', 'connected.', 'server')
         cloak.message('newUser')
         cloak.message('listRooms')
         cloak.message('userCount')
-        chat.push('server', 'connected.', 'server')
         cloak.message('joinLobby')
         resolveLocation()
       },
@@ -80,12 +74,11 @@ module.exports = function (states) {
         chat.push('server', 'You have joined ' + quoteize(room.name), 'server')
 
         if(room.name === 'Lobby') {
-          $lobby.className = ''
-          $game.className = 'hidden'
+          lobby.show()
+          game.hide()
         } else {
-          $game.className = ''
-          $lobby.className = 'hidden'
-          renderer = renderer || new Renderer($game) // shouldn't be here
+          game.show()
+          lobby.hide()
         }
       },
       leftRoom: function (room) {},

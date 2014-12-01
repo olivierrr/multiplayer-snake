@@ -63,7 +63,7 @@ cloak.configure({
     userCount: function (data, user) {
       user.message('userCount_response', cloak.userCount())
     },
-    keyPress: function (data, user) {
+    keyPress: function (direction, user) {
       var room = user.getRoom()
     },
     spawn: function (data, user) {

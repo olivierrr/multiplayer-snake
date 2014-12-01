@@ -1,6 +1,8 @@
 
 module.exports = {
-  render: render
+  render: render,
+  hide: hide,
+  show: show
 }
 
 var $lobby = document.querySelector('#lobby-area') 
@@ -13,4 +15,12 @@ function render (rooms) {
     $roomList.innerHTML += '<li><a href="#multiplayer/' + room.id + '">' + room.name + ' - ' + room.users.length + '/' + room.size +'</a></li>'
   })
   $openRoomsCount.innerHTML = rooms.length
+}
+
+function hide () {
+  $lobby.className = 'hidden'
+}
+
+function show () {
+  $lobby.className = ''
 }
