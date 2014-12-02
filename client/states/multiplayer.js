@@ -4,6 +4,7 @@ var Renderer = require('../Renderer')
 var chat = require('../chat')
 var lobby = require('../lobby')
 var info = require('../info')
+var storage = require('../storage')
 
 module.exports = function (states) {
 
@@ -51,6 +52,7 @@ module.exports = function (states) {
       changeUsername_response: function (newUsername) {
         chat.push('server', 'you are now: ' + quoteize(newUsername), 'server')
         myUsername = newUsername
+        storage.setName(newUsername)
       },
       changeUsername_failed: function () {
         chat.push('server', 'username change failed.', 'server')
@@ -79,7 +81,7 @@ module.exports = function (states) {
       connecting: chat.push.bind(null, 'server', 'connecting...', 'server'),
       begin: function () {
         chat.push('server', 'connected.', 'server')
-        cloak.message('newUser')
+        storage.getName() ? cloak.message('changeUsername', storage.getName()) : cloak.message('getRandomName')
         cloak.message('listRooms')
         cloak.message('userCount')
         cloak.message('joinLobby')

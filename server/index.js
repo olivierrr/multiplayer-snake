@@ -24,7 +24,7 @@ cloak.configure({
     chat: function (msg, user) {
       user.getRoom().messageMembers('chat', {name: user.name, msg: msg})
     },
-    newUser: function (data, user) {
+    getRandomName: function (data, user) {
       user.name = getUniqueUsername()
       user.message('changeUsername_response', user.name)
     },
