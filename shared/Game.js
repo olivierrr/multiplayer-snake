@@ -85,12 +85,12 @@ Game.prototype.update = function (snakes){
 		while(this.foods.length < this.maxFoodsCount) {
 			this.addFood()
 		}
-
-		// add food blocks to model
 		for(var i=0; i<this.foods.length; i++) {
 			var food = this.foods[i].split('-')
-			self.model[food[0]][food[1]] = 2
+			self.model[food[0]][food[1]] = 1
 		}
+
+		this.snakeCollision(snakes)
 
 		for(var i=0; i<snakes.length; i++) {
 			var snake = snakes[i]
@@ -106,7 +106,7 @@ Game.prototype.update = function (snakes){
 				}
 
 				// snake collides with food
-				if(this.model[snake.x][snake.y] === 2) {
+				if(this.model[snake.x][snake.y] === 1) {
 					snake.extend()
 					this.emit('eat', snake)
 					this.foods.splice(this.foods.indexOf(snake.x+'-'+snake.y), 1)
@@ -114,12 +114,63 @@ Game.prototype.update = function (snakes){
 
 				// add snake to grid model
 				snake.sections.forEach(function (section) {
-					if(section)	self.model[section[0]][section[1]] = 1
+					if(section)	{
+						self.model[section[0]][section[1]] = snake.color
+					}
 				})
 			}
 		}
 
+		while(this.foods.length < this.maxFoodsCount) {
+			this.addFood()
+		}
+		for(var i=0; i<this.foods.length; i++) {
+			var food = this.foods[i].split('-')
+			self.model[food[0]][food[1]] = 1
+		}
+
 	}
+}
+
+Game.prototype.snakeCollision = function(snakes) {
+
+	for(var i=0; i<snakes.length; i++) {
+		var snake = snakes[i]
+		if(!snake.isAlive) continue
+
+		for(var j=0; j<snakes.length; j++) {
+			var other = snakes[j]
+			if(!other.isAlive) continue
+
+			if(snake === other) {
+				this.selfCollision(snake)
+				continue
+			}
+
+			for(var k=0; k<other.sections.length; k++) {
+				var section = other.sections[k]
+
+				if(section[0] === snake.x && section[1] === snake.y) {
+					snake.kill()
+					this.emit('snake-collision', snake, other)
+					break
+				}
+			}
+		}
+	}
+
+}
+
+Game.prototype.selfCollision = function(snake) {
+
+	for(var i=0; i<snake.sections.length-1; i++) {
+		if(snake.sections[i][0] === snake.x && snake.sections[i][1] === snake.y) {
+			snake.kill()
+			this.emit('self-collision', snake)
+			return
+		}
+	}
+
 }
 
 /**
@@ -165,3 +216,4 @@ Game.prototype.emit = function (eventName) {
 }
 
 module.exports = Game
+

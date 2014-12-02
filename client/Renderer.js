@@ -87,7 +87,7 @@ Renderer.prototype.draw = function(model) {
 
 	for(var i=0; i<model.length; i++) {
 		for(var j=0; j<model[i].length; j++) {
-			var color = BLOCKS[model[i][j]]
+			var color = BLOCKS[model[i][j]] || model[i][j]
 			fillSlot(i, j, color)
 		}
 	}

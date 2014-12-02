@@ -42,15 +42,20 @@ module.exports = function (states) {
   }
 
   game.on('die', function (snake) {
-    var coords = game.getRandCoordsWithin()
+    var coords = game.getSafeCoords()
     snake.spawn(coords.x, coords.y)
+  })
+
+  game.on('col', function (snake, color) {
+    console.log(snake, color)
   })
 
   return {
     create: function () {
       $elem.className = ''
       renderer = renderer || new Renderer($canvasContainer)
-      snake.spawn(2, 2)
+      var coords = game.getSafeCoords()
+      snake.spawn(coords.x, coords.y)
       interval = window.setInterval(window.requestAnimationFrame.bind(null, loop), 100)
       document.addEventListener('keydown', onkeydown)
       loop()

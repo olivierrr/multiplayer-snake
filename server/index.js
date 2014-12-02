@@ -88,6 +88,15 @@ cloak.configure({
         snake.user.message('snake_eat', {x: snake.x, y: snake.y})
       })
 
+      game.on('snake-collision', function (snake1, snake2) {
+        snake1.user.message('snake_die', {x: snake1.x, y: snake1.y})
+        snake2.user.message('snake_kil', {x: snake2.x, y: snake2.y})
+      })
+
+      game.on('self-collision', function (snake) {
+        snake.user.message('snake_die', {x: snake.x, y: snake.y})
+      })
+
     },
     pulse: function () {
       var snakes = this.getMembers().map(function (user) {
@@ -124,7 +133,7 @@ cloak.configure({
 
     },
     newMember: function (user) {
-    
+      
     }
   }
 })

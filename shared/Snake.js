@@ -23,7 +23,7 @@ function Snake (){
 	/**
 	 * @property {Array}
 	 */
-	this.sections
+	this.sections = []
 
 	/**
 	 * @property {Number}
@@ -34,6 +34,11 @@ function Snake (){
 	 * @property {Boolean}
 	 */
 	this.isAlive = false
+
+	/**
+	 * @property {String}
+	 */
+	this.color = '#'+Math.floor(Math.random()*16777215).toString(16);
 
 }
 

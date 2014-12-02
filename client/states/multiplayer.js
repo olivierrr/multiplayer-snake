@@ -62,6 +62,9 @@ module.exports = function (states) {
         chat.push('game', 'You died!', 'game')
         game.showSpawnBtn()
       },
+      snake_kil: function (data) {
+        chat.push('game', 'You killed a snake', 'game')
+      },
       snake_eat: function (data) {
         
       }
@@ -79,7 +82,9 @@ module.exports = function (states) {
       },
       resume: chat.push.bind(null, 'server', 'reconnected.', 'server'),
       disconnect: chat.push.bind(null, 'server', 'disconnected.', 'server'),
-      end: chat.push.bind(null, 'server', 'connection ended.', 'server'),
+      end: function () {
+        document.location = '/'
+      },
       error: chat.push.bind(null, 'server', 'ERROR', 'server'),
       joinedRoom: function (room) {
         chat.clear()
