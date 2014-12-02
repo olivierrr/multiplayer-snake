@@ -22,7 +22,7 @@ cloak.configure({
   notifyRoomChanges: true,
   messages: {
     chat: function (msg, user) {
-      user.getRoom().messageMembers('chat', {name: user.name, msg: msg})
+      user.getRoom().messageMembers('chat', {color: user.data.color, name: user.name, msg: msg})
     },
     getRandomName: function (data, user) {
       user.name = getUniqueUsername()

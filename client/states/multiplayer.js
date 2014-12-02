@@ -30,7 +30,8 @@ module.exports = function (states) {
   cloak.configure({
     messages: {
       chat: function (data) {
-        chat.push(data.name, data.msg, 'user')
+        console.log(data.color)
+        chat.push(data.name, data.msg, data.color)
       },
       listRooms_response: function (rooms) {
         lobby.render(rooms)

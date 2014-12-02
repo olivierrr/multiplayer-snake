@@ -825,7 +825,7 @@ header {
           background: #fbfbfb; }
         #multiplayer .chat-area .chat-window .msg .user {
           color: orange;
-          font-size: 75%;
+          font-size: 90%;
           text-transform: uppercase;
           font-weight: bold; }
     #multiplayer .chat-area .chat-input {

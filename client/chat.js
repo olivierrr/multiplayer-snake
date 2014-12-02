@@ -46,7 +46,7 @@ function sendChatMsg () {
 }
 
 function push (name, msg, flag) {
-  $chatWindow.innerHTML += '<p class="msg"><span class="user">' + name + ': </span>' + msg + '</p>'
+  $chatWindow.innerHTML += '<p class="msg"><span class="user" style="color:' + flag + '"> ' + name + ': </span>' + msg + '</p>'
   $chatWindow.scrollTop = $chatWindow.scrollHeight
 }
 
