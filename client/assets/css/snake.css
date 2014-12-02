@@ -733,8 +733,7 @@ header {
         margin-left: 10px;
         font-weight: 400;
         font-size: 1.25em;
-        color: white;
-        display: inline-block; }
+        color: white; }
     #multiplayer .swap-area #lobby-area {
       width: 100%;
       height: calc(100% - 40px);
@@ -755,7 +754,28 @@ header {
             font-size: 0.8125em; }
     #multiplayer .swap-area #game-area {
       width: 100%;
-      height: calc(100% - 40px); }
+      height: calc(100% - 40px);
+      text-align: center;
+      vertical-align: center; }
+      #multiplayer .swap-area #game-area #spawn-btn {
+        -webkit-transition: 0.1s ease-in-out;
+        -moz-transition: 0.1s ease-in-out;
+        transition: 0.1s ease-in-out;
+        cursor: pointer;
+        position: absolute;
+        top: 40%;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        padding: 20px;
+        background: #333;
+        opacity: 0.6;
+        color: white;
+        font-weight: 800;
+        font-size: 1.875em; }
+        #multiplayer .swap-area #game-area #spawn-btn:hover {
+          background: #444;
+          opacity: 0.9; }
   #multiplayer .chat-area {
     float: right;
     width: 25%;
@@ -786,7 +806,8 @@ header {
         margin-right: 0;
         border-radius: 0;
         border: 0; }
-      #multiplayer .chat-area .chat-input a {
+      #multiplayer .chat-area .chat-input span {
+        cursor: pointer;
         float: right;
         width: 20%;
         height: 40px;
@@ -794,7 +815,7 @@ header {
         background: #333;
         color: white;
         text-align: center; }
-        #multiplayer .chat-area .chat-input a:hover {
+        #multiplayer .chat-area .chat-input span:hover {
           background: #444; }
 
 /*# sourceMappingURL=snake.css.map */

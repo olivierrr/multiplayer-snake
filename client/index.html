@@ -7,6 +7,7 @@
     <meta name="description" content="Website Description">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Codename Snake</title>
+    <link rel="stylesheet" href="https://rawgit.com/hxgf/smoke.js/master/smoke.css">
     <link rel="stylesheet" href="assets/css/snake.css">
 
     <!-- too lazy to scss, will port later -->
@@ -39,11 +40,12 @@
           </ul>
         </main>
         <main id="game-area" class="hidden">
-          <!-- canvas is inserted here -->
+          <div id="spawn-btn" class="hidden">CLICK TO SPAWN</div>
+          <!-- game canvas is inserted here -->
         </main>
 
         <div id="info" class="bottom">
-          <h1 class="brand-alt">Codename Snake</h1>
+          <a href="/" class="brand-alt">Codename Snake</a>
           <li><span class="stat">Users Online:</span> <span class="users-online-count">0</span></li>
           <li><span class="stat">Rooms Online:</span> <span class="open-rooms-count">0</span></li>
         </div>
@@ -55,20 +57,21 @@
         </div>
         <div class="chat-input">
           <input type="text" class="input-msg" name="input-msg"></input>
-          <a href="#" class="send-msg">Send</a>
+          <span class="send-msg">Send</a>
         </div>
       </aside>
-
-
 
     </main>
 
     <main id="singleplayer" class="hidden">
-      <div class="game"></div>
+      <div class="game">
+        <!-- game canvas is inserted here -->
+      </div>
     </main>
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
+    <script type="text/javascript" src="https://rawgit.com/hxgf/smoke.js/master/smoke.min.js"></script>
     <script type="text/javascript" src="https://rawgit.com/incompl/cloak/master/src/client/cloak.js"></script>
     <script type="text/javascript" src="bundle.js"></script>
 

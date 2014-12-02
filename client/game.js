@@ -4,10 +4,12 @@ var Renderer = require('./Renderer')
 module.exports = {
   show: show,
   hide: hide,
-  draw: draw
+  draw: draw,
+  showSpawnBtn: showSpawnBtn
 }
 
 var $game = document.querySelector('#game-area')
+var $spawnBtn = $game.querySelector('#spawn-btn')
 var renderer
 var lastDirection = null
 
@@ -37,9 +39,17 @@ function show () {
   lastDirection = null
   document.addEventListener('keydown', onkeydown)
   renderer = renderer || new Renderer($game)
-  cloak.message('spawn')
+  showSpawnBtn()
 }
 
 function draw (model) {
   if(renderer) renderer.draw(model)
+}
+
+function showSpawnBtn () {
+  $spawnBtn.className = ''
+  $spawnBtn.addEventListener('click', function () {
+    cloak.message('spawn')
+    $spawnBtn.className = 'hidden'
+  })
 }

@@ -60,6 +60,7 @@ module.exports = function (states) {
       },
       snake_die: function (data) {
         chat.push('game', 'you have died!!1', 'game')
+        game.showSpawnBtn()
       },
       snake_eat: function (data) {
         chat.push('game', 'you have eaten', 'game')
