@@ -67,8 +67,10 @@ module.exports = function (states) {
       },
       snake_eat: function (data) {
         
+      },
+      pong: function () {
+        info.ping()
       }
-
     },
     serverEvents: {
       connecting: chat.push.bind(null, 'server', 'connecting...', 'server'),
@@ -78,6 +80,7 @@ module.exports = function (states) {
         cloak.message('listRooms')
         cloak.message('userCount')
         cloak.message('joinLobby')
+        cloak.message('ping')
         resolveLocation()
       },
       resume: chat.push.bind(null, 'server', 'reconnected.', 'server'),

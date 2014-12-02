@@ -71,6 +71,9 @@ cloak.configure({
         var coords = room.data.game.getSafeCoords()
         user.data.snake.spawn(coords.x, coords.y)
       }
+    },
+    ping: function (data, user) {
+      user.message('pong')
     }
   },
   room: {
