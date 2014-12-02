@@ -5,6 +5,10 @@
 
 $green: #71C671;
 
+*:focus {
+	outline: 0;
+}
+
 html {
 	overflow-x: hidden;
 }
@@ -17,6 +21,10 @@ body {
 body, html {
 	height: 100%;
 	width: 100%;
+}
+
+.hidden {
+  display: none !important;
 }
 
 h1, h2, h3, h4, h5, h6 {

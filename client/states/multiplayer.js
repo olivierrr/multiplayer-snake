@@ -42,8 +42,8 @@ module.exports = function (states) {
         chat.push('server', 'room creation failed', 'server')
       },
       joinRoom_failed: function (data) {
-        document.location.hash = '#multiplayer'
-        chat.push('server', 'failed to join room', 'server')
+        smoke.alert('Failed to join room.')
+        chat.push('server', 'Failed to join room', 'server')
       },
       userCount_response: function (count) {
         info.userCount(count)
@@ -59,11 +59,11 @@ module.exports = function (states) {
         game.draw(model)
       },
       snake_die: function (data) {
-        chat.push('game', 'you have died!!1', 'game')
+        chat.push('game', 'You died!', 'game')
         game.showSpawnBtn()
       },
       snake_eat: function (data) {
-        chat.push('game', 'you have eaten', 'game')
+        
       }
 
     },
@@ -82,6 +82,7 @@ module.exports = function (states) {
       end: chat.push.bind(null, 'server', 'connection ended.', 'server'),
       error: chat.push.bind(null, 'server', 'ERROR', 'server'),
       joinedRoom: function (room) {
+        chat.clear()
         chat.push('server', 'You have joined ' + quoteize(room.name), 'server')
 
         if(room.name === 'Lobby') {

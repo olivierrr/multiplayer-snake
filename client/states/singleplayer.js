@@ -41,6 +41,11 @@ module.exports = function (states) {
     renderer.draw(game.model)
   }
 
+  game.on('die', function (snake) {
+    var coords = game.getRandCoordsWithin()
+    snake.spawn(coords.x, coords.y)
+  })
+
   return {
     create: function () {
       $elem.className = ''

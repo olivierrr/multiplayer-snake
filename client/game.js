@@ -10,34 +10,36 @@ module.exports = {
 
 var $game = document.querySelector('#game-area')
 var $spawnBtn = $game.querySelector('#spawn-btn')
+
+$game.tabIndex = 100
+
+$game.addEventListener('keydown', onkeydown)
+$game.addEventListener('keydown', hideSpawnBtn)
+$spawnBtn.addEventListener('click', hideSpawnBtn)
+
 var renderer
 var lastDirection = null
 
 function onkeydown (e) {
   var direction = findDirection(e.keyCode)
-  if(direction !== null && direction !== lastDirection) cloak.message('keyPress', direction)
+  if(direction && direction !== lastDirection) cloak.message('keyPress', direction)
 }
 
 function findDirection (keycode) {
-
   var keymap = [[38, 87], [39, 68], [40, 83], [37, 65]]
-
   for(var i=0; i<keymap.length; i++) {
     if(keymap[i].indexOf(keycode) !== -1) return i + 1
   }
-
   return null
 }
 
 function hide () {
-  document.removeEventListener('keydown', onkeydown)
   $game.className = 'hidden'
 }
 
 function show () {
   $game.className = ''
   lastDirection = null
-  document.addEventListener('keydown', onkeydown)
   renderer = renderer || new Renderer($game)
   showSpawnBtn()
 }
@@ -48,8 +50,13 @@ function draw (model) {
 
 function showSpawnBtn () {
   $spawnBtn.className = ''
-  $spawnBtn.addEventListener('click', function () {
-    cloak.message('spawn')
-    $spawnBtn.className = 'hidden'
-  })
+}
+
+function hideSpawnBtn (e) {
+
+  if(e.keyCode && e.keyCode !== 32) return
+
+  cloak.message('spawn')
+  $spawnBtn.className = 'hidden'
+  $game.focus()
 }
