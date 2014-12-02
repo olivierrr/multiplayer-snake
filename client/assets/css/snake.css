@@ -742,13 +742,13 @@ header {
         color: white; }
     #multiplayer .swap-area #lobby-area {
       width: 100%;
-      height: calc(100% - 40px);
+      height: 100%;
       background: #71C671;
       border-right: 2px dashed #fff;
       position: relative; }
       #multiplayer .swap-area #lobby-area .room-list {
         padding: 10px;
-        height: 80%;
+        height: calc(100% - 40px);
         overflow: auto; }
         #multiplayer .swap-area #lobby-area .room-list li {
           padding: 5px 0;
@@ -758,6 +758,16 @@ header {
             text-transform: uppercase;
             font-weight: bold;
             font-size: 0.8125em; }
+      #multiplayer .swap-area #lobby-area #create-room-btn {
+        color: white;
+        text-align: center;
+        font-size: 1.25em;
+        height: 40px;
+        line-height: 40px;
+        background: #5fbf5f;
+        cursor: pointer; }
+        #multiplayer .swap-area #lobby-area #create-room-btn:hover {
+          background: #62c062; }
     #multiplayer .swap-area #game-area {
       width: 100%;
       height: calc(100% - 40px);

@@ -160,14 +160,14 @@ header {
 
 		#lobby-area {
 			width: 100%;
-			height: calc(100% - 40px);
+			height: 100%;
 			background: $green;
 			border-right: 2px dashed #fff;
 			position: relative;
 
 			.room-list {
 				padding: 10px;
-				height: 80%;
+				height: calc(100% - 40px);
 				overflow: auto;
 
 				li {
@@ -180,6 +180,20 @@ header {
 						font-weight: bold;
 						font-size: em(13);
 					}
+				}
+			}
+
+			#create-room-btn {
+				color: white;
+				text-align: center;
+				font-size: em(20);
+				height: 40px;
+				line-height: 40px;
+				background: darken($green, 5%);
+				cursor: pointer;
+
+				&:hover {
+					background: darken($green, 4%);
 				}
 			}
 		}
