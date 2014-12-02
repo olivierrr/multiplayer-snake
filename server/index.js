@@ -38,6 +38,12 @@ cloak.configure({
         user.message('changeUsername_failed')
       }
     },
+    changeColor: function (color, user) {
+      if(color && /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(color)) {
+        user.data.color = color
+        if(user.data.snake) user.data.snake.color = color
+      }
+    },
     listRooms: function (data, user) {
       user.message('listRooms_response', cloak.getRooms(true))
     },
@@ -114,6 +120,7 @@ cloak.configure({
 
       user.data.snake = new Snake()
       user.data.snake.user = user
+      if(user.data.color) user.data.snake.color = user.data.color
     },
     memberLeaves: function (user) {
       cloak.messageAll('listRooms_response', cloak.getRooms(true))
