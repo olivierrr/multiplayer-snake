@@ -16,7 +16,7 @@ $createRoom.addEventListener('click', function () {
     ok: "create",
     cancel: "cancel",
     reverseButtons: true
-  });
+  })
 })
 
 function render (rooms) {
