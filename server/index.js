@@ -2,7 +2,6 @@
 var cloak = require('cloak')
 var Game = require('../shared/Game')
 var Snake = require('../shared/Snake')
-var Controller = require('../shared/Controller')
 var connect = require('connect')
 var serveStatic = require('serve-static')
 
@@ -64,8 +63,7 @@ cloak.configure({
       user.message('userCount_response', cloak.userCount())
     },
     keyPress: function (direction, user) {
-      user.data.controller = user.data.controller || new Controller()
-      user.data.controller.put(direction)
+      user.data.snake.put(direction)
     },
     spawn: function (data, user) {
       var room = user.getRoom()
@@ -101,8 +99,6 @@ cloak.configure({
     pulse: function () {
       var snakes = this.getMembers().map(function (user) {
         user.data.snake = user.data.snake || new Snake()
-        var newDirection = user.data.controller.get()
-        if(newDirection) user.data.snake.direction = newDirection
         return user.data.snake
       })
       this.data.game.update(snakes)
@@ -115,7 +111,6 @@ cloak.configure({
 
       user.data.snake = new Snake()
       user.data.snake.user = user
-      user.data.controller = new Controller()
     },
     memberLeaves: function (user) {
       cloak.messageAll('listRooms_response', cloak.getRooms(true))
@@ -123,17 +118,6 @@ cloak.configure({
     },
     close: function () {
 
-    }
-  },
-  lobby: {
-    init: function () {
-      console.log('lobby init')
-    },
-    pulse: function () {
-
-    },
-    newMember: function (user) {
-      
     }
   }
 })

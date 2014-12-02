@@ -1,8 +1,7 @@
 
 var Game = require('../../shared/Game')
-var Renderer = require('../Renderer')
-var Controller = require('../../shared/Controller')
 var Snake = require('../../shared/Snake')
+var Renderer = require('../Renderer')
 
 module.exports = function (states) {
 
@@ -12,19 +11,12 @@ module.exports = function (states) {
   var $canvasContainer = $elem.querySelector('.game')
 
   var game = new Game(30)
-  var controller = new Controller()
   var snake = new Snake()
   var renderer
 
-  function updateSnakeDirection(){
-    if(!snake.isAlive) return
-    var key = controller.get()
-    if(key) snake.direction = key
-  }
-
   function onkeydown (e) {
     var direction = findDirection(e.keyCode)
-    if(direction > 0) controller.put(direction)
+    if(direction > 0) snake.put(direction)
   }
 
   function findDirection (keycode) {
@@ -36,7 +28,6 @@ module.exports = function (states) {
   }
 
   function loop() {
-    updateSnakeDirection()
     game.update([snake])
     renderer.draw(game.model)
   }
@@ -46,8 +37,9 @@ module.exports = function (states) {
     snake.spawn(coords.x, coords.y)
   })
 
-  game.on('col', function (snake, color) {
-    console.log(snake, color)
+  game.on('self-collision', function (snake) {
+    var coords = game.getSafeCoords()
+    snake.spawn(coords.x, coords.y)
   })
 
   return {

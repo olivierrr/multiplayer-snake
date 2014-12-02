@@ -164,7 +164,8 @@ Game.prototype.snakeCollision = function(snakes) {
 Game.prototype.selfCollision = function(snake) {
 
 	for(var i=0; i<snake.sections.length-1; i++) {
-		if(snake.sections[i][0] === snake.x && snake.sections[i][1] === snake.y) {
+		var section = snake.sections[i]
+		if(section[0] === snake.x && section[1] === snake.y) {
 			snake.kill()
 			this.emit('self-collision', snake)
 			return

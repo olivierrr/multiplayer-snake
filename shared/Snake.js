@@ -40,6 +40,44 @@ function Snake (){
 	 */
 	this.color = '#'+Math.floor(Math.random()*16777215).toString(16);
 
+	/**
+	 * @property {Array}
+	 */
+	this.queue = []
+
+}
+
+/**
+ * @method
+ */
+Snake.prototype.put = function (direction){
+
+  if([1,2,3,4].indexOf(direction) === -1) return
+  this.queue.unshift(direction)
+
+}
+
+/**
+ * @method
+ */
+Snake.prototype.updateDirection = function (){
+
+	var newDirection = null
+
+  if(this.queue.length > 1) {
+    newDirection = this.queue[1]
+    this.queue = [this.queue[0]]
+    return dir
+  } else if (this.queue.length === 1) {
+    newDirection = this.queue.pop()
+  } else return
+
+	if(this.direction === 1 && newDirection === 3) return
+	if(this.direction === 2 && newDirection === 4) return
+	if(this.direction === 3 && newDirection === 1) return
+	if(this.direction === 4 && newDirection === 2) return
+	this.direction = newDirection
+
 }
 
 /**
@@ -71,6 +109,8 @@ Snake.prototype.extend = function (){
  * move snake in the `direction` its facing
  */
 Snake.prototype.move = function (){
+
+	this.updateDirection()
 
 	if(this.direction === 4) this.x -= 1
 	else if(this.direction === 2) this.x += 1
