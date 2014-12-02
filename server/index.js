@@ -27,12 +27,12 @@ cloak.configure({
       user.name = getUniqueUsername()
       user.message('changeUsername_response', user.name)
     },
-    changeUsername: function (data, user) {
-      if(!data || !data.newUsername) return
-      if(isUserNameUnique(data.newUsername)) {
+    changeUsername: function (newUsername, user) {
+      if(!newUsername) return
+      if(isUserNameUnique(newUsername)) {
         var room = user.getRoom()
-        if(room) room.messageMembers('chat', {flag: 'usernameChange', msg: user.name + ' is now ' + data.newUsername})
-        user.name = data.newUsername
+        if(room) room.messageMembers('chat', {flag: 'usernameChange', msg: user.name + ' is now ' + newUsername})
+        user.name = newUsername
         user.message('changeUsername_response', user.name)
       } else {
         user.message('changeUsername_failed')

@@ -8,7 +8,7 @@ var $elem = document.querySelector('.chat-area')
 var $chatWindow = $elem.querySelector('.chat-window')
 var $sendMsg = $elem.querySelector('.send-msg')
 var $inputMsg = $elem.querySelector('.input-msg')
-var $changeUsernameBtn = $elem.querySelector('.change-username-btn')
+var $changeNameBtn = $elem.querySelector('.change-name-btn')
 
 $inputMsg.addEventListener('keydown', function (e) { 
   if(e.keyCode === 13) sendChatMsg()
@@ -18,9 +18,9 @@ $sendMsg.addEventListener('click', function () {
   sendChatMsg()
 })
 
-$changeUsernameBtn.addEventListener('click', function () {
-  smoke.prompt('enter new username', function(input){
-    if (input) cloak.message('changeUsername', {newUsername: input})
+$changeNameBtn.addEventListener('click', function () {
+  smoke.prompt('enter new name', function(input){
+    if (input) cloak.message('changeUsername', input)
   }, {
     ok: "submit",
     cancel: "cancel",
