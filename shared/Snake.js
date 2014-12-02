@@ -67,7 +67,6 @@ Snake.prototype.updateDirection = function (){
   if(this.queue.length > 1) {
     newDirection = this.queue[1]
     this.queue = [this.queue[0]]
-    return dir
   } else if (this.queue.length === 1) {
     newDirection = this.queue.pop()
   } else return
