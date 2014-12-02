@@ -55,7 +55,7 @@ Game.prototype.boot = function (){
 
 /**
  * @method
- * set all tiles on grid model to 0
+ * set all tiles on grid `model` to 0
  */
 Game.prototype.resetGrid = function (){
 
@@ -96,7 +96,7 @@ Game.prototype.update = function (snakes){
 			var snake = snakes[i]
 
 			if(snake.isAlive) {
-				snake.move()
+				snake.update()
 
 				// snake collides with walls
 				if(snake.x < 0 || snake.x >= this.size || snake.y < 0 || snake.y >= this.size){
@@ -132,6 +132,9 @@ Game.prototype.update = function (snakes){
 	}
 }
 
+/**
+ * @method
+ */
 Game.prototype.snakeCollision = function(snakes) {
 
 	for(var i=0; i<snakes.length; i++) {
@@ -161,6 +164,9 @@ Game.prototype.snakeCollision = function(snakes) {
 
 }
 
+/**
+ * @method
+ */
 Game.prototype.selfCollision = function(snake) {
 
 	for(var i=0; i<snake.sections.length-1; i++) {
@@ -197,19 +203,35 @@ Game.prototype.getRandCoordsWithin = function (){
 
 }
 
+/**
+ * @method
+ */
 Game.prototype.getSafeCoords = function (){
 
+	var x, y
+
+	do {
+		x = ~~(Math.random()*(this.size/2) + this.size*.25)
+		y = ~~(Math.random()*(this.size/2) + this.size*.25)
+	} while (this.model[x][y] !== 0)
+
 	return {
-		x: ~~(Math.random()*(this.size/2) + this.size*.25),
-		y: ~~(Math.random()*(this.size/2) + this.size*.25)
+		x: x,
+		y: y
 	}
 }
 
+/**
+ * @method
+ */
 Game.prototype.on = function (eventName, handler) {
 	if(!eventName || !handler) return
 	(this.events[eventName] || (this.events[eventName] = [])).push(handler)
 }
 
+/**
+ * @method
+ */
 Game.prototype.emit = function (eventName) {
 	if(!eventName || !this.events[eventName]) return
 	var args = [].slice.call(arguments, 1)
@@ -217,4 +239,3 @@ Game.prototype.emit = function (eventName) {
 }
 
 module.exports = Game
-

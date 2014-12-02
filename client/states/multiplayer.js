@@ -85,7 +85,9 @@ module.exports = function (states) {
       end: function () {
         document.location = '/'
       },
-      error: chat.push.bind(null, 'server', 'ERROR', 'server'),
+      error: function () {
+        document.location = '/'
+      },
       joinedRoom: function (room) {
         chat.clear()
         chat.push('server', 'You have joined ' + quoteize(room.name), 'server')

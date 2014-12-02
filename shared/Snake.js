@@ -1,7 +1,6 @@
 
 /**
  * @constructor
- * @param {Hash} - initial snake position and direction
  */
 function Snake (){
 
@@ -38,7 +37,7 @@ function Snake (){
 	/**
 	 * @property {String}
 	 */
-	this.color = '#'+Math.floor(Math.random()*16777215).toString(16);
+	this.color = '#'+Math.floor(Math.random()*16777215).toString(16)
 
 	/**
 	 * @property {Array}
@@ -52,8 +51,7 @@ function Snake (){
  */
 Snake.prototype.put = function (direction){
 
-  if([1,2,3,4].indexOf(direction) === -1) return
-  this.queue.unshift(direction)
+  if([1,2,3,4].indexOf(direction) !== -1) this.queue.unshift(direction)
 
 }
 
@@ -72,24 +70,10 @@ Snake.prototype.updateDirection = function (){
   } else return
 
 	if(this.direction === 1 && newDirection === 3) return
-	if(this.direction === 2 && newDirection === 4) return
-	if(this.direction === 3 && newDirection === 1) return
-	if(this.direction === 4 && newDirection === 2) return
-	this.direction = newDirection
-
-}
-
-/**
- * @method
- * @param {Number}
- * @param {Number}
- */
-Snake.prototype.setPos = function (x, y){
-
-	this.x = x
-	this.y = y
-	this.direction = ~~(Math.random()*4)+1
-	this.sections = [[x, y]]
+	else if(this.direction === 2 && newDirection === 4) return
+	else if(this.direction === 3 && newDirection === 1) return
+	else if(this.direction === 4 && newDirection === 2) return
+	else this.direction = newDirection
 
 }
 
@@ -105,9 +89,10 @@ Snake.prototype.extend = function (){
 
 /**
  * @method
+ * update snakes `direction` using queue
  * move snake in the `direction` its facing
  */
-Snake.prototype.move = function (){
+Snake.prototype.update = function (){
 
 	this.updateDirection()
 
@@ -124,11 +109,16 @@ Snake.prototype.move = function (){
 
 /**
  * @method
+ * reset all values to default and set head position
  */
 Snake.prototype.spawn = function(x, y) {
 
+	this.toAdd = 0
+	this.x = x
+	this.y = y
+	this.direction = ~~(Math.random()*4)+1
+	this.sections = [[x, y]]
 	this.isAlive = true
-	this.setPos(x, y)
 
 }
 

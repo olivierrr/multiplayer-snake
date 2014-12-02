@@ -13,12 +13,12 @@ function Renderer (container){
 	/**
 	 * @property {Number}
 	 */
-	this.width = 500
+	this.width = 0
 
 	/**
 	 * @property {Number}
 	 */
-	this.height = 500
+	this.height = 0
 
 	/**
 	 * @property {Object#node#canvas}
@@ -80,9 +80,8 @@ Renderer.prototype.draw = function(model) {
 	ctx.fillRect(0, 0, this.width, this.height)
 
 	var BLOCKS = {
-		0: 'white', // 'empty'
-		1: '#0070B2', // 'user'
-		2: '#2EE046'  // 'food'
+		0: 'white',  // 'empty'
+		1: '#0070B2' // 'food'
 	}
 
 	for(var i=0; i<model.length; i++) {
