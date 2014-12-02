@@ -11,6 +11,7 @@ module.exports = {
 var $game = document.querySelector('#game-area')
 var $spawnBtn = $game.querySelector('#spawn-btn')
 
+// keydown/focus hack
 $game.tabIndex = 100
 
 $game.addEventListener('keydown', onkeydown)
@@ -53,9 +54,7 @@ function showSpawnBtn () {
 }
 
 function hideSpawnBtn (e) {
-
   if(e.keyCode && e.keyCode !== 32) return
-
   cloak.message('spawn')
   $spawnBtn.className = 'hidden'
   $game.focus()

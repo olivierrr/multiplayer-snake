@@ -3,9 +3,14 @@ var cloak = require('cloak')
 var Game = require('../shared/Game')
 var Snake = require('../shared/Snake')
 var Controller = require('../shared/Controller')
+var connect = require('connect')
+var serveStatic = require('serve-static')
+
+var socketPort = 9001
+var serverPort = +process.env.PORT || 9000
 
 cloak.configure({
-  port: 9001,
+  port: socketPort,
   gameLoopSpeed: 100,
   defaultRoomSize: 10,
   autoJoinLobby: false,
@@ -145,3 +150,7 @@ function getUniqueUsername () {
 
   return username
 }
+
+connect()
+  .use(serveStatic('../client', {'index': ['index.html', 'index.htm']}))
+  .listen(serverPort)

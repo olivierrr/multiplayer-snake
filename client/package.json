@@ -6,7 +6,8 @@
   "scripts": {
     "test": "tape test/*.js | faucet \n exit 0",
     "dev": "beefy index:bundle.js --index=./index.html --live",
-    "cssdev": "sass --watch assets/sass/:assets/css/"
+    "cssdev": "sass --watch assets/sass/:assets/css/",
+    "build": "browserify index.js -o bundle.js"
   },
   "repository": {
     "type": "git",
