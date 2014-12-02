@@ -2,6 +2,7 @@
 var cloak = require('cloak')
 var Game = require('../shared/Game')
 var Snake = require('../shared/Snake')
+var randomColor = require('randomcolor')
 var connect = require('connect')
 var serveStatic = require('serve-static')
 
@@ -38,11 +39,10 @@ cloak.configure({
         user.message('changeUsername_failed')
       }
     },
-    changeColor: function (color, user) {
-      if(color && /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(color)) {
-        user.data.color = color
-        if(user.data.snake) user.data.snake.color = color
-      }
+    changeColor: function (data, user) {
+      var color = randomColor({luminosity: 'light'})
+      user.data.color = color
+      if(user.data.snake) user.data.snake.color = color
     },
     listRooms: function (data, user) {
       user.message('listRooms_response', cloak.getRooms(true))
@@ -118,9 +118,12 @@ cloak.configure({
       cloak.messageAll('listRooms_response', cloak.getRooms(true))
       cloak.messageAll('userCount_response', cloak.userCount())
 
+      var color = user.data.color || (user.data.color = randomColor({luminosity: 'light'}))
+
       user.data.snake = new Snake()
+      user.data.snake.color = color
       user.data.snake.user = user
-      if(user.data.color) user.data.snake.color = user.data.color
+
     },
     memberLeaves: function (user) {
       cloak.messageAll('listRooms_response', cloak.getRooms(true))

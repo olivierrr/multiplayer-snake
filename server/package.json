@@ -26,6 +26,7 @@
     "cloak": "^0.2.6",
     "connect": "^3.3.3",
     "hapi": "^7.5.0",
+    "randomcolor": "^0.1.1",
     "serve-static": "^1.7.1",
     "socket.io": "^1.2.0"
   },
