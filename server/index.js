@@ -70,7 +70,7 @@ cloak.configure({
     spawn: function (data, user) {
       var room = user.getRoom()
       if(room && room.data.game && user.data.snake && user.data.snake.isAlive === false) {
-        var coords = room.data.game.getRandCoordsWithin()
+        var coords = room.data.game.getSafeCoords()
         user.data.snake.spawn(coords.x, coords.y)
       }
     }

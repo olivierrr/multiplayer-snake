@@ -145,6 +145,14 @@ Game.prototype.getRandCoordsWithin = function (){
 
 }
 
+Game.prototype.getSafeCoords = function (){
+
+	return {
+		x: ~~(Math.random()*(this.size/2) + this.size*.25),
+		y: ~~(Math.random()*(this.size/2) + this.size*.25)
+	}
+}
+
 Game.prototype.on = function (eventName, handler) {
 	if(!eventName || !handler) return
 	(this.events[eventName] || (this.events[eventName] = [])).push(handler)
