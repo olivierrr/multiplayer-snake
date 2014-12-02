@@ -43,6 +43,7 @@ cloak.configure({
       var color = randomColor({luminosity: 'light'})
       user.data.color = color
       if(user.data.snake) user.data.snake.color = color
+      user.message('changeColor_response', color)
     },
     listRooms: function (data, user) {
       user.message('listRooms_response', cloak.getRooms(true))
