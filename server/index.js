@@ -154,3 +154,5 @@ function getUniqueUsername () {
 connect()
   .use(serveStatic('../client', {'index': ['index.html', 'index.htm']}))
   .listen(serverPort)
+
+console.log('live on:', serverPort)
