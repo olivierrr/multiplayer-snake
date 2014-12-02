@@ -1,7 +1,8 @@
 
 module.exports = {
   push: push,
-  clear: clear
+  clear: clear,
+  newColor: newColor
 }
 
 var $elem = document.querySelector('.chat-area')
@@ -9,6 +10,7 @@ var $chatWindow = $elem.querySelector('.chat-window')
 var $sendMsg = $elem.querySelector('.send-msg')
 var $inputMsg = $elem.querySelector('.input-msg')
 var $changeNameBtn = $elem.querySelector('.change-name-btn')
+var $changeColorBtn = $elem.querySelector('.change-color-btn')
 
 $inputMsg.addEventListener('keydown', function (e) { 
   if(e.keyCode === 13) sendChatMsg()
@@ -25,8 +27,16 @@ $changeNameBtn.addEventListener('click', function () {
     ok: "submit",
     cancel: "cancel",
     reverseButtons: true
-  });
+  })
 })
+
+$changeColorBtn.addEventListener('click', function () {
+  cloak.message('changeColor')
+})
+
+function newColor (color) {
+  $changeColorBtn.style.background = color
+}
 
 function sendChatMsg () {
   var msg = $inputMsg.value.trim()

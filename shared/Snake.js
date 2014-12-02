@@ -37,7 +37,7 @@ function Snake (){
 	/**
 	 * @property {String}
 	 */
-	this.color = '#'+Math.floor(Math.random()*16777215).toString(16)
+	this.color = '#28FB69'
 
 	/**
 	 * @property {Array}

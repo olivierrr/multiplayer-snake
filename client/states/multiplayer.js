@@ -55,6 +55,9 @@ module.exports = function (states) {
       changeUsername_failed: function () {
         chat.push('server', 'username change failed.', 'server')
       },
+      changeColor_response: function (color) {
+        chat.newColor(color)
+      },
       pulse: function (model) {
         game.draw(model)
       },
@@ -81,6 +84,7 @@ module.exports = function (states) {
         cloak.message('userCount')
         cloak.message('joinLobby')
         cloak.message('ping')
+        cloak.message('changeColor')
         resolveLocation()
       },
       resume: chat.push.bind(null, 'server', 'reconnected.', 'server'),
