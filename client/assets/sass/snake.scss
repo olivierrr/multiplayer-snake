@@ -264,7 +264,7 @@ header {
 
 			input {
 				float: left;
-				width: 80%;
+				width: calc(100% - 120px);
 				height: 40px;
 				resize: none;
 				margin-right: 0;
@@ -275,7 +275,7 @@ header {
 			span {
 				cursor: pointer;
 				float: right;
-				width: 20%;
+				width: 80px;
 				height: 40px;
 				line-height: 40px;
 				background: #333;
@@ -285,6 +285,10 @@ header {
 				&:hover {
 					background: #444;
 				}
+			}
+
+			.change-username-btn {
+				width: 40px;
 			}
 		}
 
