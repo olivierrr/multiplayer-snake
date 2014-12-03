@@ -1,7 +1,7 @@
 
 var Game = require('../../shared/Game')
 var Snake = require('../../shared/Snake')
-var Renderer = require('../Renderer')
+var renderer = require('../renderer')
 
 module.exports = function (states) {
 
@@ -10,7 +10,6 @@ module.exports = function (states) {
 
   var game = new Game(30)
   var snake = new Snake()
-  var renderer
   var interval
 
   function onkeydown (e) {
@@ -34,7 +33,7 @@ module.exports = function (states) {
   return {
     create: function () {
       $elem.className = ''
-      renderer = renderer || new Renderer($canvasContainer)
+      renderer.appendTo($canvasContainer)
       spawn()
       interval = window.setInterval(window.requestAnimationFrame.bind(null, loop), 100)
       document.addEventListener('keydown', onkeydown)

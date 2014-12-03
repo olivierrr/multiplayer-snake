@@ -1,6 +1,5 @@
 
 var game = require('../game')
-var Renderer = require('../Renderer')
 var chat = require('../chat')
 var lobby = require('../lobby')
 var info = require('../info')
@@ -9,7 +8,6 @@ var storage = require('../storage')
 module.exports = function (states) {
 
   var myUsername = ''
-  var renderer
 
   // fix, very nope.
   window.addEventListener('hashchange', resolveLocation)

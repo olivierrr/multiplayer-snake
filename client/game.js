@@ -1,5 +1,5 @@
 
-var Renderer = require('./Renderer')
+var renderer = require('./renderer')
 
 module.exports = {
   show: show,
@@ -18,7 +18,6 @@ $game.addEventListener('keydown', onkeydown)
 $game.addEventListener('keydown', hideSpawnBtn)
 $spawnBtn.addEventListener('click', hideSpawnBtn)
 
-var renderer
 var lastDirection = null
 
 function onkeydown (e) {
@@ -41,12 +40,12 @@ function hide () {
 function show () {
   $game.className = ''
   lastDirection = null
-  renderer = renderer || new Renderer($game)
+  renderer.appendTo($game)
   showSpawnBtn()
 }
 
 function draw (model) {
-  if(renderer) renderer.draw(model)
+  renderer.draw(model)
 }
 
 function showSpawnBtn () {
