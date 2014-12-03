@@ -3,15 +3,18 @@ var cloak = require('cloak')
 var Game = require('../shared/Game')
 var Snake = require('../shared/Snake')
 var randomColor = require('randomcolor')
-var connect = require('connect')
-var serveStatic = require('serve-static')
 var rateLimit = require('./rate-limit')(500)
 
-var socketPort = 9001
-var serverPort = +process.env.PORT || 9000
+var express = require('express')
+  , app = express()
+
+app.use(express.static(__dirname + '/../client'))
+var server = require('http').createServer(app)
+
+server.listen(+process.env.PORT || 9001)
 
 cloak.configure({
-  port: socketPort,
+  express: server,
   gameLoopSpeed: 100,
   defaultRoomSize: 10,
   autoJoinLobby: false,
@@ -23,6 +26,7 @@ cloak.configure({
   notifyRoomChanges: true,
   messages: {
     chat: function (msg, user) {
+      console.log('AAA')
       user.data.limit += 1
       if(user.data.limit > 4) {
         user.message('chat_spam')
@@ -180,8 +184,4 @@ function isValidUsername (username) {
   )
 }
 
-connect()
-  .use(serveStatic('../client', {'index': ['index.html', 'index.htm']}))
-  .listen(serverPort)
-
-console.log('live on:', serverPort)
+console.log('live on:', +process.env.PORT || 9001)
