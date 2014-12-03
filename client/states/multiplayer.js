@@ -32,6 +32,9 @@ module.exports = function (states) {
       chat: function (data) {
         chat.push(data.name, data.msg, data.color)
       },
+      chat_spam: function () {
+        chat.push('server', 'You\'re sending messages too fast!', 'server')
+      },
       roomMemberNameChange: function (data) {
         chat.push('server', quoteize(data.before) + ' is now ' + quoteize(data.now) , data.color, 'server')
       },

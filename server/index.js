@@ -5,6 +5,7 @@ var Snake = require('../shared/Snake')
 var randomColor = require('randomcolor')
 var connect = require('connect')
 var serveStatic = require('serve-static')
+var rateLimit = require('./rate-limit')(500)
 
 var socketPort = 9001
 var serverPort = +process.env.PORT || 9000
@@ -22,7 +23,12 @@ cloak.configure({
   notifyRoomChanges: true,
   messages: {
     chat: function (msg, user) {
-      user.getRoom().messageMembers('chat', {color: user.data.color, name: user.name, msg: msg})
+      user.data.limit += 1
+      if(user.data.limit > 4) {
+        user.message('chat_spam')
+      } else {
+        user.getRoom().messageMembers('chat', {color: user.data.color, name: user.name, msg: msg})
+      }
     },
     getRandomName: function (data, user) {
       user.name = getUniqueUsername()
@@ -30,9 +36,12 @@ cloak.configure({
     },
     changeUsername: function (newUsername, user) {
       if(!newUsername) return
-      if(isUserNameUnique(newUsername)) {
+
+      newUsername = newUsername.replace(/\s/g, '').toUpperCase()
+
+      if(isValidUsername(newUsername)) {
         var room = user.getRoom()
-        if(room) room.messageMembers('chat', {flag: 'usernameChange', msg: user.name + ' is now ' + newUsername})
+        if(room) room.messageMembers('roomMemberNameChange', {before: user.name, now: newUsername})
         user.name = newUsername
         user.message('changeUsername_response', user.name)
       } else {
@@ -144,18 +153,31 @@ cloak.createRoom('no gurls allowed!11')
 cloak.createRoom('another room')
 cloak.createRoom('bad dudes only')
 
-function isUserNameUnique (username) {
-  return (cloak.getUsers().indexOf(username) < 0)
-}
-
 function getUniqueUsername () {
   var username
 
   do {
     username = 'snake' + ~~(Math.random()*1000000) 
-  } while (!isUserNameUnique(username))
+  } while (!isValidUsername(username))
 
   return username
+}
+
+/**
+ * valid usernames are:
+ * alphanumeric 
+ * uppercase
+ * 6 char minimum
+ * 15 chat maximum
+ * unique
+ */
+function isValidUsername (username) {
+  return (
+    username.length > 5
+    && /^[A-Z0-9]+$/.test(username)
+    && username.length < 16
+    && cloak.getUsers().indexOf(username) < 0
+  )
 }
 
 connect()
