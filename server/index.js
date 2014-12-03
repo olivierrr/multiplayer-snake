@@ -11,7 +11,7 @@ var express = require('express')
 app.use(express.static(__dirname + '/../client'))
 var server = require('http').createServer(app)
 
-server.listen(+process.env.PORT || 9001)
+server.listen(+process.env.PORT || 3000)
 
 cloak.configure({
   express: server,
@@ -26,7 +26,6 @@ cloak.configure({
   notifyRoomChanges: true,
   messages: {
     chat: function (msg, user) {
-      console.log('AAA')
       user.data.limit += 1
       if(user.data.limit > 4) {
         user.message('chat_spam')
@@ -111,7 +110,7 @@ cloak.configure({
 
       game.on('snake-collision', function (snake1, snake2) {
         snake1.user.message('snake_die', {x: snake1.x, y: snake1.y})
-        snake2.user.message('snake_kil', {x: snake2.x, y: snake2.y})
+        room.messageMembers('snake_collision', {killed: snake1.user.name, by: snake2.user.name})
       })
 
       game.on('self-collision', function (snake) {
@@ -161,7 +160,7 @@ function getUniqueUsername () {
   var username
 
   do {
-    username = 'snake' + ~~(Math.random()*1000000) 
+    username = 'SNAKE' + ~~(Math.random()*1000000) 
   } while (!isValidUsername(username))
 
   return username

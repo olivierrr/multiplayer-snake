@@ -71,8 +71,8 @@ module.exports = function (states) {
         chat.push('game', 'You died!', 'game')
         game.showSpawnBtn()
       },
-      snake_kil: function (data) {
-        chat.push('game', 'You killed a snake', 'game')
+      snake_collision: function (data) {
+        chat.push('game', data.killed + ' crashed into ' + data.by, 'game')
       },
       snake_eat: function (data) {
         
@@ -134,7 +134,7 @@ module.exports = function (states) {
   return {
     create: function () {
       $elem.className = ''
-      cloak.run('http://localhost:9001')
+      cloak.run('http://localhost')
     },
     destroy: function () {
       $elem.className = 'hidden'
