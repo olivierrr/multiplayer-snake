@@ -40,7 +40,6 @@ function userList (users) {
   if(!users) return
 
   $userList.innerHTML = users.map(function (user) {
-    console.log(user.color)
     return '<div class="user" style="color:' + user.color + '"> ' + user.name + '</div>'
   }).join(' ')
 }

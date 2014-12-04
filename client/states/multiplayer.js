@@ -27,6 +27,9 @@ module.exports = function (states) {
 
   cloak.configure({
     messages: {
+      roomMemberColorChange: function (data) {
+        cloak.message('userList')
+      },
       userList_response: function (users) {
         chat.userList(users)
       },
