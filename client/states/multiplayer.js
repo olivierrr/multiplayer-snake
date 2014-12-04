@@ -41,6 +41,7 @@ module.exports = function (states) {
       },
       roomMemberNameChange: function (data) {
         chat.push('server', quoteize(data.before) + ' is now ' + quoteize(data.now) , data.color, 'server')
+        cloak.message('userList')
       },
       listRooms_response: function (rooms) {
         lobby.render(rooms)
