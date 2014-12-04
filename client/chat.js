@@ -2,7 +2,8 @@
 module.exports = {
   push: push,
   clear: clear,
-  newColor: newColor
+  newColor: newColor,
+  userList: userList
 }
 
 var $elem = document.querySelector('.chat-area')
@@ -11,6 +12,7 @@ var $sendMsg = $elem.querySelector('.send-msg')
 var $inputMsg = $elem.querySelector('.input-msg')
 var $changeNameBtn = $elem.querySelector('.change-name-btn')
 var $changeColorBtn = $elem.querySelector('.change-color-btn')
+var $userList = $elem.querySelector('.user-list')
 
 $inputMsg.addEventListener('keydown', function (e) { 
   if(e.keyCode === 13) sendChatMsg()
@@ -33,6 +35,15 @@ $changeNameBtn.addEventListener('click', function () {
 $changeColorBtn.addEventListener('click', function () {
   cloak.message('changeColor')
 })
+
+function userList (users) {
+  if(!users) return
+
+  $userList.innerHTML = users.map(function (user) {
+    console.log(user.color)
+    return '<div class="user" style="color:' + user.color + '"> ' + user.name + '</div>'
+  }).join(' ')
+}
 
 function newColor (color) {
   $changeColorBtn.style.background = color

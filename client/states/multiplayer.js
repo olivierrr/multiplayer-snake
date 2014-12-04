@@ -27,6 +27,9 @@ module.exports = function (states) {
 
   cloak.configure({
     messages: {
+      userList_response: function (users) {
+        chat.userList(users)
+      },
       chat: function (data) {
         chat.push(data.name, data.msg, data.color)
       },
@@ -116,15 +119,23 @@ module.exports = function (states) {
       leftRoom: function (room) {},
       roomMemberJoined: function (user) {
         if(myUsername !== user.name) chat.push('server', quoteize(user.name) + ' has joined.', 'server')
+
+        cloak.message('userList')
       },
       roomMemberLeft: function (user) {
         chat.push('server', quoteize(user.name) + ' has left.', 'server')
+
+        cloak.message('userList')
       },
       lobbyMemberJoined: function (user) {
         if(myUsername !== user.name) chat.push('server', quoteize(user.name) + ' has joined.', 'server')
+
+        cloak.message('userList')
       },
       lobbyMemberLeft: function (user) {
         chat.push('server', quoteize(user.name) + ' has left.', 'server')
+
+        cloak.message('userList')
       },
       roomCreated: cloak.message.bind(cloak, 'listRooms'),
       roomDeleted: cloak.message.bind(cloak, 'listRooms')

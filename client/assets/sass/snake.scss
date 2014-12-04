@@ -240,7 +240,7 @@ header {
 	.chat-area {
 		float: right;
 		width: 25%;
-		height: calc(100% - 120px);
+		height: calc(100% - 240px);
     position: relative;
 
     .change-color-btn {
@@ -255,6 +255,24 @@ header {
       width: calc(100% + 2px);
       position: relative;
     }
+
+ 		.user-list {
+			width: calc(100% + 2px);
+			height: 120px;
+			background: #f5f5f5;
+			position: relative;
+			left: -2px;
+			border-bottom: solid 1px #D4D4D4;
+			overflow: auto;
+			padding: 10px;
+
+			.user {
+				color: orange;
+				font-size: em(12);
+				text-transform: uppercase;
+				font-weight: bold;
+			}
+ 		}
 
 		.chat-window {
 			height: 100%;
@@ -273,7 +291,7 @@ header {
 
 				.user {
 					color: orange;
-					font-size: 90%;
+					font-size: em(12);
 					text-transform: uppercase;
 					font-weight: bold;
 				}

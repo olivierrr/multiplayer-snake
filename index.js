@@ -1,1 +1,2 @@
-ls = require('child_process').exec('bash ./deploy.sh')
+
+require('child_process').exec('bash ./deploy.sh')

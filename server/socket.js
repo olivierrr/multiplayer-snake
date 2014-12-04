@@ -86,6 +86,10 @@ cloak.configure({
     },
     ping: function (data, user) {
       user.message('pong')
+    },
+    userList: function (data, user) {
+      var room = user.getRoom()
+      if(room) user.message('userList_response', room.getMembers().map(userToJson))
     }
   },
   room: {
@@ -120,6 +124,8 @@ cloak.configure({
       this.messageMembers('pulse', this.data.game.model)
     },
     newMember: function (user) {
+      var room = this
+
       user.message('pulse', this.data.game.model)
       cloak.messageAll('listRooms_response', cloak.getRooms(true))
       cloak.messageAll('userCount_response', cloak.userCount())
@@ -129,9 +135,10 @@ cloak.configure({
       user.data.snake = new Snake()
       user.data.snake.color = color
       user.data.snake.user = user
-
     },
     memberLeaves: function (user) {
+      var room = this
+
       cloak.messageAll('listRooms_response', cloak.getRooms(true))
       cloak.messageAll('userCount_response', cloak.userCount())
     },
@@ -140,6 +147,13 @@ cloak.configure({
     }
   }
 })
+
+function userToJson (user) {
+  return {
+    name: user.name,
+    color: user.data.color
+  }
+}
 
 function getUniqueUsername () {
   var username
