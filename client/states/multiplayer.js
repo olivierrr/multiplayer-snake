@@ -19,8 +19,6 @@ module.exports = function (states) {
     }
   }
 
-  var $elem = document.querySelector('#multiplayer')
-
   function quoteize (str) {
     return '"' + str + '"'
   }
@@ -146,14 +144,16 @@ module.exports = function (states) {
     }
   })
 
+  var $multiplayer = document.querySelector('#multiplayer')
+
   return {
     create: function () {
-      $elem.className = ''
+      $multiplayer.className = ''
       cloak.run('http://localhost')
       // cloak.run('http://snake-40956.onmodulus.net')
     },
     destroy: function () {
-      $elem.className = 'hidden'
+      $multiplayer.className = 'hidden'
       cloak.stop()
     }
   }
