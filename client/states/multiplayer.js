@@ -135,6 +135,7 @@ module.exports = function (states) {
     create: function () {
       $elem.className = ''
       cloak.run('http://localhost')
+      // cloak.run('http://snake-40956.onmodulus.net')
     },
     destroy: function () {
       $elem.className = 'hidden'
