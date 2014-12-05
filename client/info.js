@@ -24,6 +24,7 @@ var ping = (function () {
   return function () {
     $ping.innerHTML = Date.now() - startTime + 'ms'
   }
+
 })()
 
 module.exports = {

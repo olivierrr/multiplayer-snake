@@ -14,6 +14,7 @@ cloak.configure({
   autoCreateRooms: false,
   minRoomMembers: null,
   pruneEmptyRooms: null,
+  reconnectWait: 100,
   reconnectWaitRoomless: null,
   roomLife: null,
   notifyRoomChanges: true,
@@ -108,30 +109,34 @@ cloak.configure({
       var room = this
 
       game.on('die', function (snake) {
+        snake.user.data.deaths += 1
         snake.user.message('snake_die', {x: snake.x, y: snake.y})
       })
 
       game.on('eat', function (snake) {
         snake.user.message('snake_eat', {x: snake.x, y: snake.y})
+        snake.user.data.points += 1
       })
 
       game.on('snake-collision', function (snake1, snake2) {
         snake1.user.message('snake_die', {x: snake1.x, y: snake1.y})
         room.messageMembers('snake_collision', {killed: snake1.user.name, by: snake2.user.name})
+        snake1.user.data.kills += 1
+        snake2.user.data.deaths += 1
       })
 
       game.on('self-collision', function (snake) {
         snake.user.message('snake_die', {x: snake.x, y: snake.y})
+        snake.user.data.deaths +=1
       })
 
     },
     pulse: function () {
-      var snakes = this.getMembers().map(function (user) {
-        user.data.snake = user.data.snake || new Snake()
-        return user.data.snake
-      })
-      this.data.game.update(snakes)
-      this.messageMembers('pulse', this.data.game.model)
+      var room = this
+      var snakes = room.getMembers().map(function (user) { return user.data.snake })
+      room.data.game.update(snakes)
+      room.messageMembers('pulse', room.data.game.model)
+      room.messageMembers('userList_response', room.getMembers().map(userToJson))
     },
     newMember: function (user) {
       var room = this
@@ -140,15 +145,19 @@ cloak.configure({
       cloak.messageAll('listRooms_response', cloak.getRooms(true))
       cloak.messageAll('userCount_response', cloak.userCount())
 
-      var color = user.data.color || (user.data.color = randomColor({luminosity: 'light'}))
-
       user.data.snake = new Snake()
+
+      var color = user.data.color || (user.data.color = randomColor({luminosity: 'light'}))
       user.data.snake.color = color
       user.data.snake.user = user
+      user.data.points = user.data.points || 0
+      user.data.kills = user.data.kills || 0
+      user.data.deaths = user.data.deaths ||0
     },
     memberLeaves: function (user) {
       var room = this
 
+      user.snake = null
       cloak.messageAll('listRooms_response', cloak.getRooms(true))
       cloak.messageAll('userCount_response', cloak.userCount())
     },
@@ -159,9 +168,13 @@ cloak.configure({
 })
 
 function userToJson (user) {
+
   return {
     name: user.name,
-    color: user.data.color
+    color: user.data.color,
+    points: user.data.points || 0,
+    kills: user.data.kills || 0,
+    deaths: user.data.deaths || 0,
   }
 }
 

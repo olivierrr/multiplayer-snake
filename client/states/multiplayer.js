@@ -121,13 +121,9 @@ module.exports = function (states) {
       leftRoom: function (room) {},
       roomMemberJoined: function (user) {
         if(myUsername !== user.name) chat.push('server', quoteize(user.name) + ' has joined.', 'server')
-
-        cloak.message('userList')
       },
       roomMemberLeft: function (user) {
         chat.push('server', quoteize(user.name) + ' has left.', 'server')
-
-        cloak.message('userList')
       },
       lobbyMemberJoined: function (user) {
         if(myUsername !== user.name) chat.push('server', quoteize(user.name) + ' has joined.', 'server')
