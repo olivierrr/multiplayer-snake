@@ -139,11 +139,11 @@ Game.prototype.snakeCollision = function(snakes) {
 
 	for(var i=0; i<snakes.length; i++) {
 		var snake = snakes[i]
-		if(!snake.isAlive) continue
+		if(snake && !snake.isAlive) continue
 
 		for(var j=0; j<snakes.length; j++) {
 			var other = snakes[j]
-			if(!other.isAlive) continue
+			if(other && !other.isAlive) continue
 
 			if(snake === other) {
 				this.selfCollision(snake)

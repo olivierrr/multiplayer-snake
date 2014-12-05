@@ -4,7 +4,7 @@ var cloak = require('cloak')
 
 var Game = require('../shared/Game')
   , Snake = require('../shared/Snake')
-  , rateLimit = require('./rate-limit')(500)
+  , rateLimit = require('./rate-limit')(300)
 
 cloak.configure({
   express: require('./server'),
@@ -68,20 +68,24 @@ cloak.configure({
       if(!data || !data.roomName) return
 
       var room
-      data.roomName = data.roomName.toUpperCase()
+      data.roomName = data.roomName.split(/\s+/).join(' ').trim().toUpperCase()
 
+      console.log(isValidRoomname(data.roomName))
       if(isValidRoomname(data.roomName) && (room = cloak.createRoom(data.roomName, data.roomSize))) {
-        user.message('createRoom_response', {roomId: room.id})
+        user.message('createRoom_response', {roomName: room.name})
       } else {
         user.message('createRoom_failed')
       }
 
     },
     joinRoom: function (data, user) {
-      if(!data || !data.roomId) return
-      var room = cloak.getRoom(data.roomId)
-      if(room) room.addMember(user)
-      else user.message('joinRoom_failed')
+      if(!data || !data.roomName) return
+
+      var room = findRoomByName(deSlugize(data.roomName).toUpperCase())
+      if( !room || !room.addMember(user)) {
+        user.message('joinRoom_failed')
+      }
+
     },
     leaveRoom: function (data, user) {
       user.leaveRoom()
@@ -162,17 +166,34 @@ cloak.configure({
       user.data.deaths = user.data.deaths ||0
     },
     memberLeaves: function (user) {
-      var room = this
-
       user.snake = null
       cloak.messageAll('listRooms_response', cloak.getRooms(true))
       cloak.messageAll('userCount_response', cloak.userCount())
     },
     close: function () {
-
+      var room = this
+      room.getMembers().forEach(function (member) {
+        member.joinRoom(cloak.getLobby())
+      })
     }
   }
 })
+
+function deSlugize (str) {
+  return str.split('-').join(' ')
+}
+
+function findRoomByName (roomName) {
+  var rooms = cloak.getRooms()
+  for(var i=0; i<rooms.length; i++) {
+    if(rooms[i].name === roomName) {
+      
+      console.log(rooms[i].name)
+      return rooms[i]
+    }
+  }
+  return false
+}
 
 function userToJson (user) {
 
@@ -217,20 +238,18 @@ function isValidUsername (username) {
  * alphanumeric
  * uppercase
  * 4 char min
- * 21 char max
+ * 30 char max
  * unique
  */
 function isValidRoomname (name) {
   return (
     name.length > 3
-    && /^[A-Z0-9]+$/.test(name)
-    && name.length < 21
+    && /^[A-Z0-9]+$/.test(name.replace(/\s/g, ''))
+    && name.length < 31
     && cloak.getRooms().some(function (room) { return room.name !== name })
   )
 }
 
 cloak.run()
-cloak.createRoom('main room')
-cloak.createRoom('no gurls allowed!11')
-cloak.createRoom('another room')
-cloak.createRoom('bad dudes only')
+cloak.createRoom('MAIN ROOM')
+cloak.createRoom('SECOND ROOM')

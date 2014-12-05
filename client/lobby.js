@@ -22,8 +22,12 @@ $createRoom.addEventListener('click', function () {
 function render (rooms) {
   $roomList.innerHTML = ''
   rooms.forEach(function (room) {
-    $roomList.innerHTML += '<li><a href="#multiplayer/' + room.id + '">' + room.name + ' - ' + room.users.length + '/' + room.size +'</a></li>'
+    $roomList.innerHTML += '<li><a href="#multiplayer/' + slugize(room.name) + '">' + room.name + ' - ' + room.users.length + '/' + room.size +'</a></li>'
   })
+}
+
+function slugize (str) {
+  return str.split(/\s+/).join('-').toLowerCase()
 }
 
 function hide () {

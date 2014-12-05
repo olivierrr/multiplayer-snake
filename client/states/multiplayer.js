@@ -14,7 +14,7 @@ module.exports = function (states) {
   function resolveLocation () {
     var location = document.location.hash.split('/')
     if(location[0] === '#multiplayer') {
-      if(location[1]) cloak.message('joinRoom', {roomId: location[1]})
+      if(location[1]) cloak.message('joinRoom', {roomName: location[1]})
       else cloak.message('joinLobby')
     }
   }
@@ -22,6 +22,11 @@ module.exports = function (states) {
   function quoteize (str) {
     return '"' + str + '"'
   }
+
+  function slugize (str) {
+    return str.split(/\s+/).join('-').toLowerCase()
+  }
+
 
   cloak.configure({
     messages: {
@@ -46,7 +51,7 @@ module.exports = function (states) {
         info.roomCount(rooms.length)
       },
       createRoom_response: function (data) {
-        document.location.hash = '#multiplayer/' + data.roomId
+        document.location.hash = '#multiplayer/' + slugize(data.roomName)
       },
       createRoom_failed: function (data) {
         chat.push('server', 'room creation failed', 'server')
