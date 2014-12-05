@@ -1,10 +1,10 @@
 
 var cloak = require('cloak')
-  , randomColor = require('randomcolor')
+  , randomColor = require('./random-color')
 
 var Game = require('../shared/Game')
   , Snake = require('../shared/Snake')
-  , rateLimit = require('./rate-limit')(300)
+  , rateLimit = require('./rate-limit')(1000)
 
 cloak.configure({
   express: require('./server'),
@@ -46,7 +46,8 @@ cloak.configure({
       }
     },
     changeColor: function (data, user) {
-      var color = randomColor({luminosity: 'light'})
+      var color = randomColor()
+      console.log(color)
       var oldColor = user.data.color
       user.data.color = color
       if(user.data.snake) user.data.snake.color = color
@@ -133,12 +134,10 @@ cloak.configure({
         snake1.user.message('snake_die', {x: snake1.x, y: snake1.y})
         room.messageMembers('snake_collision', {killed: snake1.user.name, by: snake2.user.name})
         snake1.user.data.kills += 1
-        snake2.user.data.deaths += 1
       })
 
       game.on('self-collision', function (snake) {
         snake.user.message('snake_die', {x: snake.x, y: snake.y})
-        snake.user.data.deaths +=1
       })
 
     },
@@ -158,7 +157,7 @@ cloak.configure({
 
       user.data.snake = new Snake()
 
-      var color = user.data.color || (user.data.color = randomColor({luminosity: 'light'}))
+      var color = user.data.color || (user.data.color = randomColor())
       user.data.snake.color = color
       user.data.snake.user = user
       user.data.points = user.data.points || 0
