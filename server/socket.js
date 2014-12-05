@@ -66,9 +66,16 @@ cloak.configure({
     },
     createRoom: function (data, user) {
       if(!data || !data.roomName) return
-      var room = cloak.createRoom(data.roomName, data.roomSize)
-      if(room && room.id) user.message('createRoom_response', {roomId: room.id})
-      else user.message('createRoom_failed')
+
+      var room
+      data.roomName = data.roomName.toUpperCase()
+
+      if(isValidRoomname(data.roomName) && (room = cloak.createRoom(data.roomName, data.roomSize))) {
+        user.message('createRoom_response', {roomId: room.id})
+      } else {
+        user.message('createRoom_failed')
+      }
+
     },
     joinRoom: function (data, user) {
       if(!data || !data.roomId) return
@@ -192,8 +199,8 @@ function getUniqueUsername () {
  * valid usernames are:
  * alphanumeric 
  * uppercase
- * 6 char minimum
- * 15 chat maximum
+ * 6 char min
+ * 15 chat max
  * unique
  */
 function isValidUsername (username) {
@@ -202,6 +209,23 @@ function isValidUsername (username) {
     && /^[A-Z0-9]+$/.test(username)
     && username.length < 16
     && cloak.getUsers().indexOf(username) < 0
+  )
+}
+
+/**
+ * valid roonames are:
+ * alphanumeric
+ * uppercase
+ * 4 char min
+ * 21 char max
+ * unique
+ */
+function isValidRoomname (name) {
+  return (
+    name.length > 3
+    && /^[A-Z0-9]+$/.test(name)
+    && name.length < 21
+    && cloak.getRooms().some(function (room) { return room.name !== name })
   )
 }
 

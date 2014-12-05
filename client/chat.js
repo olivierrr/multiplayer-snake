@@ -15,7 +15,6 @@ var $changeColorBtn = $elem.querySelector('.change-color-btn')
 var $userList = $elem.querySelector('.user-list')
 
 function colorize(str, color) {
-  console.log('<span style="color:' + color + '">' + str + '</span>')
   return '<span style="color:' + color + '">' + str + '</span>'
 }
 
@@ -45,7 +44,6 @@ function userList (users) {
   if(!users) return
 
   $userList.innerHTML = users.map(function (user) {
-    console.log('awdawd')
     var str = '<div class="user">' + colorize(user.name, user.color) + ' '
     str += ' ' + user.points
     str += ' ' + user.kills

@@ -143,6 +143,9 @@ module.exports = function (states) {
   var $multiplayer = document.querySelector('#multiplayer')
 
   return {
+    // preload: function (done) {
+    //   cloak._on('cloak-begin', done)
+    // },
     create: function () {
       $multiplayer.className = ''
       cloak.run('http://localhost')
