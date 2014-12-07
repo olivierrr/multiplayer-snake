@@ -836,6 +836,7 @@ header {
     #multiplayer .chat-area .chat-window {
       background: #f5f5f5;
       overflow-y: scroll;
+      height: 100%;
       word-wrap: break-word; }
       #multiplayer .chat-area .chat-window .msg {
         padding: 5px 15px;
