@@ -139,11 +139,11 @@ Game.prototype.snakeCollision = function(snakes) {
 
 	for(var i=0; i<snakes.length; i++) {
 		var snake = snakes[i]
-		if(snake && !snake.isAlive) continue
+		if(!snake.isAlive) continue
 
 		for(var j=0; j<snakes.length; j++) {
 			var other = snakes[j]
-			if(other && !other.isAlive) continue
+			if(!other.isAlive) continue
 
 			if(snake === other) {
 				this.selfCollision(snake)
@@ -156,6 +156,7 @@ Game.prototype.snakeCollision = function(snakes) {
 				if(section[0] === snake.x && section[1] === snake.y) {
 					snake.kill()
 					this.emit('snake-collision', snake, other)
+					this.emit('die', snake)
 					break
 				}
 			}
@@ -174,6 +175,7 @@ Game.prototype.selfCollision = function(snake) {
 		if(section[0] === snake.x && section[1] === snake.y) {
 			snake.kill()
 			this.emit('self-collision', snake)
+			this.emit('die', snake)
 			return
 		}
 	}

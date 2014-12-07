@@ -18,6 +18,10 @@ function colorize(str, color) {
   return '<span style="color:' + color + '">' + str + '</span>'
 }
 
+function tdize(str) {
+  return '<td>' + str + '</td>'
+}
+
 $inputMsg.addEventListener('keydown', function (e) { 
   if(e.keyCode === 13) sendChatMsg()
 })
@@ -43,13 +47,18 @@ $changeColorBtn.addEventListener('click', function () {
 function userList (users) {
   if(!users) return
 
-  $userList.innerHTML = users.map(function (user) {
-    var str = '<div class="user">' + colorize(user.name, user.color) + ' '
-    str += ' ' + user.points
-    str += ' ' + user.kills
-    str += ' ' + user.deaths
-    return str += '</div>'
-  }).join(' ')
+  str = '<table> <thead> <tr> <th>username</th> <th>points</th> <th>kills</th> <th>deaths</th> </tr> </thead>' 
+
+  users.forEach(function (user) {
+    str += '<tr>'
+    str += tdize(colorize(user.name, user.color))
+    str += tdize(user.points)
+    str += tdize(user.kills)
+    str += tdize(user.deaths)
+    str += '</tr>'
+  })
+
+  $userList.innerHTML = (str + '</table>')
 }
 
 function newColor (color) {

@@ -21,7 +21,7 @@ cloak.configure({
   messages: {
     chat: function (msg, user) {
       user.data.limit += 1
-      if(user.data.limit > 4) {
+      if(user.data.limit > 3) {
         user.message('chat_spam')
       } else {
         user.getRoom().messageMembers('chat', {color: user.data.color, name: user.name, msg: msg})

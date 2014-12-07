@@ -14,5 +14,5 @@ function tick () {
 
 function setIntervalTime (intervalTime) {
   clearInterval(interval)
-  setInterval(tick, intervalTime)
+  interval = setInterval(tick, intervalTime)
 }
