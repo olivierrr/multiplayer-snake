@@ -6,6 +6,8 @@ var Game = require('../shared/Game')
   , Snake = require('../shared/Snake')
   , rateLimit = require('./rate-limit')(1000)
 
+var ai = require('./ai')
+
 cloak.configure({
   express: require('./server'),
   gameLoopSpeed: 130,
@@ -117,8 +119,8 @@ cloak.configure({
   },
   room: {
     init: function () {
-      var game = this.data.game = new Game(30)
       var room = this
+      var game = room.data.game = new Game(30)
 
       game.on('die', function (snake) {
         snake.user.data.deaths += 1

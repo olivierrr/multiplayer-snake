@@ -24,6 +24,7 @@
   "homepage": "https://github.com/olivierrr/multiplayer-snake",
   "dependencies": {
     "cloak": "^0.2.6",
+    "easystarjs": "^0.1.13",
     "express": "^4.10.4",
     "pleasejs": "^0.4.2"
   },
