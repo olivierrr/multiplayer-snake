@@ -49,7 +49,6 @@ cloak.configure({
     },
     changeColor: function (data, user) {
       var color = randomColor()
-      console.log(color)
       var oldColor = user.data.color
       user.data.color = color
       if(user.data.snake) user.data.snake.color = color
@@ -73,7 +72,6 @@ cloak.configure({
       var room
       data.roomName = data.roomName.split(/\s+/).join(' ').trim().toUpperCase()
 
-      console.log(isValidRoomname(data.roomName))
       if(isValidRoomname(data.roomName) && (room = cloak.createRoom(data.roomName, data.roomSize))) {
         user.message('createRoom_response', {roomName: room.name})
       } else {
@@ -121,6 +119,11 @@ cloak.configure({
     init: function () {
       var room = this
       var game = room.data.game = new Game(30)
+      game.isPaused = true
+
+      game.on('postupdate', function (snakes) {
+        
+      })
 
       game.on('die', function (snake) {
         snake.user.data.deaths += 1
@@ -153,6 +156,9 @@ cloak.configure({
     newMember: function (user) {
       var room = this
 
+      // resume game in case it was paused
+      room.data.game.isPaused = false
+
       user.message('pulse', this.data.game.model)
       cloak.messageAll('listRooms_response', cloak.getRooms(true))
       cloak.messageAll('userCount_response', cloak.userCount())
@@ -170,6 +176,12 @@ cloak.configure({
       user.snake = null
       cloak.messageAll('listRooms_response', cloak.getRooms(true))
       cloak.messageAll('userCount_response', cloak.userCount())
+
+      // pause game when there are no players in room
+      if(this.getMembers().length < 1) {
+        this.data.game.isPaused = true
+      }
+
     },
     close: function () {
       var room = this
@@ -188,8 +200,6 @@ function findRoomByName (roomName) {
   var rooms = cloak.getRooms()
   for(var i=0; i<rooms.length; i++) {
     if(rooms[i].name === roomName) {
-      
-      console.log(rooms[i].name)
       return rooms[i]
     }
   }

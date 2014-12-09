@@ -78,6 +78,8 @@ Game.prototype.update = function (snakes){
 	if(!snakes) return
 
 	if(this.isPaused === false) {
+		this.emit('preupdate', snakes)
+
 		var self = this
 
 		this.resetGrid()
@@ -119,6 +121,8 @@ Game.prototype.update = function (snakes){
 					}
 				})
 			}
+
+			this.emit('postupdate', snakes)
 		}
 
 		while(this.foods.length < this.maxFoodsCount) {
