@@ -238,6 +238,7 @@ header {
 	}
 
 	.chat-area {
+
 		float: right;
 		width: 25%;
 		height: calc(100% - 200px);
@@ -248,16 +249,12 @@ header {
     	width: 50%;
       color: black;
       position: relative;
-      left: -2px;
     }
 
     .change-name-btn {
     	float: right;
-    	width: calc(50% - 2px);
+    	width: 50%;
       position: relative;
-      left: -2px;
-      box-sizing: content-box;
-      border-right: solid 2px #333;
     }
 
  		.user-list {
@@ -268,7 +265,7 @@ header {
 			border-top: solid 1px #D4D4D4;
 			overflow: auto;
 			color: #444;
-			font-size: em(12);
+			font-size: em(11);
 			text-transform: uppercase;
 			font-weight: bold;
 			border-collapse: collapse;

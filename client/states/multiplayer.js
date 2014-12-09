@@ -4,6 +4,7 @@ var chat = require('../chat')
 var lobby = require('../lobby')
 var info = require('../info')
 var storage = require('../storage')
+var renderer = require('../renderer')
 
 module.exports = function (states) {
 
@@ -35,6 +36,12 @@ module.exports = function (states) {
       },
       userList_response: function (users) {
         chat.userList(users)
+        renderer.setColor(users.reduce(highestPoints).color)
+
+        function highestPoints (a, b) {
+          return a.points > b.points ? a : b
+        }
+
       },
       chat: function (data) {
         chat.push(data.name, data.msg, data.color)

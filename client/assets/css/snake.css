@@ -807,15 +807,11 @@ header {
       float: left;
       width: 50%;
       color: black;
-      position: relative;
-      left: -2px; }
+      position: relative; }
     #multiplayer .chat-area .change-name-btn {
       float: right;
-      width: calc(50% - 2px);
-      position: relative;
-      left: -2px;
-      box-sizing: content-box;
-      border-right: solid 2px #333; }
+      width: 50%;
+      position: relative; }
     #multiplayer .chat-area .user-list {
       width: 100%;
       height: 120px;
@@ -823,7 +819,7 @@ header {
       border-top: solid 1px #D4D4D4;
       overflow: auto;
       color: #444;
-      font-size: 0.75em;
+      font-size: 0.6875em;
       text-transform: uppercase;
       font-weight: bold;
       border-collapse: collapse;
