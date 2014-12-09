@@ -198,9 +198,16 @@ Game.prototype.addFood = function (){
  */
 Game.prototype.getRandCoordsWithin = function (){
 
+	var x, y
+
+	do {
+		x = ~~(Math.random() * this.size)
+		y = ~~(Math.random() * this.size)
+	} while (this.model[x][y] !== 0)
+
 	return {
-		x: ~~(Math.random()*this.size), 
-		y: ~~(Math.random()*this.size)
+		x: x, 
+		y: y
 	}
 
 }
