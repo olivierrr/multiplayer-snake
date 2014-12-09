@@ -5,6 +5,11 @@
 function Snake (){
 
 	/**
+	 * @property {Boolean}
+	 */
+	this.isAi = false
+
+	/**
 	 * @property {Number}
 	 */
 	this.x

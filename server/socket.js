@@ -10,7 +10,7 @@ var ai = require('./ai')
 
 cloak.configure({
   express: require('./server'),
-  gameLoopSpeed: 130,
+  gameLoopSpeed: 100,
   defaultRoomSize: 10,
   autoJoinLobby: false,
   autoCreateRooms: false,
@@ -121,9 +121,40 @@ cloak.configure({
       var game = room.data.game = new Game(30)
       game.isPaused = true
 
-      game.on('postupdate', function (snakes) {
-        
-      })
+      // room.data.ai = [new Snake(), new Snake(), new Snake(), new Snake()].map(function (snake) { 
+      //   snake.isAi = true 
+      //   snake.color = '#FF0000'
+      //   snake.user = {
+      //     message: function(){},
+      //     data: {
+      //       points: 0,
+      //       kills: 0,
+      //       deaths: 0
+      //     }
+      //   }
+      //   return snake
+      // })
+
+      // game.on('preupdate', function () {
+      //   if(room.data.ai) {
+      //     room.data.ai.forEach(function (snake) {
+      //       if(snake.isAlive === false) {
+      //         var coords = room.data.game.getSafeCoords()
+      //         snake.spawn(coords.x, coords.y)
+      //       }
+      //     })
+      //   }
+      // })
+
+      // game.on('postupdate', function () {
+      //   if(room.data.ai) {
+      //     room.data.ai.forEach(function (snake) {
+      //       ai(game.model, [snake.x, snake.y], snake.direction, [10, 10], function (newDir) {
+      //         snake.put(newDir)
+      //       })
+      //     })
+      //   }
+      // })
 
       game.on('die', function (snake) {
         snake.user.data.deaths += 1
@@ -148,7 +179,7 @@ cloak.configure({
     },
     pulse: function () {
       var room = this
-      var snakes = room.getMembers().map(function (user) { return user.data.snake })
+      var snakes = getSnakesInRoom(room)
       room.data.game.update(snakes)
       room.messageMembers('pulse', room.data.game.model)
       room.messageMembers('userList_response', room.getMembers().map(userToJson))
@@ -191,6 +222,22 @@ cloak.configure({
     }
   }
 })
+
+function getSnakesInRoom (room) {
+  var snakes = []
+
+  room.getMembers().forEach(function (user) { 
+    snakes.push(user.data.snake) 
+  })
+
+  if(room.data.ai) {
+    room.data.ai.forEach(function (snake) {
+      snakes.push(snake)
+    })
+  }
+
+  return snakes
+}
 
 function deSlugize (str) {
   return str.split('-').join(' ')
