@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/olivierrr/multiplayer-snake",
   "dependencies": {
+    "color": "^0.7.3",
     "state-manager": "^1.0.1"
   },
   "devDependencies": {

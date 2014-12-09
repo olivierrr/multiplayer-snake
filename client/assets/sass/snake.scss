@@ -211,6 +211,7 @@ header {
 			height: calc(100% - 40px);
 			text-align: center;
 			vertical-align: center;
+			transition: background 0.5s ease;
 
 			#spawn-btn {
 				@include transition(.1s ease-in-out);

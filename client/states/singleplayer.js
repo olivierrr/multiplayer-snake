@@ -34,6 +34,7 @@ module.exports = function (states) {
     create: function () {
       $elem.className = ''
       renderer.appendTo($canvasContainer)
+      renderer.setColor('#2D495B')
       spawn()
       interval = window.setInterval(window.requestAnimationFrame.bind(null, loop), 100)
       document.addEventListener('keydown', onkeydown)

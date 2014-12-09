@@ -778,7 +778,8 @@ header {
       width: 100%;
       height: calc(100% - 40px);
       text-align: center;
-      vertical-align: center; }
+      vertical-align: center;
+      transition: background 0.5s ease; }
       #multiplayer .swap-area #game-area #spawn-btn {
         -webkit-transition: 0.1s ease-in-out;
         -moz-transition: 0.1s ease-in-out;
