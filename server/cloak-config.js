@@ -3,7 +3,7 @@ var cloak = require('cloak')
 
 cloak.configure({
   express: require('./server'),
-  gameLoopSpeed: 100,
+  gameLoopSpeed: 150,
   defaultRoomSize: 10,
   autoJoinLobby: false,
   autoCreateRooms: false,

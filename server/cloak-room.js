@@ -8,13 +8,73 @@ var Game = require('../shared/Game')
 module.exports = {
   init: function () {
     var room = this
-    var game = room.data.game = new Game(30)
+      , game = this.data.game || (this.data.game = new Game(30))
+
+    // //// ai test ////
+    // function randomFoodLocation () {
+    //   var foodBlock = game.foods[~~(Math.random()*game.maxFoodsCount)]
+
+    //   if(foodBlock) {
+    //     foodBlock = foodBlock.split('-').reverse()
+    //     console.log(foodBlock)
+    //     return foodBlock
+    //   }
+    //   else return [10,10]
+    // }
+    // function getSnakeTarget (snake) {
+    //   snake.target = snake.target || randomFoodLocation()
+    //   if(snake.target[0]===10 && snake.target[1]===10) snake.target = randomFoodLocation()
+
+    //   console.log(snake.target)
+    //   return snake.target
+    // }
+    // room.data.ai = [new Snake()].map(function (snake) { 
+    //   snake.isAi = true 
+    //   snake.color = '#FF0000'
+    //   snake.user = {
+    //     message: function(){},
+    //     name: '@AI-'+ ~~(Math.random()*100),
+    //     data: {
+    //       points: 0,
+    //       kills: 0,
+    //       deaths: 0
+    //     }
+    //   }
+    //   snake.target = randomFoodLocation()
+    //   return snake
+    // })
+    // game.on('preupdate', function () {
+    //   if(room.data.ai) {
+    //     room.data.ai.forEach(function (snake) {
+    //       if(snake.isAlive === false) {
+    //         var coords = room.data.game.getSafeCoords()
+    //         snake.spawn(coords.x, coords.y)
+    //       }
+    //     })
+    //   }
+    // })
+    // game.on('postupdate', function () {
+    //   if(room.data.ai) {
+    //     room.data.ai.forEach(function (snake) {
+    //       ai(game.model, [snake.x, snake.y], snake.direction, getSnakeTarget(snake), function (newDir) {
+    //         snake.put(newDir)
+    //       })
+    //     })
+    //   }
+    // })
+    // game.on('eat', function (snake) {
+    //   if(snake.user.name[0]==='@' && snake.user.name[1]==='A' && snake.user.name[2]==='I') {
+    //     snake.target = randomFoodLocation()
+    //   }
+    // })
+    // //// ai test ////
 
     // we start the room paused in case there are 0 players
     game.isPaused = true
 
     game.on('die', function (snake) {
       snake.user.data.deaths += 1
+      snake.user.data.points = 0
       snake.user.message('snake_die', {x: snake.x, y: snake.y})
     })
 
@@ -26,7 +86,9 @@ module.exports = {
     game.on('snake-collision', function (snake1, snake2) {
       snake1.user.message('snake_die', {x: snake1.x, y: snake1.y})
       room.messageMembers('snake_collision', {killed: snake1.user.name, by: snake2.user.name})
-      snake1.user.data.kills += 1
+      snake1.user.data.points = 0
+      snake1.user.data.deaths += 1
+      snake2.user.data.kills += 1
     })
 
     game.on('self-collision', function (snake) {
@@ -35,32 +97,33 @@ module.exports = {
   },
   pulse: function () {
     var room = this
-    var snakes = room.getMembers().map(getSnakeFromUser)
-    room.data.game.update(snakes)
-    room.messageMembers('pulse', room.data.game.model)
+      , game = this.data.game
+      , snakes = getSnakesInRoom(room)
+
+    game.update(snakes)
+    room.messageMembers('pulse', game.model)
     room.messageMembers('userList_response', room.getMembers().map(userToJson))
   },
   newMember: function (user) {
     var room = this
+      , game = this.data.game
 
-    // resume game in case it was paused
-    room.data.game.isPaused = false
+    // resume game in case it was paused as this may be the first user
+    game.isPaused = false
 
-    user.message('pulse', this.data.game.model)
+    user.message('pulse', game.model)
     cloak.messageAll('listRooms_response', cloak.getRooms(true))
     cloak.messageAll('userCount_response', cloak.userCount())
 
     user.data.snake = new Snake()
-
-    var color = user.data.color || (user.data.color = randomColor())
-    user.data.snake.color = color
+    user.data.snake.color = (user.data.color || (user.data.color = randomColor()))
     user.data.snake.user = user
-    user.data.points = user.data.points || 0
+    user.data.points = 0
     user.data.kills = user.data.kills || 0
-    user.data.deaths = user.data.deaths ||0
+    user.data.deaths = user.data.deaths || 0
   },
   memberLeaves: function (user) {
-    user.snake = null
+    user.data.snake = null
     cloak.messageAll('listRooms_response', cloak.getRooms(true))
     cloak.messageAll('userCount_response', cloak.userCount())
 
@@ -68,12 +131,14 @@ module.exports = {
     if(this.getMembers().length < 1) {
       this.data.game.isPaused = true
     }
-
   },
   close: function () {
     var room = this
-    room.getMembers().forEach(function (member) {
-      member.joinRoom(cloak.getLobby())
+    room.data.game = null
+    room.getMembers().forEach(function (user) {
+      user.data.snake = null
+      user.data.points = 0
+      user.joinRoom(cloak.getLobby())
     })
   }
 }
@@ -92,38 +157,6 @@ function userToJson (user) {
   }
 }
 
-
-    // room.data.ai = [new Snake(), new Snake(), new Snake(), new Snake()].map(function (snake) { 
-    //   snake.isAi = true 
-    //   snake.color = '#FF0000'
-    //   snake.user = {
-    //     message: function(){},
-    //     data: {
-    //       points: 0,
-    //       kills: 0,
-    //       deaths: 0
-    //     }
-    //   }
-    //   return snake
-    // })
-
-    // game.on('preupdate', function () {
-    //   if(room.data.ai) {
-    //     room.data.ai.forEach(function (snake) {
-    //       if(snake.isAlive === false) {
-    //         var coords = room.data.game.getSafeCoords()
-    //         snake.spawn(coords.x, coords.y)
-    //       }
-    //     })
-    //   }
-    // })
-
-    // game.on('postupdate', function () {
-    //   if(room.data.ai) {
-    //     room.data.ai.forEach(function (snake) {
-    //       ai(game.model, [snake.x, snake.y], snake.direction, [10, 10], function (newDir) {
-    //         snake.put(newDir)
-    //       })
-    //     })
-    //   }
-    // })
+function getSnakesInRoom (room) {
+  return room.getMembers().map(getSnakeFromUser).concat(room.data.ai || [])
+}
