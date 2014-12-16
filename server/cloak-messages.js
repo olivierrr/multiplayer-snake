@@ -5,8 +5,7 @@ var cloak = require('cloak')
 
 module.exports = {
   chat: function (msg, user) {
-    user.data.limit += 1
-    if(user.data.limit > 3) {
+    if(user.data.limit++ > 3) {
       user.message('chat_spam')
     } else {
       user.getRoom().messageMembers('chat', {color: user.data.color, name: user.name, msg: msg})
@@ -63,7 +62,7 @@ module.exports = {
   joinRoom: function (data, user) {
     if(!data || !data.roomName) return
     var room = findRoomByName(deSlugize(data.roomName).toUpperCase())
-    if( !room || !room.addMember(user)) {
+    if(!room || !room.addMember(user)) {
       user.message('joinRoom_failed')
     }
   },
@@ -81,7 +80,7 @@ module.exports = {
   },
   spawn: function (data, user) {
     var room = user.getRoom()
-    if(room && room.data.game && user.data.snake && user.data.snake.isAlive === false) {
+    if(user.data.snake && user.data.snake.isAlive === false) {
       var coords = room.data.game.getSafeCoords()
       user.data.snake.spawn(coords.x, coords.y)
     }

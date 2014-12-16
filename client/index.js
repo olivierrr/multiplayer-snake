@@ -1,9 +1,9 @@
 
 var states = require('state-manager').create()
 
-states.add('mainmenu', require('./states/mainmenu')(states))
-states.add('singleplayer', require('./states/singleplayer')(states))
-states.add('multiplayer', require('./states/multiplayer')(states))
+states.add('mainmenu', require('./mainmenu/index')(states))
+states.add('singleplayer', require('./singleplayer/index')(states))
+states.add('multiplayer', require('./multiplayer/index')(states))
 
 window.addEventListener('hashchange', resolveLocation)
 

@@ -1,5 +1,5 @@
 
-var renderer = require('./renderer')
+var renderer = require('../renderer')
 
 module.exports = {
   show: show,

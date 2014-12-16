@@ -1,14 +1,12 @@
 
-var game = require('../game')
-var chat = require('../chat')
-var lobby = require('../lobby')
-var info = require('../info')
-var storage = require('../storage')
+var game = require('./game')
+var chat = require('./chat')
+var lobby = require('./lobby')
+var info = require('./info')
+var storage = require('./storage')
 var renderer = require('../renderer')
 
 module.exports = function (states) {
-
-  var myUsername = ''
 
   // fix, very nope.
   window.addEventListener('hashchange', resolveLocation)
@@ -28,35 +26,23 @@ module.exports = function (states) {
     return str.split(/\s+/).join('-').toLowerCase()
   }
 
-
   cloak.configure({
     messages: {
-      roomMemberColorChange: function (data) {
-        cloak.message('userList')
-      },
-      userList_response: function (users) {
-        chat.userList(users)
-        renderer.setColor(users.reduce(highestPoints).color)
-
-        function highestPoints (a, b) {
-          return a.points > b.points ? a : b
-        }
-
-      },
       chat: function (data) {
         chat.push(data.name, data.msg, data.color)
       },
       chat_spam: function () {
         chat.push('server', 'You\'re sending messages too fast!', 'server')
       },
+
       roomMemberNameChange: function (data) {
         chat.push('server', quoteize(data.before) + ' is now ' + quoteize(data.now) , data.color, 'server')
         cloak.message('userList')
       },
-      listRooms_response: function (rooms) {
-        lobby.render(rooms)
-        info.roomCount(rooms.length)
+      roomMemberColorChange: function (data) {
+        cloak.message('userList')
       },
+
       createRoom_response: function (data) {
         document.location.hash = '#multiplayer/' + slugize(data.roomName)
       },
@@ -67,12 +53,28 @@ module.exports = function (states) {
         smoke.alert('Failed to join room.')
         chat.push('server', 'Failed to join room', 'server')
       },
+
+      userList_response: function (users) {
+        chat.userList(users)
+        renderer.setColor(users.reduce(highestPoints).color)
+
+        function highestPoints (a, b) {
+          return a.points > b.points ? a : b
+        }
+      },
+      listRooms_response: function (rooms) {
+        lobby.render(rooms)
+        info.roomCount(rooms.length)
+      },
       userCount_response: function (count) {
         info.userCount(count)
       },
+      pong: function () {
+        info.ping()
+      },
+
       changeUsername_response: function (newUsername) {
         chat.push('server', 'you are now: ' + quoteize(newUsername), 'server')
-        myUsername = newUsername
         storage.setName(newUsername)
       },
       changeUsername_failed: function () {
@@ -81,6 +83,7 @@ module.exports = function (states) {
       changeColor_response: function (color) {
         chat.newColor(color)
       },
+
       pulse: function (model) {
         game.draw(model)
       },
@@ -93,13 +96,12 @@ module.exports = function (states) {
       },
       snake_eat: function (data) {
         
-      },
-      pong: function () {
-        info.ping()
       }
     },
     serverEvents: {
-      connecting: chat.push.bind(null, 'server', 'connecting...', 'server'),
+      connecting: function () {
+        chat.push(null, 'server', 'connecting...', 'server')
+      },
       begin: function () {
         chat.push('server', 'connected.', 'server')
         storage.getName() ? cloak.message('changeUsername', storage.getName()) : cloak.message('getRandomName')
@@ -110,14 +112,19 @@ module.exports = function (states) {
         cloak.message('changeColor')
         resolveLocation()
       },
-      resume: chat.push.bind(null, 'server', 'reconnected.', 'server'),
-      disconnect: chat.push.bind(null, 'server', 'disconnected.', 'server'),
+      resume: function () {
+        chat.push('server', 'reconnected.', 'server')
+      },
+      disconnect: function () {
+        chat.push('server', 'disconnected.', 'server')
+      },
       end: function () {
         document.location = '/'
       },
       error: function () {
         document.location = '/'
       },
+
       joinedRoom: function (room) {
         chat.clear()
         chat.push('server', 'You have joined ' + quoteize(room.name), 'server')
@@ -130,15 +137,17 @@ module.exports = function (states) {
           lobby.hide()
         }
       },
-      leftRoom: function (room) {},
+      leftRoom: function (room) {
+
+      },
       roomMemberJoined: function (user) {
-        if(myUsername !== user.name) chat.push('server', quoteize(user.name) + ' has joined.', 'server')
+        if(storage.getName() !== user.name) chat.push('server', quoteize(user.name) + ' has joined.', 'server')
       },
       roomMemberLeft: function (user) {
         chat.push('server', quoteize(user.name) + ' has left.', 'server')
       },
       lobbyMemberJoined: function (user) {
-        if(myUsername !== user.name) chat.push('server', quoteize(user.name) + ' has joined.', 'server')
+        if(storage.getName() !== user.name) chat.push('server', quoteize(user.name) + ' has joined.', 'server')
 
         cloak.message('userList')
       },
@@ -152,19 +161,17 @@ module.exports = function (states) {
     }
   })
 
-  var $multiplayer = document.querySelector('#multiplayer')
-
   return {
     // preload: function (done) {
     //   cloak._on('cloak-begin', done)
     // },
     create: function () {
-      $multiplayer.className = ''
+      document.querySelector('#multiplayer').className = ''
       cloak.run('http://localhost')
       //cloak.run('http://snake-40956.onmodulus.net')
     },
     destroy: function () {
-      $multiplayer.className = 'hidden'
+      document.querySelector('#multiplayer').className = 'hidden'
       cloak.stop()
     }
   }
