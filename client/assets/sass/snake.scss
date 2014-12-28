@@ -45,6 +45,14 @@ input:hover {
 	margin-bottom: 10px;
 }
 
+// Loading screen
+#loading {
+  position: absolute;
+  left: 46%;
+  top: 50%;
+  text-align: center;
+}
+
 // Menu Page
 #mainmenu {
 	@include display(flex);

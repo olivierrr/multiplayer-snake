@@ -164,13 +164,19 @@ module.exports = function (states) {
   })
 
   return {
-    // preload: function (done) {
-    //   cloak._on('cloak-begin', done)
-    // },
-    create: function () {
-      document.querySelector('#multiplayer').className = ''
+    preload: function (done) {
+      document.querySelector('#loading').className = ''
+
       cloak.run('http://localhost')
       //cloak.run('http://snake-40956.onmodulus.net')
+
+      cloak._on('cloak-begin', function(){
+        document.querySelector('#loading').className = 'hidden'
+        done()
+      })
+    },
+    create: function () {
+      document.querySelector('#multiplayer').className = ''
     },
     destroy: function () {
       document.querySelector('#multiplayer').className = 'hidden'

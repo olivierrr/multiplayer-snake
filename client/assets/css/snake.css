@@ -635,6 +635,12 @@ input:hover {
   font-weight: 400;
   margin-bottom: 10px; }
 
+#loading {
+  position: absolute;
+  left: 46%;
+  top: 50%;
+  text-align: center; }
+
 #mainmenu {
   display: -webkit-box;
   display: -moz-box;
