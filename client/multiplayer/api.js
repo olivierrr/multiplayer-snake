@@ -37,6 +37,7 @@ module.exports = function(){
     var index = null
 
     snakes.forEach(function(snake, i){
+      snake.direction = [null, 'UP','RIGHT','DOWN','LEFT'][snake.direction]
       if(snake.name === storage.getName()){
         index = i
       }

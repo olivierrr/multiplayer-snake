@@ -162,7 +162,8 @@ function userToJson (user) {
 function snakeToJson(snake){
   return {
     sections: snake.sections,
-    name: snake.user.name
+    name: snake.user.name,
+    direction: snake.direction
   }
 }
 
