@@ -5,7 +5,8 @@ module.exports = {
   show: show,
   hide: hide,
   draw: draw,
-  showSpawnBtn: showSpawnBtn
+  showSpawnBtn: showSpawnBtn,
+  hideSpawnBtn: hideSpawnBtn
 }
 
 var $game = document.querySelector('#game-area')
@@ -53,7 +54,7 @@ function showSpawnBtn () {
 }
 
 function hideSpawnBtn (e) {
-  if(e.keyCode && e.keyCode !== 32) return
+  if(e && e.keyCode && e.keyCode !== 32) return
   cloak.message('spawn')
   $spawnBtn.className = 'hidden'
   $game.focus()

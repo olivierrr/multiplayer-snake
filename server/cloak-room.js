@@ -85,7 +85,7 @@ module.exports = {
 
     game.on('snake-collision', function (snake1, snake2) {
       snake1.user.message('snake_die', {x: snake1.x, y: snake1.y})
-      room.messageMembers('snake_collision', {killed: snake1.user.name, by: snake2.user.name})
+      room.messageMembers('snake_collision', {killed: snake1.user.name, by: snake2.user.name, x: snake1.x, y: snake1.y})
       snake1.user.data.points = 0
       snake1.user.data.deaths += 1
       snake2.user.data.kills += 1
@@ -101,6 +101,8 @@ module.exports = {
       , snakes = getSnakesInRoom(room)
 
     game.update(snakes)
+
+    room.messageMembers('snakes', snakes.map(snakeToJson))
     room.messageMembers('pulse', game.model)
     room.messageMembers('userList_response', room.getMembers().map(userToJson))
   },
@@ -154,6 +156,13 @@ function userToJson (user) {
     points: user.data.points || 0,
     kills: user.data.kills || 0,
     deaths: user.data.deaths || 0,
+  }
+}
+
+function snakeToJson(snake){
+  return {
+    sections: snake.sections,
+    name: snake.user.name
   }
 }
 

@@ -5,6 +5,7 @@ var lobby = require('./lobby')
 var info = require('./info')
 var storage = require('./storage')
 var renderer = require('../renderer')
+var api = require('./api')()
 
 module.exports = function (states) {
 
@@ -87,15 +88,16 @@ module.exports = function (states) {
       pulse: function (model) {
         game.draw(model)
       },
-      snake_die: function (data) {
+      snake_die: function (coordinates) {
         chat.push('game', 'You died!', 'game')
         game.showSpawnBtn()
       },
       snake_collision: function (data) {
         chat.push('game', data.killed + ' crashed into ' + data.by, 'game')
       },
-      snake_eat: function (data) {
-        
+      snake_eat: function (coordinates) {
+      },
+      snakes: function () {
       }
     },
     serverEvents: {
