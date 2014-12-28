@@ -1,10 +1,10 @@
 ## game.on('input', data)
-* #####`data.grid` {Array#2d}
-* #####`data.snakes` {Array}
+* `data.grid` {Array#2d}
+* `data.snakes` {Array}
     - contains all snakes coordinates and names
-* #####`data.foods` {Array} food blocks within model
+* `data.foods` {Array} food blocks within model
     - contains all food blocks coordinates
-* #####`data.events` {Array}
+* `data.events` {Array}
     - each event object has a `type` and a `coordinates` property
     - possible `type`s are:
         - `'snake-die'` triggered when you die
@@ -12,7 +12,7 @@
         - `'snake-kill'` triggered when a snake (not yours) collides with your snake
 
 ## game.emit('output', direction)
-* #####`direction` {String}
+* `direction` {String}
     - can be 'UP' | 'RIGHT' | 'LEFT' | 'DOWN'
 
 ## game.emit('spawn')
