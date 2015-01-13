@@ -1,3 +1,14 @@
+multiplayer-snake
+=================
+###[live demo](http://snake-40956.onmodulus.net/)
+
+# client api
+api is exposed on client as a global, so you can script Ai's from your console!
+
+## known Ai's
+* [black mamba](https://github.com/jarofghosts/black-mamba) by jarofghosts
+* [bob](https://gist.github.com/olivierrr/91aeff05a25a8a0d473f) by olivierrr
+
 ## game.on('input', data)
 * `data.grid` {Array#2d}
 * `data.snakes` {Array}
