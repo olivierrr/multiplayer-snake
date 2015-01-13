@@ -1,6 +1,6 @@
 multiplayer-snake
 =================
-###[live demo](http://snake-40956.onmodulus.net/)
+###[live here!](http://snake-40956.onmodulus.net/)
 
 # client api
 api is exposed on client as a global, so you can script Ai's from your console!
